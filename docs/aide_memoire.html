@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Console NES - aide-mémoire</title>
+<style>
+  @page { size: A4; margin: 11mm 12mm; }
+  :root {
+    --ink: #1b1d22;
+    --mute: #5b616c;
+    --line: #cfd3da;
+    --key-bg: #f1f2f4;
+    --accent: #b3262d;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fff; color: var(--ink); }
+  body {
+    font: 10.4pt/1.38 "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding: 14px 18px;
+    max-width: 210mm;
+    margin: 0 auto;
+  }
+  header { display: flex; align-items: baseline; gap: 12px; border-bottom: 2.5px solid var(--ink); padding-bottom: 6px; margin-bottom: 10px; }
+  header h1 { font-size: 17pt; margin: 0; letter-spacing: .5px; }
+  header .v { color: var(--mute); font-size: 9.5pt; margin-left: auto; font-variant-numeric: tabular-nums; }
+  .cols { columns: 2; column-gap: 20px; }
+  section { break-inside: avoid; margin: 0 0 10px; }
+  h2 { font-size: 10.5pt; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); margin: 0 0 4px; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 2.5px 0; vertical-align: top; border-bottom: 1px dotted var(--line); }
+  td:first-child { width: 44%; padding-right: 8px; }
+  tr:last-child td { border-bottom: 0; }
+  kbd {
+    display: inline-block; font: 600 8.6pt/1.2 "Segoe UI", Arial, sans-serif;
+    border: 1px solid #9aa0aa; border-bottom-width: 2px; border-radius: 4px;
+    background: var(--key-bg); padding: 0 4px; margin: 1px 0; white-space: nowrap;
+  }
+  p { margin: 3px 0; }
+  .note { color: var(--mute); font-size: 9pt; }
+  ul { margin: 2px 0 0; padding-left: 16px; }
+  li { margin: 1px 0; }
+  footer { margin-top: 6px; border-top: 1px solid var(--line); padding-top: 4px; color: var(--mute); font-size: 8.6pt; }
+  @media print { body { padding: 0; } }
+  @media (max-width: 640px) { .cols { columns: 1; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Console NES &mdash; aide-mémoire</h1>
+  <span class="v">logiciel v2.20.1 &middot; page du téléphone v2.20</span>
+</header>
+
+<div class="cols">
+  <section>
+    <h2>Pendant le jeu</h2>
+    <table>
+      <tr><td><kbd>SELECT</kbd> + <kbd>START</kbd> tenus 1 s</td><td><b>Menu pause</b> (écran ou télé)</td></tr>
+      <tr><td>Doigt posé 1 s au milieu de l'image</td><td>Menu pause (écran tactile)</td></tr>
+      <tr><td><kbd>SELECT</kbd> + <kbd>&uarr;</kbd> / <kbd>&darr;</kbd></td><td>Volume &plusmn;5 % (tenu : continue)</td></tr>
+      <tr><td><kbd>SELECT</kbd> tenu 3 s</td><td>Retour au menu de la console ; la partie est gardée</td></tr>
+      <tr><td>Téléphone : <kbd>MENU JEUX</kbd></td><td>Liste des jeux (jeu en pause) ; sortie Téléviseur : la liste s'ouvre sur la télé</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Menu pause</h2>
+    <table>
+      <tr><td><kbd>&uarr;</kbd> <kbd>&darr;</kbd> &middot; <kbd>A</kbd> / <kbd>START</kbd></td><td>Choisir une ligne &middot; valider</td></tr>
+      <tr><td><kbd>&larr;</kbd> <kbd>&rarr;</kbd></td><td>Emplacement 1 à 3, Reprise, volume ; 50 jeux d'un coup dans « Tous les jeux »</td></tr>
+      <tr><td><kbd>B</kbd></td><td>Retour, puis reprendre la partie</td></tr>
+      <tr><td><kbd>SELECT</kbd> (dans une liste)</td><td>Ajouter / retirer des favoris</td></tr>
+      <tr><td>Doigt</td><td>Toucher une ligne la choisit</td></tr>
+    </table>
+    <p class="note">Lignes : Reprendre &middot; Sauvegarder &middot; Charger &middot; Volume &middot; Favori &middot; Jeux récents &middot; Favoris &middot; Tous les jeux &middot; Recommencer &middot; Menu de la console. Un jeu des récents lancé d'ici reprend sa partie.</p>
+  </section>
+
+  <section>
+    <h2>Menus de la console</h2>
+    <table>
+      <tr><td>Toucher un jeu</td><td>Jouer</td></tr>
+      <tr><td>Appui long sur un jeu</td><td>Fiche : &#9734; favori, Reprendre / Recommencer, Supprimer</td></tr>
+      <tr><td>« &#9654; Reprendre » (haut de la liste)</td><td>Dernier jeu joué, là où il a été quitté</td></tr>
+      <tr><td>Tous &middot; &#9733; &middot; horloge</td><td>Tous les jeux, favoris, récents</td></tr>
+      <tr><td>Bas de la liste, bouton du milieu</td><td>Aller à la page (grille des pages)</td></tr>
+      <tr><td>Réglages &gt; À propos</td><td>Commandes et sauvegardes ; jeux écartés</td></tr>
+    </table>
+    <p class="note">Manette physique : <kbd>&uarr;</kbd><kbd>&darr;</kbd> choisir, <kbd>A</kbd> jouer, <kbd>A</kbd> tenu = fiche, <kbd>&larr;</kbd><kbd>&rarr;</kbd> listes, <kbd>B</kbd> liste des jeux, <kbd>SELECT</kbd> onglet suivant, <kbd>START</kbd> vidéo.</p>
+  </section>
+
+  <section>
+    <h2>Téléphone (manette8.html)</h2>
+    <ul>
+      <li><b>🔗 CONNECTER</b> : choisir la console. Rien dans la liste ? <i>Diagnostic</i> &gt; SCAN BLE.</li>
+      <li>L'écran reste allumé tant que la manette est connectée.</li>
+      <li><b>MENU JEUX</b> : tous les jeux, recherche, onglets Tous / Favoris / Récents, étoiles, carte <b>Reprendre</b>.</li>
+      <li>Curseur <b>Volume de la console</b>.</li>
+      <li>Dans les menus de la console : croix = curseur, <kbd>A</kbd>/<kbd>START</kbd> = jouer, <kbd>SELECT</kbd> = liste suivante.</li>
+      <li>Application : Chrome &gt; &#8942; &gt; Ajouter à l'écran d'accueil.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sauvegardes</h2>
+    <ul>
+      <li><b>Pile</b> (Zelda, Final Fantasy...) : gardée comme sur la cartouche.</li>
+      <li><b>Instantanées</b> : 3 emplacements par jeu (menu pause).</li>
+      <li><b>Reprise</b> : écrite en quittant le jeu ; « Reprendre » la relance.</li>
+      <li>Fichiers : dossier <code>saves</code> à côté des jeux (SD ou mémoire interne).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Portail web (Wi-Fi allumé dans Réglages)</h2>
+    <ul>
+      <li>Adresse : onglet <i>Portail</i> de la console (QR code). Sans box : réseau <b>NES-WiFi</b>, mot de passe <b>nes12345</b>, puis <b>192.168.4.1</b>.</li>
+      <li>Envoyer des <b>.nes</b> ou des <b>.zip</b> ; rechercher, choisir plusieurs jeux, <b>Doublons</b>.</li>
+      <li><b>Réseau Wi-Fi de la box</b> : changer de box sans recompiler.</li>
+      <li><b>Jeux écartés</b> (plantage au démarrage) : Remettre ou Supprimer.</li>
+      <li>Maintenance &gt; <b>Mettre à jour le logiciel</b> : fichier <code>nes_emulator.ino.bin</code>.</li>
+    </ul>
+    <p class="note">Le Bluetooth (téléphone) est coupé tant que le Wi-Fi est allumé ; il revient au lancement d'un jeu.</p>
+  </section>
+</div>
+
+<footer>Un jeu qui fait redémarrer la console au lancement est mis de côté (dossier <code>quarantaine</code>), jamais effacé. Détails : LISEZMOI.txt, nes_emulator/README.md.</footer>
+</body>
+</html>

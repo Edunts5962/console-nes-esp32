@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "filename": "console_nes.kicad_pro",
+    "version": 1
+  },
+  "sheets": [
+    [
+      "f41d0755-cd3a-5ac2-8ca2-28a3bb411400",
+      ""
+    ]
+  ],
+  "boards": [],
+  "libraries": {
+    "pinned_footprint_libs": [],
+    "pinned_symbol_libs": []
+  },
+  "text_variables": {}
+}

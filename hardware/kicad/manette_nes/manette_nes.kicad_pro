@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "filename": "manette_nes.kicad_pro",
+    "version": 1
+  },
+  "sheets": [
+    [
+      "4fd51aa7-68bb-5da3-a8ef-867ca05e07d5",
+      ""
+    ]
+  ],
+  "boards": [],
+  "libraries": {
+    "pinned_footprint_libs": [],
+    "pinned_symbol_libs": []
+  },
+  "text_variables": {}
+}

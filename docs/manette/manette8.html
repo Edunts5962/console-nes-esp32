@@ -1,0 +1,3784 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
+        user-scalable=no, viewport-fit=cover"
+    >
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>Manette NES BLE ESP32-S3</title>
+
+    <!-- Page installable (« Ajouter à l'écran d'accueil ») :
+         manifeste et icônes à côté de cette page. Sans eux (page ouverte
+         seule), rien ne change. -->
+    <link rel="manifest" href="manette8.webmanifest">
+    <link rel="icon" type="image/png" href="manette8-icon-192.png">
+    <link rel="apple-touch-icon" href="manette8-icon-180.png">
+    <meta name="theme-color" content="#111111">
+
+    <style>
+        :root {
+            --coque-haut: #dfded1;
+            --coque-bas: #aaa99d;
+            --coque-bord: #7f7e73;
+            --panneau-haut: #2b2b2b;
+            --panneau-bas: #070707;
+            --rouge-haut: #f25b55;
+            --rouge-bas: #a3070f;
+            --rouge-ombre: #5e070b;
+            --texte-rouge: #a6272e;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            background: #111;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100dvh;
+            padding: 10px;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           INTERFACE PORTRAIT
+           ===================================================== */
+
+        .header {
+            width: min(100%, 760px);
+            margin: 0 auto 12px;
+        }
+
+        h1 {
+            margin: 5px 0 10px;
+            color: #f2f0db;
+            font-size: clamp(18px, 5vw, 26px);
+        }
+
+        .scan-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .top-button {
+            min-height: 42px;
+            padding: 10px 13px;
+            border: 2px solid;
+            border-radius: 18px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .45);
+        }
+
+        .top-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .45);
+        }
+
+        #scanBtn {
+            background: #0067c7;
+            border-color: #003d76;
+        }
+
+        #connectBtn {
+            background: #bd1219;
+            border-color: #69090f;
+        }
+
+        #orientationBtn {
+            background: #5c2696;
+            border-color: #341550;
+        }
+
+        #quitBtn {
+            background: #b53d12;
+            border-color: #672007;
+        }
+
+        #status {
+            min-height: 18px;
+            margin: 8px 0 4px;
+            color: #ffc638;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        #connectionStatus {
+            min-height: 17px;
+            margin-bottom: 9px;
+            color: #a0f8a9;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        #speedControl {
+            width: min(100%, 420px);
+            margin: 0 auto 12px;
+            padding: 10px 12px;
+            color: #f5e486;
+            background: #1b1b1b;
+            border: 1px solid #3b3b3b;
+            border-radius: 10px;
+        }
+
+        #speedControl label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        #speedValue {
+            color: white;
+            font-family: monospace;
+        }
+
+        #speedSlider {
+            width: 100%;
+            height: 9px;
+            appearance: none;
+            -webkit-appearance: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, #1979d5, #f1be2b, #d2151e);
+            outline: none;
+        }
+
+        #speedSlider::-webkit-slider-thumb {
+            width: 23px;
+            height: 23px;
+            appearance: none;
+            -webkit-appearance: none;
+            border: 3px solid white;
+            border-radius: 50%;
+            background: #333;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .7);
+        }
+
+        #speedSlider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border: 3px solid white;
+            border-radius: 50%;
+            background: #333;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .7);
+        }
+
+        #dataSent {
+            width: min(100%, 760px);
+            min-height: 18px;
+            margin: 10px auto 0;
+            color: #42d9ff;
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+        /* Diagnostic replié */
+        #diagBox {
+            width: min(100%, 760px);
+            margin: 14px auto 0;
+            color: #9a9a92;
+            font-size: 13px;
+        }
+
+        #diagBox > summary {
+            cursor: pointer;
+            padding: 6px;
+            font-weight: bold;
+        }
+
+        #diagBox #scanBtn {
+            margin-top: 10px;
+        }
+
+        #diagHint {
+            margin-top: 6px;
+            font-size: 11px;
+        }
+
+        #speedSlider:disabled {
+            opacity: .4;
+        }
+
+        #connectBtn.is-connected {
+            background: #1b803e;
+            border-color: #0f4d24;
+        }
+
+        #logConsole {
+            width: min(100%, 760px);
+            height: 120px;
+            margin: 8px auto 0;
+            padding: 8px;
+            overflow-y: auto;
+            color: #24f87a;
+            background: black;
+            border: 1px solid #343434;
+            border-radius: 7px;
+            font-family: monospace;
+            font-size: 11px;
+            text-align: left;
+        }
+
+        /* =====================================================
+           DESIGN MANETTE NES
+           ===================================================== */
+
+        .gamepad {
+            position: relative;
+            width: min(96vw, 760px);
+            height: 320px;
+            margin: 0 auto;
+            padding: 16px;
+            overflow: hidden;
+            background: linear-gradient(
+                180deg,
+                var(--coque-haut) 0%,
+                #cbcabd 50%,
+                var(--coque-bas) 100%
+            );
+            border: 5px solid var(--coque-bord);
+            border-radius: 11px;
+            box-shadow:
+                0 10px 0 #56554f,
+                0 19px 28px rgba(0, 0, 0, .58),
+                inset 0 2px 0 rgba(255, 255, 255, .64),
+                inset 0 -5px 0 rgba(0, 0, 0, .12);
+        }
+
+        .gamepad::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 24%;
+            background: linear-gradient(180deg, rgba(255,255,255,.16), transparent);
+            pointer-events: none;
+        }
+
+        .nes-face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(
+                154deg,
+                var(--panneau-haut) 0%,
+                #121212 57%,
+                var(--panneau-bas) 100%
+            );
+            border: 3px solid #070707;
+            border-radius: 3px;
+            box-shadow:
+                inset 0 0 0 2px #77766c,
+                inset 0 0 22px rgba(0, 0, 0, .85);
+        }
+
+        .nes-face::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 0;
+            width: 100%;
+            height: 25%;
+            background: linear-gradient(
+                180deg,
+                rgba(231,231,216,.95),
+                rgba(170,169,158,.99)
+            );
+            border-top: 2px solid #85847b;
+            pointer-events: none;
+        }
+
+        .nes-title {
+            position: absolute;
+            top: 13%;
+            right: 7%;
+            z-index: 3;
+            color: var(--texte-rouge);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(13px, 3vw, 29px);
+            font-style: italic;
+            font-weight: 900;
+            letter-spacing: -.6px;
+            text-shadow: 1px 1px 0 #260508;
+        }
+
+        .nes-subtitle {
+            position: absolute;
+            top: 29%;
+            right: 8%;
+            z-index: 3;
+            color: #a9a9a9;
+            font-size: clamp(7px, 1.4vw, 12px);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* =====================================================
+           CROIX DIRECTIONNELLE
+           ===================================================== */
+
+        .dpad-area {
+            position: absolute;
+            top: 17%;
+            left: 6%;
+            z-index: 5;
+            width: 30%;
+            height: 54%;
+        }
+
+        /* Croix d'un seul tenant, comme sur la manette NES
+           d'origine. Toute la zone est tactile : on fait glisser le pouce
+           d'une direction à l'autre sans le lever, et on obtient une
+           diagonale en appuyant entre deux branches (plus de boutons
+           diagonaux séparés). La croix bascule légèrement du côté appuyé. */
+        .dpad-area {
+            touch-action: none;
+        }
+
+        .dpad-area::after {
+            /* zone tactile un peu plus large que la croix */
+            content: "";
+            position: absolute;
+            inset: -7%;
+        }
+
+        .dpad-cross {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            pointer-events: none;
+            filter: drop-shadow(0 5px 3px rgba(0,0,0,.6));
+            transform: perspective(420px) rotateX(var(--dpad-tx, 0deg)) rotateY(var(--dpad-ty, 0deg));
+            transition: transform 45ms linear;
+        }
+
+        .dpad-cross .dpad-arm {
+            opacity: 0;
+            transition: opacity 45ms linear;
+        }
+
+        .dpad-cross.d-up .dpad-arm-up,
+        .dpad-cross.d-down .dpad-arm-down,
+        .dpad-cross.d-left .dpad-arm-left,
+        .dpad-cross.d-right .dpad-arm-right {
+            opacity: 1;
+        }
+
+        /* =====================================================
+           SELECT / START
+           ===================================================== */
+
+        .nes-middle-controls {
+            position: absolute;
+            bottom: 8%;
+            left: 37%;
+            z-index: 5;
+            display: flex;
+            width: 26%;
+            gap: 8%;
+        }
+
+        .nes-small-button {
+            position: relative;
+            width: 46%;
+            height: clamp(28px, 7vw, 42px);
+            padding: 0;
+            border: 3px solid #b8b7a8;
+            border-radius: 5px;
+            background: linear-gradient(145deg, #707069, #2d2d2a);
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,.35),
+                inset -2px -2px 0 #111,
+                0 3px 0 #050505;
+        }
+
+        .nes-small-button span {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 50%;
+            color: #8d252d;
+            font-size: clamp(7px, 1.6vw, 12px);
+            font-weight: 900;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        .nes-small-button:active,
+        .nes-small-button.pressed {
+            transform: translateY(3px);
+            background: linear-gradient(145deg, #353532, #151514);
+            box-shadow:
+                inset 2px 2px 5px #000,
+                0 0 0 #050505;
+        }
+
+        /* =====================================================
+           BOUTONS A / B
+           ===================================================== */
+
+        .nes-action-buttons {
+            position: absolute;
+            right: 7%;
+            bottom: 10%;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 14%;
+        }
+
+        .nes-round-button {
+            width: clamp(50px, 12vw, 84px);
+            aspect-ratio: 1;
+            padding: 0;
+            border: 3px solid #610c10;
+            border-radius: 50%;
+            color: #50090d;
+            background: linear-gradient(145deg, var(--rouge-haut), var(--rouge-bas));
+            box-shadow:
+                inset 3px 3px 5px rgba(255,255,255,.42),
+                inset -4px -4px 7px rgba(63,0,0,.5),
+                0 6px 0 var(--rouge-ombre),
+                0 8px 10px rgba(0,0,0,.52);
+            font-size: clamp(15px, 3vw, 28px);
+            font-weight: 900;
+            text-shadow: 1px 1px 0 rgba(255,255,255,.18);
+        }
+
+        .nes-round-button:active,
+        .nes-round-button.pressed {
+            transform: translateY(6px);
+            background: linear-gradient(145deg, #c51319, #79040a);
+            box-shadow:
+                inset 3px 3px 8px rgba(60,0,0,.7),
+                0 0 0 var(--rouge-ombre);
+        }
+
+        .button-b {
+            transform: translateY(10px);
+        }
+
+        .button-b:active,
+        .button-b.pressed {
+            transform: translateY(16px);
+        }
+
+        /* =====================================================
+           BOUTONS FLOTTANTS PAYSAGE
+           ===================================================== */
+
+        .floating-controls {
+            display: none;
+            position: fixed;
+            top: max(8px, env(safe-area-inset-top));
+            right: max(8px, env(safe-area-inset-right));
+            z-index: 30;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .floating-controls button {
+            padding: 9px 13px;
+            border: 2px solid;
+            border-radius: 18px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 3px 9px rgba(0,0,0,.55);
+        }
+
+        #backBtn {
+            border-color: #2c1550;
+            background: rgba(90, 37, 150, .94);
+        }
+
+        #quitBtnFloat {
+            border-color: #6d2005;
+            background: rgba(183, 59, 15, .95);
+        }
+
+        /* =====================================================
+           MODE PAYSAGE
+           ===================================================== */
+
+        body.landscape {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100dvh;
+            padding: 0;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #242424 0%, #070707 76%);
+        }
+
+        body.landscape .header,
+        body.landscape #diagBox,
+        body.landscape #dataSent,
+        body.landscape #logConsole {
+            display: none !important;
+        }
+
+        body.landscape .floating-controls {
+            display: flex;
+        }
+
+        body.landscape .gamepad {
+            width: 96vw;
+            height: 92dvh;
+            max-width: 1200px;
+            margin: 0;
+            padding: 2.5vh 2vw;
+            border-width: 6px;
+            border-radius: 15px;
+        }
+
+        body.landscape .nes-title {
+            top: 11%;
+            right: 7%;
+            font-size: clamp(21px, 3.2vw, 42px);
+        }
+
+        body.landscape .nes-subtitle {
+            top: 27%;
+            right: 8%;
+            font-size: clamp(8px, 1.3vw, 15px);
+        }
+
+        body.landscape .dpad-area {
+            top: 16%;
+            left: 6%;
+            width: 28%;
+            height: 62%;
+        }
+
+        body.landscape .nes-action-buttons {
+            top: 30%;
+            right: 8%;
+            bottom: auto;
+            gap: 18%;
+        }
+
+        body.landscape .nes-round-button {
+            width: clamp(85px, 12vw, 150px);
+            font-size: clamp(28px, 4vw, 46px);
+        }
+
+        body.landscape .button-b {
+            transform: translateY(18px);
+        }
+
+        body.landscape .button-b:active,
+        body.landscape .button-b.pressed {
+            transform: translateY(24px);
+        }
+
+        body.landscape .nes-middle-controls {
+            right: 6%;
+            bottom: 8%;
+            left: auto;
+            width: clamp(210px, 31vw, 410px);
+            gap: 7%;
+        }
+
+        body.landscape .nes-small-button {
+            height: clamp(40px, 7vh, 62px);
+        }
+
+        body.landscape .nes-small-button span {
+            font-size: clamp(10px, 1.8vw, 17px);
+        }
+
+        @media (max-width: 470px) and (orientation: portrait) {
+            .gamepad {
+                height: 270px;
+            }
+
+            .dpad-area {
+                left: 5%;
+                width: 34%;
+            }
+
+            .nes-middle-controls {
+                left: 39%;
+                width: 24%;
+            }
+
+            .nes-action-buttons {
+                right: 5%;
+                gap: 8%;
+            }
+        }
+
+        /* Croix directionnelle plus grande (ergonomie). Seule la zone de la croix change :
+           A, B, SELECT, START et le titre restent à leur place. */
+        .dpad-area {
+            top: 9%;
+            left: 4%;
+            width: 34%;
+            height: 76%;
+        }
+
+        body.landscape .dpad-area {
+            top: 7%;
+            left: 3.5%;
+            width: 37%;
+            height: 86%;
+        }
+
+        @media (max-width: 470px) and (orientation: portrait) {
+            .dpad-area {
+                top: 6%;
+                left: 3%;
+                width: 46%;
+                height: 73%;
+            }
+        }
+    </style>
+
+    <!-- Panneau des jeux de la console (bouton MENU JEUX).
+         Feuille a part : la feuille de style d'origine de la manette n'est
+         pas modifiee, aucun bouton ne bouge. -->
+    <style id="gamesPanelStyle">
+        .gp-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+                     max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+            background: rgba(0, 0, 0, .72);
+        }
+
+        .gp-overlay[hidden] {
+            display: none !important;
+        }
+
+        .gp-sheet {
+            width: min(560px, 100%);
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px;
+            border: 3px solid var(--coque-bord);
+            border-radius: 16px;
+            background: linear-gradient(180deg, var(--coque-haut), var(--coque-bas));
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .6);
+            color: #1d1d1b;
+            text-align: left;
+        }
+
+        /* Pendant une recherche, le panneau garde toute sa hauteur
+           (la zone de recherche ne bouge pas quand la liste raccourcit). */
+        .gp-sheet.gp-filtering {
+            height: 100%;
+        }
+
+        .gp-title {
+            font-family: Georgia, "Times New Roman", serif;
+            font-weight: bold;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: var(--texte-rouge);
+        }
+
+        .gp-state {
+            margin-top: 2px;
+            font-size: 13px;
+            color: #3c3b36;
+        }
+
+        .gp-list {
+            flex: 1 1 auto;
+            min-height: 96px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+            overscroll-behavior: contain;
+            padding: 6px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, var(--panneau-haut), var(--panneau-bas));
+        }
+
+        /* Recherche (16 px : pas de zoom automatique du navigateur) */
+        .gp-search {
+            flex: 0 0 auto;
+            width: 100%;
+            min-height: 42px;
+            padding: 0 12px;
+            border: 2px solid #111;
+            border-radius: 10px;
+            background: #f4f3ee;
+            color: #1d1d1b;
+            font-family: inherit;
+            font-size: 16px;
+            -webkit-user-select: text;
+            user-select: text;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .gp-search::placeholder {
+            color: #6f6e66;
+        }
+
+        .gp-search:focus {
+            outline: 3px solid var(--rouge-haut);
+            outline-offset: 1px;
+        }
+
+        .gp-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            min-height: 46px;
+            padding: 8px 12px;
+            border-left: 4px solid transparent;
+            border-radius: 8px;
+            background: transparent;
+            color: #f2f2ee;
+            text-align: left;
+            touch-action: pan-y;
+        }
+
+        .gp-row + .gp-row {
+            margin-top: 2px;
+        }
+
+        .gp-row[aria-selected="true"] {
+            border-left-color: var(--rouge-haut);
+            background: rgba(242, 91, 85, .18);
+        }
+
+        .gp-name {
+            flex: 1 1 auto;
+            min-width: 0;
+            font-size: 15px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .gp-meta {
+            flex: 0 0 auto;
+            font-family: monospace;
+            font-size: 11px;
+            color: #b9b9b3;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .gp-tag {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: .5px;
+            vertical-align: 1px;
+            color: #fff;
+        }
+
+        .gp-tag-cur {
+            background: #1b803e;
+        }
+
+        .gp-tag-bad {
+            background: #b53d12;
+        }
+
+        /* Listes Tous / Favoris / Récents, Reprendre, étoiles */
+        .gp-chips {
+            display: flex;
+            gap: 6px;
+        }
+
+        .gp-chips[hidden] {
+            display: none !important;
+        }
+
+        .gp-chip {
+            flex: 1 1 0;
+            min-height: 36px;
+            border: 2px solid #111;
+            border-radius: 18px;
+            background: #f4f3ee;
+            color: #1d1d1b;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .gp-chip[aria-pressed="true"] {
+            background: #1d1d1b;
+            color: #fff;
+        }
+
+        .gp-resume {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            min-height: 48px;
+            padding: 6px 14px;
+            border: 2px solid var(--rouge-ombre);
+            border-radius: 12px;
+            background: linear-gradient(145deg, var(--rouge-haut), var(--rouge-bas));
+            color: #fff;
+            text-align: left;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .45);
+        }
+
+        .gp-resume[hidden] {
+            display: none !important;
+        }
+
+        .gp-resume-name {
+            font-size: 15px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .gp-resume-sub {
+            font-size: 12px;
+            opacity: .9;
+        }
+
+        .gp-star {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            margin: -6px -6px -6px 0;
+            border-radius: 50%;
+            color: #6c6b64;
+            font-size: 21px;
+        }
+
+        .gp-star.on {
+            color: #f2c94c;
+        }
+
+        .gp-empty {
+            padding: 18px 10px;
+            color: #cfcfc8;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .gp-msg {
+            min-height: 18px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #3c3b36;
+        }
+
+        .gp-msg.gp-err {
+            color: var(--texte-rouge);
+        }
+
+        .gp-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .gp-btn {
+            min-height: 48px;
+            padding: 0 14px;
+            border: 2px solid #111;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .45);
+        }
+
+        .gp-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .45);
+        }
+
+        .gp-btn:disabled {
+            opacity: .45;
+            transform: none;
+        }
+
+        .gp-launch {
+            flex: 2 1 0;
+            border-color: var(--rouge-ombre);
+            background: linear-gradient(145deg, var(--rouge-haut), var(--rouge-bas));
+        }
+
+        .gp-close {
+            flex: 1 1 0;
+            background: linear-gradient(145deg, #3e3e3a, #0c0c0c);
+        }
+
+        .gp-console {
+            min-height: 40px;
+            font-size: 13px;
+            border-color: #0f4d24;
+            background: #1b803e;
+        }
+
+        @media (max-height: 430px) {
+            .gp-sheet {
+                gap: 6px;
+                padding: 10px 12px;
+            }
+
+            .gp-title {
+                font-size: 17px;
+            }
+
+            .gp-chip {
+                min-height: 30px;
+            }
+
+            .gp-resume {
+                min-height: 38px;
+                padding: 3px 12px;
+            }
+
+            .gp-resume-sub {
+                display: none;
+            }
+
+            .gp-btn {
+                min-height: 40px;
+            }
+
+            .gp-console {
+                min-height: 34px;
+            }
+
+            .gp-search {
+                min-height: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-controls">
+        <button id="backBtn" type="button">◀ RETOUR</button>
+        <button id="quitBtnFloat" type="button">✕ QUITTER</button>
+        <!-- Retour à l'écran de sélection des jeux (paysage).
+             Position fixe en haut à gauche : RETOUR et QUITTER ne bougent pas. -->
+        <button id="menuBtnFloat" type="button"
+            style="position: fixed; top: max(8px, env(safe-area-inset-top)); left: max(8px, env(safe-area-inset-left)); border-color: #0f4d24; background: rgba(27, 128, 62, .95);">🏠 MENU JEUX</button>
+        <!-- Voyant de liaison Bluetooth (paysage), en haut au
+             centre, sans toucher aux boutons ; il ne capte aucun appui. -->
+        <div id="linkLedFloat"
+            style="position: fixed; top: max(12px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 7px; padding: 5px 12px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 14px; color: #fff; background: rgba(0, 0, 0, .62); font-size: 12px; font-weight: bold; white-space: nowrap; pointer-events: none;">
+            <span data-led-dot style="width: 10px; height: 10px; border-radius: 50%; background: #8a8a8a;"></span>
+            <span data-led-text>Non connecté</span>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>🎮 Manette NES BLE</h1>
+
+        <div class="scan-buttons">
+            <button class="top-button" id="connectBtn" type="button">🔗 CONNECTER</button>
+            <button class="top-button" id="orientationBtn" type="button">🔄 PAYSAGE</button>
+            <button class="top-button" id="quitBtn" type="button">✕ QUITTER</button>
+        </div>
+
+        <div id="status">Statut : en attente</div>
+        <div id="connectionStatus">Connexion : non connectée</div>
+
+        <!-- Volume de la console (remplace le curseur de vitesse,
+             que l'émulateur n'utilisait pas). -->
+        <div id="speedControl">
+            <label for="speedSlider">
+                🔊 Volume de la console :
+                <span id="speedValue">—</span>
+            </label>
+
+            <input
+                id="speedSlider"
+                type="range"
+                min="0"
+                max="200"
+                step="5"
+                value="100"
+                disabled
+                aria-label="Volume de la console"
+            >
+        </div>
+    </div>
+
+    <main class="gamepad" id="gamepad">
+        <div class="nes-face">
+            <div class="nes-title">NES CONTROLLER</div>
+            <div class="nes-subtitle">ENTERTAINMENT SYSTEM</div>
+
+            <section class="dpad-area" id="dpadArea" aria-label="Croix directionnelle">
+                <!-- Croix d'un seul tenant, pouce glissant (voir le script). -->
+                <svg class="dpad-cross" id="dpadCross" viewBox="-4 -4 108 108" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="dpadBody" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#3b3b3b"/>
+                            <stop offset=".55" stop-color="#151515"/>
+                            <stop offset="1" stop-color="#060606"/>
+                        </linearGradient>
+                        <radialGradient id="dpadDimple" cx=".42" cy=".38" r=".7">
+                            <stop offset="0" stop-color="#020202"/>
+                            <stop offset=".7" stop-color="#101010"/>
+                            <stop offset="1" stop-color="#2c2c2c"/>
+                        </radialGradient>
+                    </defs>
+                    <!-- logement de la croix dans la façade -->
+                    <path d="M31 -3 H69 V31 H103 V69 H69 V103 H31 V69 H-3 V31 H31 Z" fill="#050505" stroke="#2a2a2a" stroke-width="1"/>
+                    <!-- croix -->
+                    <path d="M34 3 Q34 0 37 0 H63 Q66 0 66 3 V34 H97 Q100 34 100 37 V63 Q100 66 97 66 H66 V97 Q66 100 63 100 H37 Q34 100 34 97 V66 H3 Q0 66 0 63 V37 Q0 34 3 34 H34 Z"
+                          fill="url(#dpadBody)" stroke="#aaa99a" stroke-width="1.6" stroke-linejoin="round"/>
+                    <!-- reflet des arêtes -->
+                    <path d="M35.5 33 V3.5 Q35.5 1.6 37.4 1.6 H62.5 M1.6 62.5 V37.4 Q1.6 35.5 3.5 35.5 H33" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.2"/>
+                    <!-- branches enfoncées (assombries) -->
+                    <path class="dpad-arm dpad-arm-up" d="M35 3.5 Q35 1 37.5 1 H62.5 Q65 1 65 3.5 V38 L50 50 L35 38 Z" fill="rgba(0,0,0,.55)"/>
+                    <path class="dpad-arm dpad-arm-down" d="M35 96.5 Q35 99 37.5 99 H62.5 Q65 99 65 96.5 V62 L50 50 L35 62 Z" fill="rgba(0,0,0,.55)"/>
+                    <path class="dpad-arm dpad-arm-left" d="M3.5 35 Q1 35 1 37.5 V62.5 Q1 65 3.5 65 H38 L50 50 L38 35 Z" fill="rgba(0,0,0,.55)"/>
+                    <path class="dpad-arm dpad-arm-right" d="M96.5 35 Q99 35 99 37.5 V62.5 Q99 65 96.5 65 H62 L50 50 L62 35 Z" fill="rgba(0,0,0,.55)"/>
+                    <!-- flèches en relief -->
+                    <g fill="#5d5d5a" stroke="#0a0a0a" stroke-width=".8" stroke-linejoin="round">
+                        <path d="M50 8 L57 17 H43 Z"/>
+                        <path d="M50 92 L57 83 H43 Z"/>
+                        <path d="M8 50 L17 43 V57 Z"/>
+                        <path d="M92 50 L83 43 V57 Z"/>
+                    </g>
+                    <!-- creux du centre -->
+                    <circle cx="50" cy="50" r="10.5" fill="url(#dpadDimple)" stroke="#2f2f2f" stroke-width=".8"/>
+                </svg>
+            </section>
+
+            <section class="nes-middle-controls" aria-label="Commandes système">
+                <button class="nes-small-button" data-key="SELECT" type="button">
+                    <span>SELECT</span>
+                </button>
+
+                <button class="nes-small-button" data-key="START" type="button">
+                    <span>START</span>
+                </button>
+            </section>
+
+            <section class="nes-action-buttons" aria-label="Boutons d'action">
+                <button class="nes-round-button button-b" data-key="B" type="button">B</button>
+                <button class="nes-round-button button-a" data-key="A" type="button">A</button>
+            </section>
+        </div>
+    </main>
+
+    <!-- Retour à l'écran de sélection des jeux (portrait).
+         Sous la manette pour ne déplacer aucun bouton existant ; masqué en
+         paysage (voir syncMenuRow), où le bouton flottant prend le relais. -->
+    <div id="menuRow" style="margin-top: 22px;">
+        <button class="top-button" id="menuBtn" type="button"
+            style="background: #1b803e; border-color: #0f4d24;">🏠 MENU JEUX</button>
+        <!-- Voyant de liaison Bluetooth (portrait). -->
+        <div style="margin-top: 10px;">
+            <span id="linkLed" aria-live="polite"
+                style="display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px; border: 1px solid #3b3b3b; border-radius: 14px; color: #e8e8e8; background: #1b1b1b; font-size: 12px; font-weight: bold;">
+                <span data-led-dot style="width: 10px; height: 10px; border-radius: 50%; background: #8a8a8a;"></span>
+                <span data-led-text>Non connecté</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Journal et outils de dépannage repliés. -->
+    <details id="diagBox">
+        <summary>Diagnostic</summary>
+        <div id="dataSent">Dernière commande : 0x00 (00000000)</div>
+        <div id="logConsole"></div>
+        <button class="top-button" id="scanBtn" type="button">SCAN BLE (tous les appareils)</button>
+        <div id="diagHint">À utiliser seulement si la console n'apparaît pas avec 🔗 CONNECTER.</div>
+    </details>
+
+    <!-- Panneau des jeux de la console, ouvert par MENU JEUX
+         par-dessus la manette (styles : bloc gamesPanelStyle). -->
+    <div id="gamesPanel" class="gp-overlay" hidden>
+        <div class="gp-sheet" role="dialog" aria-modal="true" aria-labelledby="gpTitle">
+            <div>
+                <div class="gp-title" id="gpTitle">JEUX DE LA CONSOLE</div>
+                <div class="gp-state" id="gpState">Liste en cours de chargement…</div>
+            </div>
+            <!-- Recherche dans la liste complète des jeux. -->
+            <input type="search" class="gp-search" id="gpSearch" placeholder="🔍 Rechercher un jeu"
+                autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+                enterkeyhint="search" aria-label="Rechercher un jeu" aria-controls="gpList">
+            <!-- Tous les jeux, favoris ou récents,
+                 et « Reprendre » : le dernier jeu joué, là où il a été quitté. -->
+            <div class="gp-chips" id="gpChips" hidden>
+                <button type="button" class="gp-chip" data-view="all" aria-pressed="true">Tous</button>
+                <button type="button" class="gp-chip" data-view="fav" aria-pressed="false">★ Favoris</button>
+                <button type="button" class="gp-chip" data-view="rec" aria-pressed="false">🕘 Récents</button>
+            </div>
+            <button type="button" class="gp-resume" id="gpResume" hidden>
+                <span class="gp-resume-name"></span>
+                <small class="gp-resume-sub"></small>
+            </button>
+            <div class="gp-list" id="gpList" role="listbox" aria-label="Jeux de la console"></div>
+            <div class="gp-msg" id="gpMsg" aria-live="polite"></div>
+            <div class="gp-actions">
+                <button type="button" class="gp-btn gp-launch" id="gpLaunch" disabled>▶ LANCER</button>
+                <button type="button" class="gp-btn gp-close" id="gpClose">✕ FERMER</button>
+            </div>
+            <button type="button" class="gp-btn gp-console" id="gpConsoleMenu">🏠 MENU DE LA CONSOLE</button>
+        </div>
+    </div>
+
+    <script>
+        "use strict";
+
+        /* =====================================================
+           UUIDS : doivent être identiques à l'ESP32
+           ===================================================== */
+
+        const NES_SERVICE_UUID = "0000fff0-0000-1000-8000-00805f9b34fb";
+        const NES_CHAR_UUID = "0000fff1-0000-1000-8000-00805f9b34fb";
+        /* Réponses de la console (liste des jeux), en notifications. */
+        const NES_GAMES_CHAR_UUID = "0000fff2-0000-1000-8000-00805f9b34fb";
+
+        /*
+         * Commandes NES :
+         * A       = 0x01
+         * B       = 0x02
+         * SELECT  = 0x04
+         * START   = 0x08
+         * UP      = 0x10
+         * DOWN    = 0x20
+         * LEFT    = 0x40
+         * RIGHT   = 0x80
+         *
+         * Réglage vitesse : [0xFE, vitesse]  (ignoré par l'émulateur NES)
+         * Retour au menu des jeux : [0xFD, 0x01, 0x00]
+         * Contrôle de liaison : [0xFD, 0x02, 0x00], écrit AVEC accusé de
+         * réception, ignoré par la console
+         */
+
+        const NES_MENU_FRAME = [0xFD, 0x01, 0x00];
+        const NES_PING_FRAME = [0xFD, 0x02, 0x00];
+        /*
+         * Liste des jeux et changement de jeu sans
+         * redémarrer la console :
+         *   [0xFD, 0x03, 0x00]                 LISTE
+         *   [0xFD, 0x04, gén, n° bas, n° haut, 0x00]   LANCER
+         *   [0xFD, 0x05, 1 | 0, 0x00]          PAUSE / REPRISE
+         * Toutes écrites AVEC accusé de réception.
+         */
+        const NES_LIST_FRAME = [0xFD, 0x03, 0x00];
+        /*
+         * Liste COMPLÈTE de la console
+         * (jusqu'à 1000 jeux, pas seulement la page de 50 affichée) :
+         *   [0xFD, 0x07, 0x00]                          LISTE COMPLÈTE
+         *   [0xFD, 0x07, gén, crc bas, crc haut, 0x00]  idem, en donnant la
+         *        liste déjà reçue (la console ne la renvoie pas si rien n'a changé)
+         *   [0xFD, 0x08, gén, n° bas, n° haut, 0x00]    LANCER (n° de la liste complète)
+         */
+        const NES_LIST_ALL_FRAME = [0xFD, 0x07, 0x00];
+        /*
+         * *   [0xFD, 0x09, gén, n° bas, n° haut, 0x00]   FAVORI (ajoute ou retire)
+         *   [0xFD, 0x0A, volume 0..200, 0x00]          VOLUME de la console
+         *   [0xFD, 0x0B, gén, n° bas, n° haut, 0x00]   REPRENDRE ce jeu (partie gardée)
+         * La console envoie en retour sa bibliothèque (message 0x09 :
+         * favoris, récents, jeu à reprendre) et son volume (ÉTAT, octet 12).
+         */
+
+        const scanBtn = document.getElementById("scanBtn");
+        const connectBtn = document.getElementById("connectBtn");
+        const orientationBtn = document.getElementById("orientationBtn");
+        const quitBtn = document.getElementById("quitBtn");
+        const quitBtnFloat = document.getElementById("quitBtnFloat");
+        const backBtn = document.getElementById("backBtn");
+
+        const speedSlider = document.getElementById("speedSlider");
+        const speedValue = document.getElementById("speedValue");
+
+        const statusDiv = document.getElementById("status");
+        const connectionStatus = document.getElementById("connectionStatus");
+        const dataSent = document.getElementById("dataSent");
+        const logConsole = document.getElementById("logConsole");
+
+        let connectedDevice = null;
+        let gattServer = null;
+        let nesService = null;
+        let nesCharacteristic = null;
+
+        let buttonUp = false;
+        let buttonDown = false;
+        let buttonLeft = false;
+        let buttonRight = false;
+
+        let buttonUpLeft = false;
+        let buttonUpRight = false;
+        let buttonDownLeft = false;
+        let buttonDownRight = false;
+
+        let buttonA = false;
+        let buttonB = false;
+        let buttonSelect = false;
+        let buttonStart = false;
+
+        let currentSpeed = 5;
+        let isLandscapeMode = false;
+        let audioContext = null;
+
+        /*
+         * 100 ms = 10 fois par seconde (renvoi des touches tenues).
+         * Cette fréquence est stable sur Android / Chrome et limite
+         * le risque de surcharge GATT.
+         */
+        const SEND_DELAY = 100;
+        let sendInterval = null;
+
+        /*
+         * File d'attente spéciale pour BLE :
+         * - une seule écriture GATT à la fois ;
+         * - si plusieurs commandes arrivent vite, seule la plus récente
+         *   est conservée. C'est idéal pour un état de manette.
+         */
+        let gattWriteInProgress = false;
+        let pendingGameCommand = null;
+        let pendingSpeedCommand = null;
+        let pendingMenuCommand = false;  
+        let pendingPing = false;         /* Contrôle de liaison */
+        let pendingSystemFrames = [];    /* Liste, lancer, pause (dans l'ordre) */
+        let gamesCharacteristic = null;  /* FFF2, null avec un programme plus ancien */
+        let pingInFlight = false;
+        let lastQueuedGameCommand = null;
+        let lastSentGameCommand = null;
+        let writeFailureCount = 0;
+
+        /* =====================================================
+           OUTILS
+           ===================================================== */
+
+        function log(message) {
+            const line = document.createElement("div");
+            line.textContent = "> " + message;
+            logConsole.appendChild(line);
+            logConsole.scrollTop = logConsole.scrollHeight;
+        }
+
+        function vibrate(pattern = 20) {
+            if ("vibrate" in navigator) {
+                navigator.vibrate(pattern);
+            }
+        }
+
+        function prepareAudio() {
+            if (audioContext) {
+                if (audioContext.state === "suspended") {
+                    audioContext.resume().catch(() => {});
+                }
+                return;
+            }
+
+            try {
+                audioContext = new (
+                    window.AudioContext || window.webkitAudioContext
+                )();
+            } catch (error) {
+                log("Son non disponible.");
+            }
+        }
+
+        function playClickSound() {
+            prepareAudio();
+
+            if (!audioContext) {
+                return;
+            }
+
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+
+            oscillator.type = "square";
+            oscillator.frequency.setValueAtTime(680, audioContext.currentTime);
+
+            gain.gain.setValueAtTime(0.12, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(
+                0.01,
+                audioContext.currentTime + 0.035
+            );
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.04);
+        }
+
+        function bluetoothAvailable() {
+            if (!navigator.bluetooth) {
+                statusDiv.textContent = "Web Bluetooth non disponible";
+                log("ERREUR : Web Bluetooth absent.");
+                return false;
+            }
+
+            if (!window.isSecureContext) {
+                statusDiv.textContent = "HTTPS requis pour Web Bluetooth";
+                log("ERREUR : utilisez HTTPS ou localhost.");
+                return false;
+            }
+
+            return true;
+        }
+
+        /* =====================================================
+           ÉTAT DES TOUCHES
+           ===================================================== */
+
+        function getNesByte() {
+            let byte = 0;
+
+            if (buttonUpLeft) {
+                byte |= 0b01010000;
+            }
+
+            if (buttonUpRight) {
+                byte |= 0b10010000;
+            }
+
+            if (buttonDownLeft) {
+                byte |= 0b01100000;
+            }
+
+            if (buttonDownRight) {
+                byte |= 0b10100000;
+            }
+
+            if (!buttonUpLeft && !buttonUpRight && buttonUp) {
+                byte |= 0b00010000;
+            }
+
+            if (!buttonDownLeft && !buttonDownRight && buttonDown) {
+                byte |= 0b00100000;
+            }
+
+            if (!buttonUpLeft && !buttonDownLeft && buttonLeft) {
+                byte |= 0b01000000;
+            }
+
+            if (!buttonUpRight && !buttonDownRight && buttonRight) {
+                byte |= 0b10000000;
+            }
+
+            if (buttonA) {
+                byte |= 0b00000001;
+            }
+
+            if (buttonB) {
+                byte |= 0b00000010;
+            }
+
+            if (buttonSelect) {
+                byte |= 0b00000100;
+            }
+
+            if (buttonStart) {
+                byte |= 0b00001000;
+            }
+
+            return byte;
+        }
+
+        function hasPressedButton() {
+            return getNesByte() !== 0;
+        }
+
+        function setButtonState(key, pressed) {
+            switch (key) {
+                case "UP":
+                    buttonUp = pressed;
+                    break;
+
+                case "DOWN":
+                    buttonDown = pressed;
+                    break;
+
+                case "LEFT":
+                    buttonLeft = pressed;
+                    break;
+
+                case "RIGHT":
+                    buttonRight = pressed;
+                    break;
+
+                case "UP-LEFT":
+                    buttonUpLeft = pressed;
+                    break;
+
+                case "UP-RIGHT":
+                    buttonUpRight = pressed;
+                    break;
+
+                case "DOWN-LEFT":
+                    buttonDownLeft = pressed;
+                    break;
+
+                case "DOWN-RIGHT":
+                    buttonDownRight = pressed;
+                    break;
+
+                case "A":
+                    buttonA = pressed;
+                    break;
+
+                case "B":
+                    buttonB = pressed;
+                    break;
+
+                case "SELECT":
+                    buttonSelect = pressed;
+                    break;
+
+                case "START":
+                    buttonStart = pressed;
+                    break;
+            }
+        }
+
+        function updateCommandDisplay(commandByte) {
+            const binary = commandByte.toString(2).padStart(8, "0");
+            const hex = commandByte.toString(16).toUpperCase().padStart(2, "0");
+
+            dataSent.textContent =
+                `Dernière commande : 0x${hex} (${binary})`;
+        }
+
+        /* =====================================================
+           FILE D'ÉCRITURE GATT : CORRECTION ERREUR
+           "GATT operation already in progress"
+           ===================================================== */
+
+        function clearGattQueue() {
+            pendingGameCommand = null;
+            pendingSpeedCommand = null;
+            pendingMenuCommand = false;
+            pendingSystemFrames = [];   
+            pendingPing = false;
+            pingInFlight = false;
+            lastQueuedGameCommand = null;
+            lastSentGameCommand = null;
+            gattWriteInProgress = false;
+            writeFailureCount = 0;
+        }
+
+        async function performGattWrite(data, withResponse = false) {
+            if (
+                !nesCharacteristic ||
+                !connectedDevice ||
+                !connectedDevice.gatt ||
+                !connectedDevice.gatt.connected
+            ) {
+                return false;
+            }
+
+            /*
+             * Le contrôle de liaison attend l'accusé de
+             * réception de l'ESP32 (preuve que la liaison fonctionne).
+             */
+            if (withResponse) {
+                if (typeof nesCharacteristic.writeValueWithResponse === "function") {
+                    await nesCharacteristic.writeValueWithResponse(data);
+                } else {
+                    await nesCharacteristic.writeValue(data);
+                }
+                return true;
+            }
+
+            /*
+             * Sur certains navigateurs, writeValueWithoutResponse est
+             * disponible et plus approprié pour une manette.
+             * Sinon writeValue est utilisé.
+             */
+            if (
+                typeof nesCharacteristic.writeValueWithoutResponse ===
+                "function"
+            ) {
+                await nesCharacteristic.writeValueWithoutResponse(data);
+            } else {
+                await nesCharacteristic.writeValue(data);
+            }
+
+            return true;
+        }
+
+        function processGattQueue() {
+            if (gattWriteInProgress) {
+                return;
+            }
+
+            if (
+                !nesCharacteristic ||
+                !connectedDevice ||
+                !connectedDevice.gatt ||
+                !connectedDevice.gatt.connected
+            ) {
+                return;
+            }
+
+            let dataToSend = null;
+            let type = "";
+
+            /*
+             * La commande MENU passe en premier.
+             * Priorité ensuite à la vitesse : elle doit être livrée une fois.
+             */
+            if (pendingMenuCommand) {
+                dataToSend = new Uint8Array(NES_MENU_FRAME);
+                pendingMenuCommand = false;
+                type = "menu";
+            } else if (pendingSystemFrames.length) {
+                /* Liste des jeux, lancer, pause. */
+                dataToSend = new Uint8Array(pendingSystemFrames.shift());
+                type = "system";
+            } else if (pendingSpeedCommand !== null) {
+                dataToSend = new Uint8Array([0xFE, pendingSpeedCommand]);
+                pendingSpeedCommand = null;
+                type = "speed";
+            } else if (pendingGameCommand !== null) {
+                dataToSend = new Uint8Array([pendingGameCommand]);
+                lastSentGameCommand = pendingGameCommand;
+                pendingGameCommand = null;
+                type = "game";
+            } else if (pendingPing) {
+                /* Contrôle de liaison, en dernier. */
+                dataToSend = new Uint8Array(NES_PING_FRAME);
+                pendingPing = false;
+                pingInFlight = true;
+                type = "ping";
+            } else {
+                return;
+            }
+
+            gattWriteInProgress = true;
+
+            performGattWrite(dataToSend, type === "ping" || type === "system")
+                .then(() => {
+                    writeFailureCount = 0;
+
+                    if (type === "speed") {
+                        log("Vitesse confirmée par BLE : " + dataToSend[1]);
+                    }
+
+                    if (type === "menu") {
+                        log("Commande MENU transmise à la console.");
+                    }
+
+                    if (type === "ping") {
+                        lastPingAck = Date.now();
+                    }
+                })
+                .catch(error => {
+                    writeFailureCount++;
+
+                    /*
+                     * Ne pas saturer le journal avec le même message.
+                     * Le code réessaie avec la dernière commande disponible.
+                     */
+                    if (writeFailureCount <= 2) {
+                        log(
+                            "Écriture BLE reportée : " +
+                            error.name +
+                            " — " +
+                            error.message
+                        );
+                    }
+
+                    if (type === "game") {
+                        pendingGameCommand = dataToSend[0];
+                    }
+
+                    if (type === "speed") {
+                        pendingSpeedCommand = dataToSend[1];
+                    }
+
+                    if (type === "menu") {
+                        pendingMenuCommand = true;
+                    }
+
+                    if (type === "system") {
+                        pendingSystemFrames.unshift(Array.from(dataToSend));
+                    }
+                })
+                .finally(() => {
+                    gattWriteInProgress = false;
+
+                    if (type === "ping") {
+                        pingInFlight = false;
+                    }
+
+                    /*
+                     * Petite temporisation entre deux transactions GATT.
+                     * Elle évite de relancer une opération pendant que le
+                     * système Android libère encore la précédente.
+                     */
+                    setTimeout(processGattQueue, 8);
+                });
+        }
+
+        function queueGameCommand(commandByte) {
+            /*
+             * Les commandes identiques ne sont pas empilées :
+             * on ne conserve que le dernier état connu.
+             */
+            if (
+                commandByte === lastQueuedGameCommand &&
+                pendingGameCommand === null
+            ) {
+                return;
+            }
+
+            lastQueuedGameCommand = commandByte;
+            pendingGameCommand = commandByte;
+
+            processGattQueue();
+        }
+
+        function queueSpeedCommand(speed) {
+            pendingSpeedCommand = speed;
+            processGattQueue();
+        }
+
+        function sendNesCommand(commandByte) {
+            /*
+             * L'affichage se met toujours à jour, connecté ou non.
+             */
+            updateCommandDisplay(commandByte);
+
+            /*
+             * L'envoi BLE est mis en file, jamais lancé en parallèle.
+             */
+            queueGameCommand(commandByte);
+        }
+
+        function sendSpeedCommand(speed) {
+            if (!nesCharacteristic) {
+                log("Vitesse mémorisée : " + speed + " (ESP32 non connecté).");
+                return;
+            }
+
+            queueSpeedCommand(speed);
+        }
+
+        /* =====================================================
+           ENVOI CONTINU DES TOUCHES MAINTENUES
+           ===================================================== */
+
+        function startSending() {
+            if (sendInterval) {
+                return;
+            }
+
+            sendNesCommand(getNesByte());
+
+            sendInterval = setInterval(() => {
+                const command = getNesByte();
+
+                if (command === 0) {
+                    stopSending();
+                    return;
+                }
+
+                /*
+                 * Renvoie l'état des touches tenues à
+                 * chaque tour. Sans cette ligne, queueGameCommand()
+                 * écartait cet état identique et la console relâchait la
+                 * touche au bout de son délai de sécurité.
+                 */
+                lastQueuedGameCommand = null;
+                sendNesCommand(command);
+            }, SEND_DELAY);
+        }
+
+        function stopSending() {
+            if (!sendInterval) {
+                return;
+            }
+
+            clearInterval(sendInterval);
+            sendInterval = null;
+        }
+
+        /* =====================================================
+           CONNEXION BLE / GATT
+           ===================================================== */
+
+        function resetConnection() {
+            stopSending();
+            clearGattQueue();
+
+            connectedDevice = null;
+            gattServer = null;
+            nesService = null;
+            nesCharacteristic = null;
+            gamesCharacteristic = null;   
+            gpOnLinkDown();
+
+            connectionStatus.textContent = "Connexion : non connectée";
+            connectionStatus.style.color = "#ff8c8c";
+        }
+
+        function onDisconnected() {
+            log("ESP32 déconnecté.");
+            statusDiv.textContent = "Déconnecté";
+            resetConnection();
+        }
+
+        async function connectToDevice(device) {
+            try {
+                const name = device.name || "Périphérique sans nom";
+
+                statusDiv.textContent = "Connexion à " + name + "...";
+                connectionStatus.textContent = "Connexion : GATT en cours...";
+                connectionStatus.style.color = "#ffd75e";
+
+                log("Connexion GATT à : " + name);
+
+                gattServer = await device.gatt.connect();
+                connectedDevice = device;
+
+                log("Recherche service NES FFF0...");
+                nesService = await gattServer.getPrimaryService(
+                    NES_SERVICE_UUID
+                );
+
+                log("Recherche caractéristique NES FFF1...");
+                nesCharacteristic = await nesService.getCharacteristic(
+                    NES_CHAR_UUID
+                );
+
+                clearGattQueue();
+
+                device.addEventListener(
+                    "gattserverdisconnected",
+                    onDisconnected,
+                    { once: true }
+                );
+
+                /* Liste des jeux, si la console la propose
+                   (après l'écoute de la déconnexion : une liaison perdue
+                   pendant l'abonnement fait échouer la connexion). */
+                await setupGamesCharacteristic(device);
+
+                statusDiv.textContent = "Connecté : " + name;
+                connectionStatus.textContent = "Connexion : ✅ ESP32 CONNECTÉ";
+                connectionStatus.style.color = "#91ff9f";
+
+                log("Connexion réussie : commandes prêtes.");
+
+                vibrate([35, 25, 35]);
+
+                /*
+                 * Après connexion, envoie l'état courant de la manette
+                 *.
+                 */
+                sendNesCommand(getNesByte());
+
+                onLinkUp(device);  /* Voyant de liaison */
+
+            } catch (error) {
+                log(
+                    "Erreur connexion GATT : " +
+                    error.name +
+                    " — " +
+                    error.message
+                );
+
+                statusDiv.textContent = "Échec de connexion";
+                connectionStatus.textContent = "Connexion : ❌ ÉCHEC";
+                connectionStatus.style.color = "#ff8c8c";
+
+                resetConnection();
+            }
+        }
+
+        /* =====================================================
+           SCAN BLE : SANS FILTRE DE NOM
+           ===================================================== */
+
+        async function scanAllBLE() {
+            if (!bluetoothAvailable()) {
+                return;
+            }
+
+            try {
+                log("Ouverture du sélecteur Bluetooth...");
+                statusDiv.textContent = "Recherche BLE...";
+                connectionStatus.textContent =
+                    "Connexion : choix du périphérique...";
+                connectionStatus.style.color = "#ffd75e";
+
+                const device = await navigator.bluetooth.requestDevice({
+                    acceptAllDevices: true,
+                    optionalServices: [
+                        NES_SERVICE_UUID,
+                        "battery_service",
+                        "device_information"
+                    ]
+                });
+
+                log(
+                    "Périphérique choisi : " +
+                    (device.name || "Sans nom")
+                );
+
+                await connectToDevice(device);
+
+            } catch (error) {
+                log(
+                    "Scan BLE : " +
+                    error.name +
+                    " — " +
+                    error.message
+                );
+
+                if (error.name === "NotFoundError") {
+                    statusDiv.textContent = "Sélection annulée";
+                } else {
+                    statusDiv.textContent = "Scan BLE impossible";
+                }
+
+                connectionStatus.textContent = "Connexion : ❌ ÉCHEC";
+                connectionStatus.style.color = "#ff8c8c";
+            }
+        }
+
+        async function scanESP32() {
+            if (!bluetoothAvailable()) {
+                return;
+            }
+
+            try {
+                log("Choisissez la console NES dans la liste...");
+                statusDiv.textContent = "Choisissez la console...";
+                connectionStatus.textContent =
+                    "Connexion : attente sélection...";
+                connectionStatus.style.color = "#ffd75e";
+
+                /*
+                 * Seules les consoles NES (service FFF0 annoncé par
+                 * la console) sont proposées. Si elle n'apparaît pas :
+                 * Diagnostic > SCAN BLE (tous les appareils).
+                 */
+                const device = await navigator.bluetooth.requestDevice({
+                    filters: [{ services: [NES_SERVICE_UUID] }],
+                    optionalServices: [
+                        "battery_service",
+                        "device_information"
+                    ]
+                });
+
+                log(
+                    "Sélectionné : " +
+                    (device.name || "Sans nom") +
+                    " | ID : " +
+                    device.id
+                );
+
+                await connectToDevice(device);
+
+            } catch (error) {
+                log(
+                    "Scan ESP32 : " +
+                    error.name +
+                    " — " +
+                    error.message
+                );
+
+                if (error.name === "NotFoundError") {
+                    statusDiv.textContent = "Sélection annulée";
+                } else if (error.name === "SecurityError") {
+                    statusDiv.textContent =
+                        "HTTPS ou permission Bluetooth requis";
+                } else {
+                    statusDiv.textContent = "Scan / connexion impossible";
+                }
+
+                connectionStatus.textContent = "Connexion : ❌ ÉCHEC";
+                connectionStatus.style.color = "#ff8c8c";
+            }
+        }
+
+        /* =====================================================
+           GESTION DES BOUTONS
+           ===================================================== */
+
+        const controllerButtons = document.querySelectorAll(
+            ".nes-round-button, .nes-small-button"
+        );
+
+        function pressControllerButton(button, event) {
+            event.preventDefault();
+
+            const key = button.dataset.key;
+
+            if (!key) {
+                return;
+            }
+
+            prepareAudio();
+
+            button.classList.add("pressed");
+            setButtonState(key, true);
+
+            sendNesCommand(getNesByte());
+            startSending();
+
+            vibrate(22);
+            playClickSound();
+        }
+
+        function releaseControllerButton(button, event) {
+            event.preventDefault();
+
+            const key = button.dataset.key;
+
+            if (!key) {
+                return;
+            }
+
+            button.classList.remove("pressed");
+            setButtonState(key, false);
+
+            sendNesCommand(getNesByte());
+
+            if (!hasPressedButton()) {
+                stopSending();
+            }
+        }
+
+        controllerButtons.forEach(button => {
+            button.addEventListener("pointerdown", event => {
+                button.setPointerCapture?.(event.pointerId);
+                pressControllerButton(button, event);
+            });
+
+            button.addEventListener("pointerup", event => {
+                releaseControllerButton(button, event);
+            });
+
+            button.addEventListener("pointercancel", event => {
+                releaseControllerButton(button, event);
+            });
+
+            button.addEventListener("lostpointercapture", event => {
+                const key = button.dataset.key;
+
+                if (!key) {
+                    return;
+                }
+
+                button.classList.remove("pressed");
+                setButtonState(key, false);
+
+                sendNesCommand(getNesByte());
+
+                if (!hasPressedButton()) {
+                    stopSending();
+                }
+            });
+        });
+
+        /* =====================================================
+           CROIX DIRECTIONNELLE GLISSANTE
+           - Toute la zone de la croix est tactile ; la direction suit
+             l'angle du pouce par rapport au centre : on glisse d'une
+             direction à l'autre sans lever le doigt.
+           - Diagonale : entre deux branches (secteur de 34° autour de
+             45°), plus étroit que les directions droites pour éviter les
+             diagonales involontaires (s'accroupir en avançant...).
+           - Centre (petit cercle) : aucune direction, comme le creux de
+             la vraie croix. Le doigt peut sortir de la croix : la
+             direction reste suivie jusqu'au lever du doigt.
+           - Un seul doigt à la fois sur la croix ; A, B, SELECT et START
+             restent utilisables en même temps.
+           ===================================================== */
+
+        const dpadArea = document.getElementById("dpadArea");
+        const dpadCross = document.getElementById("dpadCross");
+        const DPAD_UP = 1, DPAD_DOWN = 2, DPAD_LEFT = 4, DPAD_RIGHT = 8;
+        const DPAD_DEAD_ZONE = 0.2;      /* rayon du centre neutre (fraction du demi-côté) */
+        const DPAD_DIAGONAL_HALF = 17;   /* demi-largeur du secteur diagonal, en degrés */
+        const DPAD_HYSTERESIS = 6;       /* degrés à franchir pour changer de secteur */
+        const DPAD_TILT = 7;             /* bascule de la croix, en degrés */
+        let dpadPointer = null;
+        let dpadMask = 0;
+
+        function dpadMaskFromPoint(x, y) {
+            const r = dpadArea.getBoundingClientRect();
+            const half = Math.min(r.width, r.height) / 2;
+            const dx = (x - (r.left + r.width / 2)) / half;
+            const dy = (y - (r.top + r.height / 2)) / half;
+            const dist = Math.hypot(dx, dy);
+
+            /* Centre neutre, un peu plus petit pour en sortir que pour y entrer. */
+            if (dist < (dpadMask ? DPAD_DEAD_ZONE * 0.75 : DPAD_DEAD_ZONE)) {
+                return 0;
+            }
+
+            let angle = Math.atan2(-dy, dx) * 180 / Math.PI;   /* 0 = droite, 90 = haut */
+            if (angle < 0) {
+                angle += 360;
+            }
+
+            const diagonals = [
+                [45, DPAD_UP | DPAD_RIGHT],
+                [135, DPAD_UP | DPAD_LEFT],
+                [225, DPAD_DOWN | DPAD_LEFT],
+                [315, DPAD_DOWN | DPAD_RIGHT]
+            ];
+
+            for (const [center, mask] of diagonals) {
+                const delta = Math.abs(((angle - center + 540) % 360) - 180);
+                const limit = dpadMask === mask
+                    ? DPAD_DIAGONAL_HALF + DPAD_HYSTERESIS
+                    : DPAD_DIAGONAL_HALF - (dpadMask ? DPAD_HYSTERESIS : 0);
+                if (delta <= limit) {
+                    return mask;
+                }
+            }
+
+            /* Direction droite la plus proche. */
+            if (angle >= 315 || angle < 45) return DPAD_RIGHT;
+            if (angle < 135) return DPAD_UP;
+            if (angle < 225) return DPAD_LEFT;
+            return DPAD_DOWN;
+        }
+
+        function dpadRender() {
+            dpadCross.classList.toggle("d-up", Boolean(dpadMask & DPAD_UP));
+            dpadCross.classList.toggle("d-down", Boolean(dpadMask & DPAD_DOWN));
+            dpadCross.classList.toggle("d-left", Boolean(dpadMask & DPAD_LEFT));
+            dpadCross.classList.toggle("d-right", Boolean(dpadMask & DPAD_RIGHT));
+
+            const tx = (dpadMask & DPAD_UP ? DPAD_TILT : 0) - (dpadMask & DPAD_DOWN ? DPAD_TILT : 0);
+            const ty = (dpadMask & DPAD_RIGHT ? DPAD_TILT : 0) - (dpadMask & DPAD_LEFT ? DPAD_TILT : 0);
+            dpadCross.style.setProperty("--dpad-tx", tx + "deg");
+            dpadCross.style.setProperty("--dpad-ty", ty + "deg");
+        }
+
+        function dpadSet(mask) {
+            if (mask === dpadMask) {
+                return;
+            }
+
+            const wasPressed = dpadMask !== 0;
+            dpadMask = mask;
+
+            buttonUp = Boolean(mask & DPAD_UP);
+            buttonDown = Boolean(mask & DPAD_DOWN);
+            buttonLeft = Boolean(mask & DPAD_LEFT);
+            buttonRight = Boolean(mask & DPAD_RIGHT);
+            buttonUpLeft = false;
+            buttonUpRight = false;
+            buttonDownLeft = false;
+            buttonDownRight = false;
+
+            dpadRender();
+            sendNesCommand(getNesByte());
+
+            if (hasPressedButton()) {
+                startSending();
+            } else {
+                stopSending();
+            }
+
+            if (mask && !wasPressed) {
+                vibrate(22);
+                playClickSound();
+            } else if (mask) {
+                vibrate(9);   /* passage d'une direction à l'autre */
+            }
+        }
+
+        function dpadEnd(event) {
+            if (event.pointerId !== dpadPointer) {
+                return;
+            }
+            dpadPointer = null;
+            dpadSet(0);
+        }
+
+        function dpadReset() {
+            dpadPointer = null;
+            dpadMask = 0;
+            dpadRender();
+        }
+
+        dpadArea.addEventListener("pointerdown", event => {
+            if (dpadPointer !== null) {
+                return;
+            }
+            event.preventDefault();
+            prepareAudio();
+            dpadPointer = event.pointerId;
+            dpadArea.setPointerCapture?.(event.pointerId);
+            dpadSet(dpadMaskFromPoint(event.clientX, event.clientY));
+        });
+
+        dpadArea.addEventListener("pointermove", event => {
+            if (event.pointerId !== dpadPointer) {
+                return;
+            }
+            event.preventDefault();
+            dpadSet(dpadMaskFromPoint(event.clientX, event.clientY));
+        });
+
+        dpadArea.addEventListener("pointerup", dpadEnd);
+        dpadArea.addEventListener("pointercancel", dpadEnd);
+        dpadArea.addEventListener("lostpointercapture", dpadEnd);
+        dpadArea.addEventListener("contextmenu", event => event.preventDefault());
+
+        /* =====================================================
+           VITESSE
+           ===================================================== */
+
+        /* VOLUME DE LA CONSOLE. Envoyé pendant le glissement (au
+           plus 4 fois par seconde) et au relâchement ; la valeur affichée
+           suit ensuite celle de la console (ÉTAT), sauf pendant un réglage. */
+        let volumeTouchedAt = 0;
+        let volumeSentAt = 0;
+        let volumeTimer = null;
+
+        function sendVolume() {
+            clearTimeout(volumeTimer);
+            volumeTimer = null;
+            if (!gamesCharacteristic) {
+                return;
+            }
+            volumeSentAt = Date.now();
+            const v = Number(speedSlider.value);
+            gpQueue([0xFD, 0x0A, v & 0xFF, 0x00]);
+        }
+
+        speedSlider.addEventListener("input", () => {
+            volumeTouchedAt = Date.now();
+            speedValue.textContent = speedSlider.value + " %";
+            if (Date.now() - volumeSentAt >= 250) {
+                sendVolume();
+            } else if (!volumeTimer) {
+                volumeTimer = setTimeout(sendVolume, 250);
+            }
+        });
+        speedSlider.addEventListener("change", () => {
+            volumeTouchedAt = Date.now();
+            sendVolume();
+            vibrate(12);
+            log("Volume de la console : " + speedSlider.value + " %");
+        });
+
+        /* Volume annoncé par la console (ÉTAT de 13 octets) ; null : console
+           plus ancienne, sans réglage à distance. */
+        function showConsoleVolume(v) {
+            if (v === null) {
+                speedSlider.disabled = true;
+                speedValue.textContent = gamesCharacteristic ? "console avant v2.20" : "—";
+                return;
+            }
+            speedSlider.disabled = false;
+            if (Date.now() - volumeTouchedAt < 1500) {
+                return;   /* réglage en cours : la console va suivre */
+            }
+            speedSlider.value = String(v);
+            speedValue.textContent = v + " %";
+        }
+
+        /* ÉCRAN ALLUMÉ tant que la manette est connectée (Screen
+           Wake Lock ; refusé sans conséquence par un navigateur qui ne le
+           propose pas). Le système le relâche quand la page est cachée : il
+           est redemandé à son retour. */
+        let wakeLock = null;
+
+        async function keepScreenOn(on) {
+            if (!("wakeLock" in navigator)) {
+                return;
+            }
+            try {
+                if (on && !wakeLock && document.visibilityState === "visible") {
+                    wakeLock = await navigator.wakeLock.request("screen");
+                    wakeLock.addEventListener("release", () => { wakeLock = null; });
+                    log("Écran maintenu allumé pendant la connexion.");
+                } else if (!on && wakeLock) {
+                    const w = wakeLock;
+                    wakeLock = null;
+                    await w.release();
+                }
+            } catch (error) {
+                wakeLock = null;
+            }
+        }
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible" && linkConnected()) {
+                keepScreenOn(true);
+            }
+        });
+
+        /* =====================================================
+           PORTRAIT / PAYSAGE
+           ===================================================== */
+
+        async function toggleOrientation() {
+            isLandscapeMode = !isLandscapeMode;
+
+            if (isLandscapeMode) {
+                document.body.classList.add("landscape");
+                orientationBtn.textContent = "🔄 PORTRAIT";
+
+                try {
+                    await document.documentElement.requestFullscreen?.();
+                } catch (error) {
+                    log("Plein écran non accordé par le navigateur.");
+                }
+
+            } else {
+                document.body.classList.remove("landscape");
+                orientationBtn.textContent = "🔄 PAYSAGE";
+
+                try {
+                    await document.exitFullscreen?.();
+                } catch (error) {
+                    /* Sans conséquence. */
+                }
+            }
+
+            vibrate(20);
+            playClickSound();
+        }
+
+        orientationBtn.addEventListener("click", toggleOrientation);
+        backBtn.addEventListener("click", toggleOrientation);
+
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement && isLandscapeMode) {
+                isLandscapeMode = false;
+                document.body.classList.remove("landscape");
+                orientationBtn.textContent = "🔄 PAYSAGE";
+            }
+        });
+
+        /* =====================================================
+           DÉCONNEXION ET SÉCURITÉ
+           ===================================================== */
+
+        function releaseAllButtons() {
+            buttonUp = false;
+            buttonDown = false;
+            buttonLeft = false;
+            buttonRight = false;
+
+            buttonUpLeft = false;
+            buttonUpRight = false;
+            buttonDownLeft = false;
+            buttonDownRight = false;
+
+            buttonA = false;
+            buttonB = false;
+            buttonSelect = false;
+            buttonStart = false;
+
+            controllerButtons.forEach(button => {
+                button.classList.remove("pressed");
+            });
+            dpadReset();   
+
+            sendNesCommand(0x00);
+            stopSending();
+        }
+
+        function quitApp() {
+            const accepted = confirm(
+                "Arrêter la manette et déconnecter l’ESP32 ?"
+            );
+
+            if (!accepted) {
+                return;
+            }
+
+            stopAutoReconnect("quit");  /* Pas de reconnexion après QUITTER */
+            releaseAllButtons();
+
+            if (connectedDevice?.gatt?.connected) {
+                connectedDevice.gatt.disconnect();
+            }
+
+            if (document.fullscreenElement) {
+                document.exitFullscreen?.();
+            }
+
+            statusDiv.textContent = "Manette arrêtée";
+            log("Manette arrêtée. ESP32 déconnecté.");
+        }
+
+        quitBtn.addEventListener("click", quitApp);
+        quitBtnFloat.addEventListener("click", quitApp);
+
+        /* =====================================================
+           BOUTONS DE CONNEXION
+           ===================================================== */
+
+        scanBtn.addEventListener("click", () => {
+            prepareAudio();
+            vibrate(20);
+            playClickSound();
+            scanAllBLE();
+        });
+
+        connectBtn.addEventListener("click", () => {
+            prepareAudio();
+            vibrate(20);
+            playClickSound();
+            scanESP32();
+        });
+
+        /* =====================================================
+           PROTECTION EN CAS DE PERTE DE FOCUS
+           ===================================================== */
+
+        window.addEventListener("blur", () => {
+            releaseAllButtons();
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                releaseAllButtons();
+            }
+        });
+
+        document.addEventListener(
+            "touchmove",
+            event => {
+                if (document.body.classList.contains("landscape")) {
+                    event.preventDefault();
+                }
+            },
+            { passive: false }
+        );
+
+        /* =====================================================
+           BOUTON « MENU JEUX »
+           Retour à l'écran de sélection des jeux de la console.
+           - Trame [0xFD, 0x01, 0x00] : 0xFD = commande système,
+             0x01 = MENU ; le 0x00 final fait qu'un firmware plus
+             ancien (qui lit le dernier octet comme état de manette)
+             n'y voit qu'un relâchement.
+           - Deux appuis : le premier arme le bouton (« CONFIRMER ? »
+             pendant 2,5 s), le second envoie la commande.
+           - Pendant une partie, la console redémarre pour revenir au
+             menu : elle coupe la liaison, que la page rétablit seule
+             (voir la reconnexion automatique plus bas).
+           ===================================================== */
+
+        const MENU_LABEL = "🏠 MENU JEUX";
+        const MENU_CONFIRM_LABEL = "🏠 CONFIRMER ?";
+        const MENU_CONFIRM_MS = 2500;
+        const MENU_DISCONNECT_WINDOW_MS = 15000;
+
+        const menuRow = document.getElementById("menuRow");
+        const menuButtons = [
+            document.getElementById("menuBtn"),
+            document.getElementById("menuBtnFloat")
+        ];
+
+        let menuArmedUntil = 0;
+        let menuArmTimer = null;
+        let menuDisconnectDeadline = 0;  /* coupure attendue après MENU */
+
+        function setMenuLabels(text) {
+            menuButtons.forEach(button => {
+                button.textContent = text;
+            });
+        }
+
+        function disarmMenu() {
+            menuArmedUntil = 0;
+            clearTimeout(menuArmTimer);
+            menuArmTimer = null;
+            setMenuLabels(MENU_LABEL);
+        }
+
+        function onMenuButton(event) {
+            event.preventDefault();
+            prepareAudio();
+            playClickSound();
+
+            if (
+                !nesCharacteristic ||
+                !connectedDevice ||
+                !connectedDevice.gatt ||
+                !connectedDevice.gatt.connected
+            ) {
+                disarmMenu();
+                statusDiv.textContent = "MENU : ESP32 non connecté";
+                log("MENU ignoré : ESP32 non connecté.");
+                vibrate([60, 40, 60]);
+                return;
+            }
+
+            /* La liste des jeux
+               s'ouvre sur le téléphone (un seul appui, rien ne s'arrête). */
+            if (gamesCharacteristic) {
+                disarmMenu();
+                /* Sortie Téléviseur de la console : la liste
+                   s'ouvre sur la télévision (jeu en pause) et la manette
+                   reste affichée pour la parcourir ; un second appui la
+                   referme. */
+                if (gpConsole.tv) {
+                    gpQueue([0xFD, 0x06, 0x00]);
+                    vibrate(20);
+                    playClickSound();
+                    log("MENU JEUX : liste des jeux sur la télévision (croix, A/START : lancer, B : reprendre).");
+                    return;
+                }
+                gpOpen();
+                return;
+            }
+
+            if (Date.now() > menuArmedUntil) {
+                /* Premier appui : on arme le bouton. */
+                menuArmedUntil = Date.now() + MENU_CONFIRM_MS;
+                setMenuLabels(MENU_CONFIRM_LABEL);
+                clearTimeout(menuArmTimer);
+                menuArmTimer = setTimeout(disarmMenu, MENU_CONFIRM_MS);
+                statusDiv.textContent = "Appuyez encore sur MENU pour confirmer";
+                vibrate(30);
+                return;
+            }
+
+            /* Second appui dans le délai : envoi. */
+            disarmMenu();
+
+            /* La console va redémarrer si une partie est en cours : la
+               coupure qui suit n'est pas une perte de liaison. */
+            menuDisconnectDeadline = Date.now() + MENU_DISCONNECT_WINDOW_MS;
+
+            pendingMenuCommand = true;
+            processGattQueue();
+
+            statusDiv.textContent = "Retour à la liste des jeux...";
+            log("MENU : retour à l'écran de sélection des jeux.");
+            vibrate([40, 30, 90]);
+        }
+
+        menuButtons.forEach(button => {
+            button.addEventListener("click", onMenuButton);
+        });
+
+        /*
+         * Le bouton du mode portrait (sous la manette) est masqué en
+         * paysage, où le bouton flottant prend le relais.
+         */
+        function syncMenuRow() {
+            menuRow.hidden = document.body.classList.contains("landscape");
+        }
+
+        new MutationObserver(syncMenuRow).observe(document.body, {
+            attributes: true,
+            attributeFilter: ["class"]
+        });
+
+        syncMenuRow();
+
+        /* =====================================================
+           VOYANT DE LIAISON BLUETOOTH
+           - Toutes les secondes, la trame [0xFD, 0x02, 0x00] est écrite
+             AVEC accusé de réception : la console l'ignore, mais son
+             accusé prouve que la liaison fonctionne de bout en bout.
+           - Voyant (sous la manette en portrait, en haut au centre en
+             paysage) :
+               vert      « Bluetooth actif »
+               orange    « Pas de réponse » (aucun accusé depuis 2,5 s)
+                         ou « Reconnexion… » (clignotant)
+               rouge     « Liaison perdue »
+               gris      « Non connecté »
+           - Liaison coupée sans QUITTER ni MENU : vibration, puis
+             reconnexion automatique au même ESP32 (essai toutes les 2 s
+             pendant 1 minute ; SCAN, CONNECTER ou QUITTER l'arrêtent).
+             Après MENU, même reconnexion, sans alerte.
+           ===================================================== */
+
+        const PING_PERIOD_MS = 1000;
+        const PING_LATE_MS = 2500;
+        const RECONNECT_WINDOW_MS = 60000;
+        const RECONNECT_DELAY_MS = 2000;
+
+        const LINK_LOOK = {
+            ok:           { color: "#2ecc71", text: "Bluetooth actif", blink: false },
+            noanswer:     { color: "#f5a623", text: "Pas de réponse", blink: true },
+            reconnecting: { color: "#f5a623", text: "Reconnexion…", blink: true },
+            lost:         { color: "#e74c3c", text: "Liaison perdue", blink: false },
+            off:          { color: "#8a8a8a", text: "Non connecté", blink: false }
+        };
+
+        const linkLeds = ["linkLed", "linkLedFloat"].map(id => {
+            const el = document.getElementById(id);
+            return {
+                dot: el.querySelector("[data-led-dot]"),
+                text: el.querySelector("[data-led-text]"),
+                anim: null
+            };
+        });
+
+        let linkDevice = null;   /* appareil de la liaison en cours */
+        let linkLost = false;    /* liaison coupée sans QUITTER */
+        let linkQuit = false;    /* QUITTER : ni alerte ni reconnexion */
+        let lastPingAck = 0;
+        let lastPingSent = 0;
+        let linkShown = "";
+
+        let reconnectDevice = null;         /* ESP32 à reconnecter */
+        let reconnectGen = 0;               /* change à chaque arrêt */
+        let reconnectAttemptDevice = null;  /* tentative en cours */
+        let reconnectTimer = null;
+        let reconnectGiveUpTimer = null;
+        let reconnectStopReason = "";
+
+        function linkConnected() {
+            return Boolean(
+                nesCharacteristic &&
+                connectedDevice &&
+                connectedDevice === linkDevice &&
+                connectedDevice.gatt &&
+                connectedDevice.gatt.connected
+            );
+        }
+
+        function linkState() {
+            if (linkConnected()) {
+                return Date.now() - lastPingAck <= PING_LATE_MS ? "ok" : "noanswer";
+            }
+
+            if (reconnectDevice) {
+                return "reconnecting";
+            }
+
+            return linkLost ? "lost" : "off";
+        }
+
+        function updateLinkLed() {
+            const state = linkState();
+
+            if (state === linkShown) {
+                return;
+            }
+
+            const previous = linkShown;
+            const look = LINK_LOOK[state];
+            linkShown = state;
+
+            /* Un seul bouton, qui montre l'état de la liaison */
+            connectBtn.classList.toggle("is-connected", state === "ok" || state === "noanswer");
+            connectBtn.textContent = state === "ok" || state === "noanswer" ? "✅ CONNECTÉ"
+                : state === "reconnecting" ? "⏳ RECONNEXION…" : "🔗 CONNECTER";
+            keepScreenOn(state === "ok" || state === "noanswer");
+            if (state === "off" || state === "lost") {
+                showConsoleVolume(null);
+            }
+
+            linkLeds.forEach(led => {
+                led.dot.style.background = look.color;
+                led.dot.style.boxShadow =
+                    state === "off" ? "none" : "0 0 6px " + look.color;
+                led.text.textContent = look.text;
+
+                if (led.anim) {
+                    led.anim.cancel();
+                    led.anim = null;
+                }
+
+                if (look.blink && typeof led.dot.animate === "function") {
+                    led.anim = led.dot.animate(
+                        [{ opacity: 1 }, { opacity: 0.25 }],
+                        { duration: 450, iterations: Infinity, direction: "alternate" }
+                    );
+                }
+            });
+
+            if (state === "noanswer" && previous === "ok") {
+                log("Bluetooth : l'ESP32 ne répond plus.");
+                vibrate(150);
+            }
+        }
+
+        /* Appelée par connectToDevice() quand la liaison est prête. */
+        function onLinkUp(device) {
+            linkDevice = device;
+            linkLost = false;
+            linkQuit = false;
+            lastPingAck = Date.now();
+            lastPingSent = 0;
+            device.addEventListener("gattserverdisconnected", onLinkDown, { once: true });
+            updateLinkLed();
+            gpOnLinkUp();   /* Panneau des jeux ouvert, liste redemandée */
+        }
+
+        function onLinkDown(event) {
+            const device = event.target;
+
+            if (device !== linkDevice) {
+                return;  /* ancien appareil : sans objet */
+            }
+
+            linkDevice = null;
+
+            if (linkQuit) {
+                linkLost = false;
+                updateLinkLed();
+                return;
+            }
+
+            const expected = Date.now() <= menuDisconnectDeadline;
+            menuDisconnectDeadline = 0;
+
+            if (expected) {
+                log("Console en redémarrage : reconnexion automatique...");
+            } else {
+                linkLost = true;
+                log("Liaison Bluetooth perdue : reconnexion automatique...");
+                vibrate([250, 120, 250]);
+            }
+
+            startAutoReconnect(device);
+        }
+
+        function startAutoReconnect(device) {
+            if (reconnectDevice) {
+                return;  /* déjà en cours */
+            }
+
+            reconnectDevice = device;
+            const gen = reconnectGen;
+
+            reconnectGiveUpTimer = setTimeout(() => {
+                log("Reconnexion abandonnée : utilisez CONNECTER.");
+                statusDiv.textContent = "Reconnexion impossible";
+                linkLost = true;
+                stopAutoReconnect("timeout");
+            }, RECONNECT_WINDOW_MS);
+
+            reconnectTimer = setTimeout(
+                () => tryAutoReconnect(gen),
+                RECONNECT_DELAY_MS
+            );
+
+            updateLinkLed();
+        }
+
+        async function tryAutoReconnect(gen) {
+            reconnectTimer = null;
+
+            if (gen !== reconnectGen || !reconnectDevice) {
+                return;
+            }
+
+            if (connectedDevice) {
+                /* Déjà reconnectée. */
+                stopAutoReconnect("done");
+                return;
+            }
+
+            const device = reconnectDevice;
+            reconnectAttemptDevice = device;
+            await connectToDevice(device);
+            reconnectAttemptDevice = null;
+
+            if (gen !== reconnectGen) {
+                /* Arrêtée pendant la tentative. */
+                if (reconnectStopReason === "quit") {
+                    /* QUITTER : on ne garde aucune liaison. */
+                    if (connectedDevice === device) {
+                        device.gatt.disconnect();
+                        resetConnection();
+                    }
+                    statusDiv.textContent = "Manette arrêtée";
+                } else if (reconnectStopReason === "timeout") {
+                    statusDiv.textContent = "Reconnexion impossible";
+                }
+                updateLinkLed();
+                return;
+            }
+
+            if (connectedDevice) {
+                stopAutoReconnect("done");
+            } else {
+                reconnectTimer = setTimeout(
+                    () => tryAutoReconnect(gen),
+                    RECONNECT_DELAY_MS
+                );
+            }
+        }
+
+        /*
+         * reason : "done" (reconnectée), "quit" (QUITTER), "manual"
+         * (SCAN ou CONNECTER), "timeout" (délai dépassé).
+         */
+        function stopAutoReconnect(reason) {
+            reconnectGen++;
+            reconnectStopReason = reason;
+            reconnectDevice = null;
+            clearTimeout(reconnectTimer);
+            clearTimeout(reconnectGiveUpTimer);
+            reconnectTimer = null;
+            reconnectGiveUpTimer = null;
+
+            if (reason === "quit") {
+                linkQuit = true;
+                linkLost = false;
+            }
+
+            if (reconnectAttemptDevice && reason !== "done") {
+                /* Interrompt la tentative en cours (son connect() échoue). */
+                reconnectAttemptDevice.gatt.disconnect();
+            }
+
+            updateLinkLed();
+        }
+
+        /*
+         * Une connexion choisie à la main arrête la reconnexion
+         * automatique (QUITTER l'arrête aussi, dans quitApp).
+         */
+        scanBtn.addEventListener("click", () => stopAutoReconnect("manual"));
+        connectBtn.addEventListener("click", () => stopAutoReconnect("manual"));
+
+        /* Contrôle de liaison et mise à jour du voyant. */
+        function linkTick() {
+            if (
+                linkConnected() &&
+                !pendingPing &&
+                !pingInFlight &&
+                Date.now() - lastPingSent >= PING_PERIOD_MS
+            ) {
+                pendingPing = true;
+                lastPingSent = Date.now();
+                processGattQueue();
+            }
+
+            updateLinkLed();
+        }
+
+        setInterval(linkTick, 500);
+        updateLinkLed();
+
+        /* =====================================================
+           LISTE DES JEUX DE LA CONSOLE
+           - MENU JEUX ouvre ce panneau en un
+             seul appui : la partie en cours se met en pause et la liste
+             arrive par la caractéristique FFF2 (notifications).
+           - LANCER : la console change de jeu SANS REDÉMARRER ; la
+             liaison Bluetooth et le plein écran restent, le panneau se
+             ferme dès que le nouveau jeu tourne.
+           - FERMER : reprise de la partie.
+           - MENU DE LA CONSOLE : l'ancien MENU JEUX (deux appuis) ; en
+             partie, la console redémarre sur sa liste des jeux.
+           Format des messages de la console : games_link.h.
+           ===================================================== */
+
+        const gpPanel = document.getElementById("gamesPanel");
+        const gpList = document.getElementById("gpList");
+        const gpState = document.getElementById("gpState");
+        const gpMsg = document.getElementById("gpMsg");
+        const gpLaunchBtn = document.getElementById("gpLaunch");
+        const gpCloseBtn = document.getElementById("gpClose");
+        const gpConsoleBtn = document.getElementById("gpConsoleMenu");
+        const gpSearch = document.getElementById("gpSearch");   
+        const gpChips = document.getElementById("gpChips");     
+        const gpResumeBtn = document.getElementById("gpResume");
+        const gpSheet = gpPanel.querySelector(".gp-sheet");
+
+        const GP_REFUSE_TEXT = {
+            1: "La liste a changé sur la console : elle est rechargée, choisissez de nouveau.",
+            2: "Jeu inconnu de la console.",
+            3: "Fichier introuvable ou illisible.",
+            4: "Ce fichier n'est pas une ROM NES, ou il est incomplet.",
+            5: "Mapper {d} non pris en charge par l'émulateur.",
+            6: "Le jeu n'a pas pu être chargé : retour au jeu précédent."
+        };
+        const GP_LOAD_FAILED_MENU_TEXT = "Le jeu n'a pas pu être chargé : la console revient à son menu.";
+
+        let gpOpenFlag = false;
+        let gpGames = [];           /* { name, label, key, where, kb, bad } */
+        let gpGen = -1;             /* génération de la liste affichée (-1 : pas utilisable pour lancer) */
+        /* "cat" = liste COMPLÈTE (tous les jeux),
+           "page" = page de 50 jeux affichée par la console. */
+        let gpMode = "page";
+        let gpCache = null;         /* Dernière liste complète reçue { gen, crc, games } */
+        let gpGamesVersion = 0;     /* change à chaque nouvelle liste (reconstruction des lignes) */
+        let gpListKey = null;
+        let gpFilter = "";          /* Recherche du panneau */
+        let gpFilterTimer = null;
+        let gpScrollPending = false;   /* à l'ouverture : la liste montre le jeu en cours */
+        let gpEmptyEl = null;
+        let gpSelected = -1;
+        let gpRx = null;            /* liste en cours de réception */
+        let gpWaiting = false;      /* demande de liste sans réponse complète */
+        let gpWaitingMode = "page";
+        let gpRetries = 0;
+        let gpConsole = {
+            state: -1, current: -1, gen: -1, count: 0, tv: false,
+            cat: false, catcur: -1, catgen: -1, total: 0   /* ÉTAT de 12 octets ou plus */
+        };
+        let gpLaunching = -1;       /* jeu demandé, réponse attendue */
+        let gpLaunchTimer = null;
+        let gpAsked = null;         /* dernier LANCER : { index, time } (réponse tardive) */
+        let gpFallback = false;     /* échec de chargement : retour au jeu précédent attendu */
+        let gpConsoleArmedUntil = 0;
+        let gpConsoleTimer = null;
+        let gpListTimer = null;
+        /* Bibliothèque de la console (message 0x09), en numéros de
+           la liste complète : { gen, fav: [], rec: [], favSet, resume, resumeState } */
+        let gpLib = null;
+        let gpLibRx = { fav: [], rec: [] };
+        let gpLibVersion = 0;
+        let gpView = "all";         /* "all" | "fav" | "rec" */
+
+        function gpCrc16(bytes) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < bytes.length; i++) {
+                crc ^= bytes[i] << 8;
+                for (let k = 0; k < 8; k++) {
+                    crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
+                }
+            }
+            return crc;
+        }
+
+        function gpQueue(frame) {
+            pendingSystemFrames.push(frame);
+            processGattQueue();
+        }
+
+        function gpSetMsg(text, isError) {
+            gpMsg.textContent = text || "";
+            gpMsg.classList.toggle("gp-err", Boolean(isError));
+        }
+
+        function gpSetGames(games, gen, mode) {
+            gpGames = games;
+            gpGen = gen;
+            gpMode = mode;
+            gpGamesVersion++;
+        }
+
+        function gpClearGames() {
+            gpSelected = -1;
+            gpSetGames([], -1, gpMode);
+        }
+
+        /* Jeu en cours, en index de gpGames (-1 : aucun). */
+        function gpCurrentIndex() {
+            if (gpConsole.state <= 0) {
+                return -1;
+            }
+            return gpMode === "cat" ? gpConsole.catcur : gpConsole.current;
+        }
+
+        /* Liste complète si la console la propose (ÉTAT de 12 octets),
+           en donnant la liste déjà reçue : la console ne la renvoie pas si
+           elle n'a pas changé. Sinon, l'ancienne liste (page de 50 jeux). */
+        function gpListFrame() {
+            if (!gpConsole.cat) {
+                return NES_LIST_FRAME;
+            }
+            if (gpCache) {
+                return [0xFD, 0x07, gpCache.gen & 0xFF, gpCache.crc & 0xFF, (gpCache.crc >> 8) & 0xFF, 0x00];
+            }
+            return NES_LIST_ALL_FRAME;
+        }
+
+        /* Sans nouvelles de la liste depuis 4 s (rien reçu, ou réception
+           arrêtée en route) : nouvelle demande, 3 au plus. */
+        function gpArmListTimer() {
+            clearTimeout(gpListTimer);
+            gpListTimer = setTimeout(() => {
+                if (!gpOpenFlag || !gpWaiting) {
+                    return;
+                }
+                if (gpRetries < 3 && gamesCharacteristic) {
+                    gpRetries++;
+                    gpRequestList();
+                } else {
+                    gpWaiting = false;
+                    gpRx = null;
+                    if (gpGen < 0) {
+                        gpSetMsg("La console ne répond pas : fermez puis rouvrez la liste.", true);
+                    }
+                }
+            }, 4000);
+        }
+
+        function gpRequestList() {
+            gpRx = null;
+            gpWaiting = true;
+            gpWaitingMode = gpConsole.cat ? "cat" : "page";
+            gpArmListTimer();
+            gpQueue(gpListFrame());
+        }
+
+        /* Bibliothèque valable pour la liste affichée ? */
+        function gpLibOk() {
+            return Boolean(gpLib && gpMode === "cat" && gpGen >= 0 && gpLib.gen === gpGen);
+        }
+
+        /* Ordre des jeux affichés selon la liste choisie. */
+        function gpOrder() {
+            if (gpLibOk() && gpView === "fav") {
+                return gpLib.fav.filter(i => i < gpGames.length);
+            }
+            if (gpLibOk() && gpView === "rec") {
+                return gpLib.rec.filter(i => i < gpGames.length);
+            }
+            return gpGames.map((g, i) => i);
+        }
+
+        /* Recherche : mots sans accents ni majuscules, tous présents dans le nom. */
+        function gpNorm(text) {
+            return text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+        }
+
+        function gpWords() {
+            return gpNorm(gpFilter).split(/\s+/).filter(Boolean);
+        }
+
+        function gpMatches(game, words) {
+            return words.every(w => game.key.indexOf(w) >= 0);
+        }
+
+        function gpStateText() {
+            const cur = gpCurrentIndex();
+            const game = cur >= 0 ? gpGames[cur] : null;
+            let text;
+            switch (gpConsole.state) {
+                case 0: text = "Console : menu des jeux"; break;
+                case 1: text = game ? "En cours : " + game.label : "Partie en cours"; break;
+                case 2: text = game ? "En pause : " + game.label : "Partie en pause"; break;
+                default: return "Liste en cours de chargement…";
+            }
+            if (gpGames.length) {
+                text += " · " + gpGames.length + (gpGames.length > 1 ? " jeux" : " jeu");
+            }
+            return text;
+        }
+
+        function gpEmptyText() {
+            if (gpGames.length && gpLibOk() && gpView !== "all" && !gpFilter.trim()) {
+                return gpView === "fav"
+                    ? "Aucun favori : touche l'étoile ☆ d'un jeu dans « Tous »."
+                    : "Aucun jeu lancé récemment.";
+            }
+            if (gpGames.length) {
+                return "Aucun jeu ne correspond à « " + gpFilter.trim() + " ».";
+            }
+            if (gpGen < 0) {
+                if (gpRx && gpRx.buf && gpRx.len) {
+                    return "Réception de la liste… " + Math.floor(gpRx.next * 100 / gpRx.len) + " %";
+                }
+                return "Chargement de la liste…";
+            }
+            return "Aucun jeu sur la console.";
+        }
+
+        /* Lignes de la liste, reconstruites seulement si la liste, la
+           recherche ou le jeu en cours changent (1000 jeux possibles) ; la
+           position de défilement est gardée. */
+        function gpBuildList() {
+            const keep = gpList.scrollTop;
+            const frag = document.createDocumentFragment();
+            const cur = gpCurrentIndex();
+            const words = gpWords();
+            let shown = 0;
+            let curRow = null;
+
+            const libOk = gpLibOk();
+            gpOrder().forEach(i => {
+                const game = gpGames[i];
+                if (!game || (words.length && !gpMatches(game, words))) {
+                    return;
+                }
+                shown++;
+                const row = document.createElement("button");
+                row.type = "button";
+                row.className = "gp-row";
+                row.setAttribute("role", "option");
+                row.setAttribute("aria-selected", i === gpSelected ? "true" : "false");
+                row.dataset.index = String(i);
+
+                const name = document.createElement("span");
+                name.className = "gp-name";
+                name.textContent = game.label;
+
+                if (i === cur) {
+                    const tag = document.createElement("span");
+                    tag.className = "gp-tag gp-tag-cur";
+                    tag.textContent = "EN COURS";
+                    name.appendChild(tag);
+                    curRow = row;
+                }
+
+                if (game.bad) {
+                    const tag = document.createElement("span");
+                    tag.className = "gp-tag gp-tag-bad";
+                    tag.textContent = "!";
+                    name.appendChild(tag);
+                }
+
+                const meta = document.createElement("span");
+                meta.className = "gp-meta";
+                meta.textContent = (game.where === "F" ? "Interne" : "SD") + " · " + game.kb + " Ko";
+
+                row.appendChild(name);
+                row.appendChild(meta);
+                if (libOk) {   /* Étoile des favoris */
+                    const on = gpLib.favSet.has(i);
+                    const star = document.createElement("span");
+                    star.className = "gp-star" + (on ? " on" : "");
+                    star.setAttribute("role", "button");
+                    star.setAttribute("aria-label", on ? "Retirer des favoris" : "Ajouter aux favoris");
+                    star.dataset.star = String(i);
+                    star.textContent = on ? "★" : "☆";
+                    row.appendChild(star);
+                }
+                frag.appendChild(row);
+            });
+
+            gpEmptyEl = null;
+            if (!shown) {
+                gpEmptyEl = document.createElement("div");
+                gpEmptyEl.className = "gp-empty";
+                gpEmptyEl.textContent = gpEmptyText();
+                frag.appendChild(gpEmptyEl);
+            }
+
+            gpList.textContent = "";
+            gpList.appendChild(frag);
+            gpList.scrollTop = keep;
+
+            if (gpScrollPending && gpGames.length) {
+                gpScrollPending = false;
+                if (curRow) {
+                    const lr = gpList.getBoundingClientRect();
+                    const rr = curRow.getBoundingClientRect();
+                    gpList.scrollTop += rr.top - lr.top - (gpList.clientHeight - rr.height) / 2;
+                } else {
+                    gpList.scrollTop = 0;
+                }
+            }
+        }
+
+        function gpUpdateSelection() {
+            gpList.querySelectorAll(".gp-row").forEach(row => {
+                row.setAttribute("aria-selected", parseInt(row.dataset.index, 10) === gpSelected ? "true" : "false");
+            });
+        }
+
+        /* Onglets Tous / Favoris / Récents et carte « Reprendre » */
+        function gpRenderLib() {
+            const ok = gpLibOk();
+            gpChips.hidden = !ok;
+            if (!ok && gpView !== "all") {
+                gpView = "all";
+            }
+            gpChips.querySelectorAll(".gp-chip").forEach(b => {
+                b.setAttribute("aria-pressed", b.dataset.view === gpView ? "true" : "false");
+                if (ok && b.dataset.view === "fav") {
+                    b.textContent = "★ Favoris" + (gpLib.fav.length ? " " + gpLib.fav.length : "");
+                }
+            });
+            const r = ok ? gpLib.resume : -1;
+            const game = r >= 0 ? gpGames[r] : null;
+            const running = gpConsole.state > 0 && gpCurrentIndex() === r;
+            const show = Boolean(game) && !running && !gpFilter.trim() && gpView !== "fav";
+            gpResumeBtn.hidden = !show;
+            if (show) {
+                gpResumeBtn.querySelector(".gp-resume-name").textContent = "▶ Reprendre · " + game.label;
+                gpResumeBtn.querySelector(".gp-resume-sub").textContent = gpLib.resumeState
+                    ? "La partie repart là où tu l'as quittée"
+                    : "Dernier jeu joué";
+                gpResumeBtn.disabled = gpLaunching >= 0;
+            }
+        }
+
+        function gpRender() {
+            gpState.textContent = gpStateText();
+            gpRenderLib();
+            const key = [gpGamesVersion, gpFilter, gpCurrentIndex(), gpGen < 0, gpGames.length,
+                         gpLibVersion, gpView, gpLibOk()].join("|");
+            if (key !== gpListKey) {
+                gpListKey = key;
+                gpBuildList();
+            } else {
+                gpUpdateSelection();
+            }
+            gpSearch.placeholder = gpGames.length > 1
+                ? "🔍 Rechercher parmi " + gpGames.length + " jeux"
+                : "🔍 Rechercher un jeu";
+            gpLaunchBtn.disabled = gpSelected < 0 || gpLaunching >= 0 || gpGen < 0;
+        }
+
+        function gpParseList(bytes) {
+            const text = new TextDecoder("utf-8").decode(bytes);
+            const games = [];
+
+            text.split("\n").forEach(line => {
+                if (!line) {
+                    return;
+                }
+                const parts = line.split("\t");
+                if (parts.length < 3) {
+                    return;
+                }
+                const flags = parts[0];
+                const name = parts.slice(2).join("\t");
+                const label = name.replace(/\.nes$/i, "");
+                games.push({
+                    name,
+                    label,
+                    key: gpNorm(label),
+                    where: flags.charAt(0),
+                    bad: flags.indexOf("!") >= 0,
+                    kb: parseInt(parts[1], 10) || 0
+                });
+            });
+
+            return games;
+        }
+
+        /* Liste reçue en entier (ou confirmée inchangée) : affichée, le jeu
+           choisi reste choisi s'il y est encore. */
+        function gpListReceived(games, gen, mode) {
+            clearTimeout(gpListTimer);
+            gpWaiting = false;
+            gpRetries = 0;
+            const prev = gpSelected >= 0 && gpGames[gpSelected] ? gpGames[gpSelected] : null;
+            if (games !== gpGames || mode !== gpMode) {
+                gpSetGames(games, gen, mode);
+            } else {
+                gpGen = gen;
+            }
+            gpSelected = prev ? gpGames.findIndex(g => g.name === prev.name && g.where === prev.where) : -1;
+            if (gpSelected >= 0 && gpFilter && !gpMatches(gpGames[gpSelected], gpWords())) {
+                gpSelected = -1;
+            }
+            if (gpMsg.classList.contains("gp-err") && gpLaunching < 0) {
+                gpSetMsg("");
+            }
+            log("Liste des jeux reçue : " + gpGames.length + " jeu(x)" +
+                (mode === "cat" ? " (liste complète)." : " (page de la console)."));
+            if (gpOpenFlag) {
+                gpRender();
+            }
+        }
+
+        /* Liste illisible : nouvelle demande (3 au plus). */
+        function gpListFailed() {
+            log("Liste des jeux incomplète : nouvelle demande.");
+            if (gpRetries < 3) {
+                gpRetries++;
+                gpRequestList();
+            } else {
+                gpWaiting = false;
+                clearTimeout(gpListTimer);
+                gpSetMsg("Liste des jeux illisible : fermez puis rouvrez la liste.", true);
+            }
+        }
+
+        function gpShowProgress() {
+            if (gpOpenFlag && gpEmptyEl && gpGen < 0) {
+                gpEmptyEl.textContent = gpEmptyText();
+            }
+        }
+
+        function onGamesNotification(event) {
+            const v = event.target.value;
+            const b = new Uint8Array(v.buffer, v.byteOffset, v.byteLength);
+
+            if (!b.length) {
+                return;
+            }
+
+            if (b[0] === 0x01 && b.length >= 6) {
+                /* ÉTAT */
+                const cur = b[2] | (b[3] << 8);
+                const cat = b.length >= 12;   /* Liste complète proposée */
+                const catcur = cat ? (b[7] | (b[8] << 8)) : 0xFFFF;
+                gpConsole = {
+                    state: b[1], current: cur === 0xFFFF ? -1 : cur, gen: b[4], count: b[5],
+                    tv: b.length >= 7 && (b[6] & 0x01) !== 0,   /* Liste sur la télévision */
+                    cat,
+                    catcur: catcur === 0xFFFF ? -1 : catcur,
+                    catgen: cat ? b[9] : -1,
+                    total: cat ? (b[10] | (b[11] << 8)) : 0
+                };
+                showConsoleVolume(b.length >= 13 ? b[12] : null);   
+                if (gpOpenFlag && !gpRx) {
+                    const wantCat = gpConsole.cat;
+                    if (gpGen >= 0) {
+                        const listGen = wantCat ? gpConsole.catgen : gpConsole.gen;
+                        if ((gpMode === "cat") !== wantCat || gpGen !== listGen) {
+                            /* Liste relue (ou page changée) sur la console : on la redemande. */
+                            gpClearGames();
+                            gpRequestList();
+                        }
+                    } else if (gpWaiting && (gpWaitingMode === "cat") !== wantCat) {
+                        gpRequestList();
+                    }
+                }
+                if (gpOpenFlag) {
+                    gpRender();
+                }
+            } else if (b[0] === 0x02 && b.length >= 5) {
+                /* DÉBUT DE LISTE (page de la console) */
+                if (gpWaitingMode !== "page") {
+                    return;
+                }
+                const len = b[3] | (b[4] << 8);
+                gpRx = { mode: "page", gen: b[1], len, buf: new Uint8Array(len), next: 0, gap: false };
+                gpArmListTimer();
+            } else if (b[0] === 0x03 && b.length >= 4) {
+                /* MORCEAU */
+                if (!gpRx || gpRx.mode !== "page" || b[1] !== gpRx.gen) {
+                    return;
+                }
+                const off = b[2] | (b[3] << 8);
+                const data = b.subarray(4);
+                if (off === gpRx.next && off + data.length <= gpRx.len) {
+                    gpRx.buf.set(data, off);
+                    gpRx.next += data.length;
+                } else if (off > gpRx.next) {
+                    gpRx.gap = true;   /* morceau manquant */
+                }   /* sinon doublon : ignoré */
+                gpArmListTimer();
+            } else if (b[0] === 0x04 && b.length >= 4) {
+                /* FIN DE LISTE */
+                if (!gpRx || gpRx.mode !== "page" || b[1] !== gpRx.gen) {
+                    return;
+                }
+                const rx = gpRx;
+                gpRx = null;
+                const crc = b[2] | (b[3] << 8);
+                if (rx.gap || rx.next !== rx.len || gpCrc16(rx.buf) !== crc) {
+                    gpListFailed();
+                    return;
+                }
+                gpListReceived(gpParseList(rx.buf), rx.gen, "page");
+            } else if (b[0] === 0x06 && b.length >= 7) {
+                /* DÉBUT DE LA LISTE COMPLÈTE */
+                if (gpWaitingMode !== "cat") {
+                    return;
+                }
+                const len = b[4] | (b[5] << 8) | (b[6] << 16);
+                const unchanged = b.length >= 8 && (b[7] & 0x01) !== 0;
+                gpRx = {
+                    mode: "cat", gen: b[1], count: b[2] | (b[3] << 8), len,
+                    buf: unchanged ? null : new Uint8Array(len), next: 0, gap: false, unchanged
+                };
+                gpArmListTimer();
+                gpShowProgress();
+            } else if (b[0] === 0x07 && b.length >= 5) {
+                /* MORCEAU (position sur 3 octets) */
+                if (!gpRx || gpRx.mode !== "cat" || !gpRx.buf || b[1] !== gpRx.gen) {
+                    return;
+                }
+                const off = b[2] | (b[3] << 8) | (b[4] << 16);
+                const data = b.subarray(5);
+                if (off === gpRx.next && off + data.length <= gpRx.len) {
+                    gpRx.buf.set(data, off);
+                    gpRx.next += data.length;
+                } else if (off > gpRx.next) {
+                    gpRx.gap = true;
+                }
+                gpArmListTimer();
+                gpShowProgress();
+            } else if (b[0] === 0x08 && b.length >= 4) {
+                /* FIN DE LA LISTE COMPLÈTE */
+                if (!gpRx || gpRx.mode !== "cat" || b[1] !== gpRx.gen) {
+                    return;
+                }
+                const rx = gpRx;
+                gpRx = null;
+                const crc = b[2] | (b[3] << 8);
+                if (rx.unchanged) {
+                    if (gpCache && gpCache.gen === rx.gen && gpCache.crc === crc) {
+                        gpListReceived(gpCache.games, rx.gen, "cat");
+                    } else {
+                        gpCache = null;   /* ne devrait pas arriver : liste entière redemandée */
+                        gpListFailed();
+                    }
+                    return;
+                }
+                if (rx.gap || rx.next !== rx.len || gpCrc16(rx.buf) !== crc) {
+                    gpListFailed();
+                    return;
+                }
+                const games = gpParseList(rx.buf);
+                gpCache = { gen: rx.gen, crc, games };
+                gpListReceived(games, rx.gen, "cat");
+            } else if (b[0] === 0x09 && b.length >= 4) {
+                /* BIBLIOTHÈQUE - favoris (0), récents (1), puis
+                   « Reprendre » (2), qui termine l'envoi. */
+                const kind = b[2];
+                if (kind <= 1 && b.length >= 5) {
+                    const key = kind === 0 ? "fav" : "rec";
+                    if (b[4] === 0) {
+                        gpLibRx[key] = [];
+                    }
+                    if (gpLibRx[key].length === b[4]) {
+                        for (let i = 5; i + 1 < b.length; i += 2) {
+                            gpLibRx[key].push(b[i] | (b[i + 1] << 8));
+                        }
+                    }
+                } else if (kind === 2 && b.length >= 6) {
+                    const r = b[4] | (b[5] << 8);
+                    gpLib = {
+                        gen: b[1],
+                        fav: gpLibRx.fav,
+                        rec: gpLibRx.rec,
+                        favSet: new Set(gpLibRx.fav),
+                        resume: r === 0xFFFF ? -1 : r,
+                        resumeState: (b[3] & 0x01) !== 0
+                    };
+                    gpLibRx = { fav: [], rec: [] };
+                    gpLibVersion++;
+                    if (gpOpenFlag) {
+                        gpRender();
+                    }
+                }
+            } else if (b[0] === 0x05 && b.length >= 4) {
+                /* ÉVÉNEMENT */
+                const code = b[1];
+                const a = b[2] | (b[3] << 8);
+                /* Numéro dans la liste complète (octets 4-5) */
+                const ca = b.length >= 6 ? (b[4] | (b[5] << 8)) : 0xFFFF;
+                const gi = gpMode === "cat" ? (ca === 0xFFFF ? -1 : ca) : a;
+
+                if (code === 1) {
+                    const game = gi >= 0 ? gpGames[gi] : null;
+                    gpSetMsg("Chargement" + (game ? " de « " + game.label + " »" : "") + "…");
+                    if (gpLaunching >= 0 && gi === gpLaunching) {
+                        gpArmLaunchTimeout(gi, 15000);   /* accepté : le chargement peut durer */
+                    }
+                } else if (code === 2) {
+                    gpConsole.current = a === 0xFFFF ? -1 : a;
+                    if (gpMode === "cat") {
+                        gpConsole.catcur = gi;
+                    }
+                    const game = gi >= 0 ? gpGames[gi] : null;
+                    const asked = gpLaunching >= 0 ||
+                        (gpAsked && gpAsked.index === gi && Date.now() - gpAsked.time < 30000);
+                    clearTimeout(gpLaunchTimer);
+                    gpLaunching = -1;
+                    gpAsked = null;
+                    if (gpFallback) {
+                        /* Retour au jeu précédent après un échec : le panneau
+                           reste ouvert (message d'erreur), le jeu en pause. */
+                        gpFallback = false;
+                        if (gpOpenFlag) {
+                            gpQueue([0xFD, 0x05, 0x01, 0x00]);
+                            gpRender();
+                        }
+                    } else if (asked) {
+                        log("Jeu lancé : " + (game ? game.label : "n° " + gi));
+                        vibrate([30, 30, 30]);
+                        gpClose(false);   /* le nouveau jeu tourne déjà */
+                    } else if (gpOpenFlag) {
+                        /* Jeu lancé depuis l'écran de la console : on joue. */
+                        log("Jeu lancé sur la console : " + (game ? game.label : "n° " + gi));
+                        gpClose(true);
+                    }
+                } else if (code === 3) {
+                    const reason = b[2];
+                    let text = (GP_REFUSE_TEXT[reason] || "Lancement refusé par la console.")
+                        .replace("{d}", String(b[3]));
+                    if (reason === 6) {
+                        gpFallback = b[3] === 1;
+                        if (!gpFallback) {
+                            text = GP_LOAD_FAILED_MENU_TEXT;
+                        }
+                    }
+                    log("Lancement refusé : " + text);
+                    clearTimeout(gpLaunchTimer);
+                    gpLaunching = -1;
+                    gpAsked = null;
+                    gpSetMsg(text, true);
+                    vibrate([60, 40, 60]);
+                    if (reason === 1) {
+                        gpClearGames();
+                        gpRequestList();
+                    }
+                    if (gpOpenFlag) {
+                        gpRender();
+                    }
+                }
+            }
+        }
+
+        /* Appelée par connectToDevice() : abonnement à FFF2 si la console
+           le propose.
+           - Caractéristique absente (NotFoundError) : console plus ancienne,
+             MENU JEUX garde son fonctionnement d'avant.
+           - Liaison perdue pendant l'abonnement : l'erreur remonte, la
+             connexion échoue (et la reconnexion automatique reprend).
+           - Autre erreur passagère : un second essai.
+           Les écritures de la manette attendent la fin de l'abonnement :
+           deux opérations GATT simultanées échouent sur Android. */
+        async function setupGamesCharacteristic(device) {
+            gamesCharacteristic = null;
+            gattWriteInProgress = true;
+            try {
+                for (let attempt = 1; attempt <= 2; attempt++) {
+                    try {
+                        const ch = await nesService.getCharacteristic(NES_GAMES_CHAR_UUID);
+                        ch.addEventListener("characteristicvaluechanged", onGamesNotification);
+                        await ch.startNotifications();
+                        gamesCharacteristic = ch;
+                        log("Liste des jeux disponible : MENU JEUX l'ouvre sur le téléphone.");
+                        return;
+                    } catch (error) {
+                        if (!device.gatt || !device.gatt.connected) {
+                            throw error;
+                        }
+                        if (error.name === "NotFoundError") {
+                            log("Pas de liste des jeux (programme de la console avant v2.13) : MENU JEUX garde son fonctionnement d'avant.");
+                            return;
+                        }
+                        log("Abonnement à la liste des jeux : " + error.name + " — " + error.message);
+                        if (attempt < 2) {
+                            await new Promise(resolve => setTimeout(resolve, 300));
+                        }
+                    }
+                }
+                log("Liste des jeux indisponible pour cette connexion : MENU JEUX garde son fonctionnement d'avant.");
+            } finally {
+                gattWriteInProgress = false;
+            }
+        }
+
+        function gpOpen() {
+            if (gpOpenFlag) {
+                return;
+            }
+            gpOpenFlag = true;
+            releaseAllButtons();
+            gpSelected = -1;
+            gpLaunching = -1;
+            gpAsked = null;
+            gpFallback = false;
+            clearTimeout(gpLaunchTimer);
+            gpRetries = 0;
+            gpFilter = "";
+            gpSearch.value = "";
+            gpSheet.classList.remove("gp-filtering");
+            clearTimeout(gpFilterTimer);
+            /* Liste complète déjà reçue et toujours valable (même
+               numéro de catalogue) : affichée tout de suite ; la console
+               confirme ensuite qu'elle n'a pas changé (sans la renvoyer). */
+            if (gpConsole.cat && gpCache && gpCache.gen === gpConsole.catgen) {
+                gpSetGames(gpCache.games, gpCache.gen, "cat");
+            } else {
+                gpClearGames();
+            }
+            gpScrollPending = true;
+            gpListKey = null;
+            gpSetMsg("");
+            gpPanel.hidden = false;
+            gpRender();
+            gpQueue([0xFD, 0x05, 0x01, 0x00]);   /* pause (sans effet dans les menus de la console) */
+            gpRequestList();
+            vibrate(20);
+            log("Liste des jeux ouverte (partie en pause).");
+        }
+
+        function gpClose(resume) {
+            if (!gpOpenFlag) {
+                return;
+            }
+            gpOpenFlag = false;
+            gpSearch.blur();   /* Clavier refermé */
+            gpPanel.hidden = true;
+            clearTimeout(gpListTimer);
+            gpWaiting = false;
+            gpDisarmConsole();
+            if (resume && gamesCharacteristic) {
+                gpQueue([0xFD, 0x05, 0x00, 0x00]);   /* reprise */
+            }
+        }
+
+        function gpDisarmConsole() {
+            gpConsoleArmedUntil = 0;
+            clearTimeout(gpConsoleTimer);
+            gpConsoleTimer = null;
+            gpConsoleBtn.textContent = "🏠 MENU DE LA CONSOLE";
+        }
+
+        /* Liaison coupée / rétablie (resetConnection(), onLinkUp()). */
+        function gpOnLinkDown() {
+            gpRx = null;
+            gpWaiting = false;
+            gpLaunching = -1;
+            gpAsked = null;
+            gpFallback = false;
+            clearTimeout(gpLaunchTimer);
+            /* La console a pu redémarrer (et sa liste changer) : la liste
+               affichée ne sert plus à lancer un jeu avant d'être reçue de
+               nouveau. Elle reste visible en attendant. */
+            gpGen = -1;
+            if (gpOpenFlag) {
+                gpSetMsg("Liaison avec la console perdue…", true);
+                gpRender();
+            }
+        }
+
+        function gpOnLinkUp() {
+            if (!gpOpenFlag) {
+                return;
+            }
+            if (!gamesCharacteristic) {
+                gpClose(false);
+                return;
+            }
+            gpSetMsg("");
+            gpQueue([0xFD, 0x05, 0x01, 0x00]);
+            gpRequestList();
+        }
+
+        gpList.addEventListener("click", event => {
+            /* Étoile -> favori (ajouté ou retiré sur la console) */
+            const star = event.target.closest(".gp-star");
+            if (star) {
+                event.stopPropagation();
+                if (!gpLibOk() || !gamesCharacteristic) {
+                    return;
+                }
+                const i = parseInt(star.dataset.star, 10);
+                const on = !gpLib.favSet.has(i);
+                if (on && gpLib.fav.length >= 60) {
+                    gpSetMsg("60 favoris au plus : retire d'abord une étoile.", true);
+                    return;
+                }
+                if (on) {
+                    gpLib.favSet.add(i);
+                    gpLib.fav = gpLib.fav.concat([i]).sort((x, y) => x - y);
+                } else {
+                    gpLib.favSet.delete(i);
+                    gpLib.fav = gpLib.fav.filter(x => x !== i);
+                }
+                gpLibVersion++;
+                playClickSound();
+                vibrate(15);
+                gpQueue([0xFD, 0x09, gpGen & 0xFF, i & 0xFF, (i >> 8) & 0xFF, 0x00]);
+                gpRender();
+                return;
+            }
+            const row = event.target.closest(".gp-row");
+            if (!row || gpLaunching >= 0) {
+                return;
+            }
+            gpSelected = parseInt(row.dataset.index, 10);
+            playClickSound();
+            gpSearch.blur();   /* Clavier refermé, LANCER visible */
+            gpRender();
+            const game = gpGames[gpSelected];
+            gpSetMsg(game && game.bad ? "Attention : ce jeu a déjà fait planter la console." : "");
+        });
+
+        /* En paysage, la page bloque le défilement (touchmove) : pas dans la liste. */
+        gpList.addEventListener("touchmove", event => event.stopPropagation(), { passive: true });
+
+        /* Recherche dans la liste (tous les mots, sans tenir compte
+           des accents ni des majuscules). */
+        function gpSheetHold() {
+            gpSheet.classList.toggle("gp-filtering", gpSearch.value !== "" || document.activeElement === gpSearch);
+        }
+        gpSearch.addEventListener("focus", gpSheetHold);
+        /* Au départ du champ, le panneau garde sa hauteur un instant :
+           un appui sur un onglet ou un bouton sous le champ (qui fait
+           partir le clavier) n'est pas perdu dans le changement de taille. */
+        gpSearch.addEventListener("blur", () => setTimeout(gpSheetHold, 350));
+        gpSearch.addEventListener("input", () => {
+            gpSheetHold();
+            clearTimeout(gpFilterTimer);
+            gpFilterTimer = setTimeout(() => {
+                gpFilter = gpSearch.value;
+                if (gpSelected >= 0 && gpGames[gpSelected] && !gpMatches(gpGames[gpSelected], gpWords())) {
+                    gpSelected = -1;
+                    gpSetMsg("");
+                }
+                gpList.scrollTop = 0;
+                if (gpOpenFlag) {
+                    gpRender();
+                }
+            }, 120);
+        });
+        gpSearch.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                gpSearch.blur();
+            }
+        });
+        gpSearch.addEventListener("touchmove", event => event.stopPropagation(), { passive: true });
+
+        /* Sans réponse dans le délai, le choix redevient possible (une
+           confirmation tardive ferme quand même le panneau : gpAsked). */
+        function gpArmLaunchTimeout(asked, ms) {
+            clearTimeout(gpLaunchTimer);
+            gpLaunchTimer = setTimeout(() => {
+                if (gpLaunching === asked) {
+                    gpLaunching = -1;
+                    gpSetMsg("Pas de réponse de la console.", true);
+                    if (gpOpenFlag) {
+                        gpRender();
+                    }
+                }
+            }, ms);
+        }
+
+        gpLaunchBtn.addEventListener("click", () => {
+            if (gpSelected < 0 || gpLaunching >= 0 || gpGen < 0 || !gamesCharacteristic) {
+                return;
+            }
+            playClickSound();
+            const asked = gpSelected;
+            const game = gpGames[asked];
+            gpLaunching = asked;
+            gpAsked = { index: asked, time: Date.now() };
+            gpFallback = false;
+            gpSetMsg("Lancement de « " + game.label + " »…");
+            gpRender();
+            /* Liste complète -> numéro du catalogue (LANCER 0x08) */
+            gpQueue([0xFD, gpMode === "cat" ? 0x08 : 0x04, gpGen & 0xFF, asked & 0xFF, (asked >> 8) & 0xFF, 0x00]);
+            log("LANCER : " + game.label);
+            gpArmLaunchTimeout(asked, 8000);
+        });
+
+        gpCloseBtn.addEventListener("click", () => {
+            playClickSound();
+            gpClose(true);
+        });
+
+        /* Tous / Favoris / Récents */
+        gpChips.addEventListener("click", event => {
+            const b = event.target.closest(".gp-chip");
+            if (!b || b.dataset.view === gpView) {
+                return;
+            }
+            gpView = b.dataset.view;
+            gpList.scrollTop = 0;
+            playClickSound();
+            gpRender();
+        });
+
+        /* Reprendre le dernier jeu joué (avec sa partie gardée) */
+        gpResumeBtn.addEventListener("click", () => {
+            if (!gpLibOk() || gpLib.resume < 0 || gpLaunching >= 0 || !gamesCharacteristic) {
+                return;
+            }
+            playClickSound();
+            const asked = gpLib.resume;
+            const game = gpGames[asked];
+            gpSelected = asked;
+            gpLaunching = asked;
+            gpAsked = { index: asked, time: Date.now() };
+            gpFallback = false;
+            gpSetMsg("Reprise de « " + (game ? game.label : "?") + " »…");
+            gpRender();
+            gpQueue([0xFD, 0x0B, gpGen & 0xFF, asked & 0xFF, (asked >> 8) & 0xFF, 0x00]);
+            log("REPRENDRE : " + (game ? game.label : asked));
+            gpArmLaunchTimeout(asked, 8000);
+        });
+
+        gpConsoleBtn.addEventListener("click", () => {
+            playClickSound();
+
+            if (Date.now() > gpConsoleArmedUntil) {
+                gpConsoleArmedUntil = Date.now() + MENU_CONFIRM_MS;
+                gpConsoleBtn.textContent = "🏠 CONFIRMER ?";
+                clearTimeout(gpConsoleTimer);
+                gpConsoleTimer = setTimeout(gpDisarmConsole, MENU_CONFIRM_MS);
+                vibrate(30);
+                return;
+            }
+
+            gpDisarmConsole();
+            gpClose(false);
+
+            /* Ancien MENU JEUX : pendant une partie, la console redémarre
+               sur sa liste des jeux ; la page se reconnecte d'elle-même. */
+            menuDisconnectDeadline = Date.now() + MENU_DISCONNECT_WINDOW_MS;
+            pendingMenuCommand = true;
+            processGattQueue();
+
+            statusDiv.textContent = "Retour au menu de la console...";
+            log("MENU : retour au menu de la console.");
+            vibrate([40, 30, 90]);
+        });
+
+        /* =====================================================
+           DÉMARRAGE
+           ===================================================== */
+
+        window.addEventListener("load", () => {
+            log("=== Manette NES BLE prête (page v2.20) ===");
+            log(
+                "Web Bluetooth : " +
+                (navigator.bluetooth ? "disponible" : "absent")
+            );
+            log(
+                "Contexte sécurisé : " +
+                (window.isSecureContext ? "HTTPS / OK" : "NON — HTTPS requis")
+            );
+            log("Envoi BLE régulé à " + SEND_DELAY + " ms.");
+        });
+    </script>
+</body>
+</html>

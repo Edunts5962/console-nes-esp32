@@ -1,0 +1,26 @@
+{
+  "name": "Manette NES",
+  "short_name": "Manette NES",
+  "description": "Manette Bluetooth pour la console NES ESP32-S3 (jeux, favoris, volume).",
+  "start_url": "manette8.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "manette8-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "manette8-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

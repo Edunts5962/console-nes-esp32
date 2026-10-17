@@ -1,0 +1,8 @@
+﻿Reperes;Quantite;Valeur;Description;Piece conseillee;Empreinte KiCad
+C1;1;100nF;Condensateur ceramique 100 nF, pas 5 mm;;C_Disc_D5.0mm_W2.5mm_P5.00mm
+C2;1;10uF 16V;Condensateur electrolytique 10 uF 16 V, D5 mm, pas 2 mm;;CP_Radial_D5.0mm_P2.00mm
+J1;1;DB9 femelle coudee;Prise DB9 FEMELLE coudee pour CI, boitier metal;DB9 femelle 90 degres, entraxe des fixations 25 mm, fixations a 9,12 mm du bord;DSUB-9_Female_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm
+R1, R2;2;100k;Resistance 100 kOhm 1/4 W, couche metal;;R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+RN1;1;8 x 10k (SIP-9 commun);Reseau de 8 resistances 10 kOhm a point commun, SIP-9;Bourns 4609X-101-103LF;R_Array_SIP9
+SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8;8;12 x 12 mm;Bouton-poussoir 12 x 12 mm, 4 pattes (+ capuchon);Wurth 430476085716 ou equivalent 12 x 12;SW_PUSH-12mm_Wuerth-430476085716
+U1;1;CD4021BE;Registre a decalage 8 bits CMOS (celui de la manette NES) + support DIP-16;TI CD4021BE (ou Nexperia HEF4021BP);DIP-16_W7.62mm_Socket

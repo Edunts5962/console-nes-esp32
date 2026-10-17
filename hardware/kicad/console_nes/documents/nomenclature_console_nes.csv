@@ -1,0 +1,36 @@
+﻿Reperes;Quantite;Valeur;Description;Piece conseillee;Empreinte KiCad
+C1;1;470uF 25V;Condensateur electrolytique 470 uF 25 V, D10 mm, pas 5 mm;;CP_Radial_D10.0mm_P5.00mm
+C2, C4, C7, C10;4;100nF;Condensateur ceramique 100 nF, pas 5 mm;;C_Disc_D5.0mm_W2.5mm_P5.00mm
+C3;1;220uF 16V;Condensateur electrolytique 220 uF 16 V (ou 25 V) faible ESR, 105 C, D8 mm, pas 3,5 mm;"Serie faible ESR ; verifier D8 mm / pas 3,5 mm";CP_Radial_D8.0mm_P3.50mm
+C5, C6, C9;3;10uF 16V;Condensateur electrolytique 10 uF 16 V, D5 mm, pas 2 mm;;CP_Radial_D5.0mm_P2.00mm
+C8;1;10nF;Condensateur ceramique 10 nF, pas 5 mm;;C_Disc_D5.0mm_W2.5mm_P5.00mm
+D1, D2;2;1N5822;Diode Schottky 3 A 40 V, DO-201AD;1N5822;D_DO-201AD_P15.24mm_Horizontal
+D3, D4, D5;3;1N5819;Diode Schottky 1 A 40 V;1N5819;D_DO-41_SOD81_P10.16mm_Horizontal
+D6;1;LED verte 3 mm;LED verte 3 mm (presence du 5 V);;LED_D3.0mm
+F1;1;MF-RHT200;Fusible rearmable 2 A, 16 V max (bloc secteur regule 9-12 V);Bourns MF-RHT200;Fuse_Bourns_MF-RHT200
+F2;1;MF-RHT070;Fusible rearmable 0,7 A;Bourns MF-RHT070;Fuse_Bourns_MF-RHT070
+F3;1;MF-RHT050;Fusible rearmable 0,5 A;Bourns MF-RHT050;Fuse_Bourns_MF-RHT050
+J1;1;Jack DC 5,5 x 2,1 mm;Jack d'alimentation 5,5 x 2,1 mm pour CI, centre +;Type DC-005 (verifier l'empreinte BarrelJack_Horizontal);BarrelJack_Horizontal
+J2;1;Interrupteur M/A;Connecteur 2 broches pas 2,5 mm pour l'interrupteur M/A;JST B2B-XH-A + fiche XHP-2 + interrupteur a bascule 2 A;JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical
+J3;1;USB-B vers PC;Prise USB-B femelle coudee pour CI (vers le PC);On Shore USB-B1HSW6;USB_B_OST_USB-B1HSxx_Horizontal
+J4, J5;2;USB-A vers ecran / USB-A alim. AV->HDMI;Prise USB-A femelle coudee pour CI;Molex 67643-2911;USB_A_Molex_67643_Horizontal
+J6, J7;2;ES3C28P P3 Expanded IO / ES3C28P P2 UART;Barrette male 1 x 4, pas 2,54 mm;;PinHeader_1x04_P2.54mm_Vertical
+J8;1;DB9 male (manette NES);Prise DB9 MALE coudee pour CI, boitier metal (manette);DB9 male 90 degres, entraxe des fixations 25 mm, fixations a 9,12 mm du bord;DSUB-9_Male_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm
+J9;1;RCA jaune;Prise RCA femelle coudee pour CI, jaune (video);Same Sky (CUI) RCJ-014;RCA_Jack_CUI_RCJ-01x_Horizontal
+J10;1;RCA blanche;Prise RCA femelle coudee pour CI, blanche (son G);Same Sky (CUI) RCJ-013;RCA_Jack_CUI_RCJ-01x_Horizontal
+J11;1;RCA rouge;Prise RCA femelle coudee pour CI, rouge (son D);Same Sky (CUI) RCJ-012;RCA_Jack_CUI_RCJ-01x_Horizontal
+J12;1;Module microSD SPI 5 V;Barrette femelle 1 x 6, pas 2,54 mm (pour le module microSD);;PinSocket_1x06_P2.54mm_Vertical
+J13;1;Extension ESP32;Barrette male 1 x 6, pas 2,54 mm;;PinHeader_1x06_P2.54mm_Vertical
+JP1, JP2, JP3;3;LATCH / CLOCK / DATA;Barrette male 1 x 3 + cavalier;;PinHeader_1x03_P2.54mm_Vertical
+L1;1;33uH 3A;Inductance 33 uH, 3 A minimum, radiale D12 mm pas 6 mm;Murata 19R333C (33 uH, 3,7 A);L_Radial_D12.0mm_P6.00mm_Murata_1900R
+R1, R6, R7, R8, R10;5;1k;Resistance 1 kOhm 1/4 W, couche metal;;R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+R2, R3, R4;3;330;Resistance 330 Ohm 1/4 W, couche metal;;R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+R5;1;0 (strap);Strap 0 Ohm (ou fil nu) : video en direct;Resistance 0 Ohm 1/4 W;R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+R9;1;47k;Resistance 47 kOhm 1/4 W, couche metal;;R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+R11;1;100;Resistance 100 Ohm 1/4 W, couche metal;;R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+R12;1;10k;Resistance 10 kOhm 1/4 W, couche metal;;R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+RV1;1;10k niveau;Potentiometre ajustable 10 kOhm (niveau du son);Bourns 3386P-1-103LF;Potentiometer_Bourns_3386P_Vertical
+TP1, TP2, TP3;3;+5V / +3V3 / GND;Point de test (boucle);Keystone 5000 ou fil nu;TestPoint_Loop_D2.50mm_Drill1.0mm
+U1;1;LM2596T-5.0;Regulateur a decoupage 5 V 3 A, TO-220-5;TI LM2596T-5.0/NOPB;TO-220-5_P3.4x3.7mm_StaggerOdd_Lead3.8mm_Vertical
+U2;1;LM1117T-3.3;Regulateur lineaire 3,3 V 800 mA, TO-220;TI LM1117T-3.3/NOPB ou ST LD1117V33;TO-220-3_Vertical
+U3;1;ESP32-DevKitC V4 (WROOM-32E);Support ESP32-DevKitC V4 : 2 barrettes femelles 1 x 19, pas 2,54 mm;2 x barrette femelle 1 x 19 (ou 1 x 20 coupee);ESP32_DevKitC_V4_Socket_3rows

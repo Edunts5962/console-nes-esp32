@@ -1,0 +1,6386 @@
+(kicad_sch
+  (version 20211123)
+  (generator eeschema)
+  (uuid "4fd51aa7-68bb-5da3-a8ef-867ca05e07d5")
+  (paper "A4")
+  (title_block
+    (title "Manette NES pour la console ESP32 (PCB separe)")
+    (date "2026-09-27")
+    (rev "1.0")
+    (company "Projet NES : console complete et emulateur minimaliste")
+    (comment 1 "Registre CD4021BE (brochage et protocole de la manette NES d'origine)")
+    (comment 2 "Liaison par cable DB9 male-femelle droit (1-1) vers J8 de la carte porteuse")
+    (comment 3 "Alimentation 3,3 V par la console : ne jamais y mettre 5 V")
+    (comment 4 "Composants traversants")
+  )
+  (lib_symbols
+    (symbol "manette_nes:+3V3"
+      (power)
+      (pin_names
+        (offset 0)
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "#PWR"
+        (id 0)
+        (at 0 -3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Value" "+3V3"
+        (id 1)
+        (at 0 3.556 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" ""
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "global power"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "Power symbol creates a global label with name \"+3V3\""
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "+3V3_0_1"
+        (polyline
+          (pts
+            (xy -0.762 1.27)
+            (xy 0 2.54)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 0)
+            (xy 0 2.54)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 2.54)
+            (xy 0.762 1.27)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol "+3V3_1_1"
+        (pin power_in line
+          (at 0 0 90)
+          (length 0) hide
+          (name "+3V3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:4021"
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "U"
+        (id 0)
+        (at -5.08 19.05 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Value" "4021"
+        (id 1)
+        (at 3.81 19.05 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0 3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/HEF4021B.pdf"
+        (id 3)
+        (at 0 3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "shift register SR PISO"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "8-bit static shift register"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_fp_filters" "DIP*W7.62mm* SOIC*3.9x9.9mm*P1.27mm* TSSOP*4.4x5mm*P0.65mm* SOIC*5.3x10.2mm*P1.27mm*"
+        (id 6)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "4021_0_1"
+        (rectangle
+          (start -7.62 17.78)
+          (end 7.62 -17.78)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type background)
+          )
+        )
+      )
+      (symbol "4021_1_1"
+        (pin input line
+          (at -10.16 -15.24 0)
+          (length 2.54)
+          (name "D7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 15.24 0)
+          (length 2.54)
+          (name "CP"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "10"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 7.62 0)
+          (length 2.54)
+          (name "DS"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "11"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin output line
+          (at 10.16 12.7 180)
+          (length 2.54)
+          (name "Q6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "12"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 -7.62 0)
+          (length 2.54)
+          (name "D4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "13"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 -10.16 0)
+          (length 2.54)
+          (name "D5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "14"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 -12.7 0)
+          (length 2.54)
+          (name "D6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "15"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin power_in line
+          (at 0 20.32 270)
+          (length 2.54)
+          (name "VDD"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "16"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin output line
+          (at 10.16 15.24 180)
+          (length 2.54)
+          (name "Q5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin output line
+          (at 10.16 10.16 180)
+          (length 2.54)
+          (name "Q7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 -5.08 0)
+          (length 2.54)
+          (name "D3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 -2.54 0)
+          (length 2.54)
+          (name "D2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 0 0)
+          (length 2.54)
+          (name "D1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 2.54 0)
+          (length 2.54)
+          (name "D0"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin power_in line
+          (at 0 -20.32 90)
+          (length 2.54)
+          (name "VSS"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "8"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin input line
+          (at -10.16 10.16 0)
+          (length 2.54)
+          (name "PL"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "9"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:C"
+      (pin_numbers hide)
+      (pin_names
+        (offset 0.254)
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "C"
+        (id 0)
+        (at 0.635 2.54 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (justify left)
+        )
+      )
+      (property "Value" "C"
+        (id 1)
+        (at 0.635 -2.54 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (justify left)
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0.9652 -3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" "~"
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "cap capacitor"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "Unpolarized capacitor"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_fp_filters" "C_*"
+        (id 6)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "C_0_1"
+        (polyline
+          (pts
+            (xy -2.032 -0.762)
+            (xy 2.032 -0.762)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -2.032 0.762)
+            (xy 2.032 0.762)
+          )
+          (stroke
+            (width 0.508)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol "C_1_1"
+        (pin passive line
+          (at 0 3.81 270)
+          (length 2.794)
+          (name "~"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at 0 -3.81 90)
+          (length 2.794)
+          (name "~"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:C_Polarized"
+      (pin_numbers hide)
+      (pin_names
+        (offset 0.254)
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "C"
+        (id 0)
+        (at 0.635 2.54 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (justify left)
+        )
+      )
+      (property "Value" "C_Polarized"
+        (id 1)
+        (at 0.635 -2.54 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (justify left)
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0.9652 -3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" "~"
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "cap capacitor"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "Polarized capacitor"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_fp_filters" "CP_*"
+        (id 6)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "C_Polarized_0_1"
+        (rectangle
+          (start -2.286 0.508)
+          (end 2.286 1.016)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -1.778 2.286)
+            (xy -0.762 2.286)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -1.27 2.794)
+            (xy -1.27 1.778)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (rectangle
+          (start 2.286 -0.508)
+          (end -2.286 -1.016)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+      )
+      (symbol "C_Polarized_1_1"
+        (pin passive line
+          (at 0 3.81 270)
+          (length 2.794)
+          (name "~"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at 0 -3.81 90)
+          (length 2.794)
+          (name "~"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:DE9_Receptacle_MountingHoles"
+      (pin_names
+        (offset 1.016) hide
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "J"
+        (id 0)
+        (at 0 16.51 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Value" "DE9_Receptacle_MountingHoles"
+        (id 1)
+        (at 0 14.605 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" " ~"
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "connector receptacle female D-SUB DB9"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "9-pin female receptacle socket D-SUB connector, Mounting Hole"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_fp_filters" "DSUB*Female*"
+        (id 6)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "DE9_Receptacle_MountingHoles_0_1"
+        (circle
+          (center -1.778 -10.16)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -1.778 -5.08)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -1.778 0)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -1.778 5.08)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -1.778 10.16)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 -10.16)
+            (xy -2.54 -10.16)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 -7.62)
+            (xy 0.508 -7.62)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 -5.08)
+            (xy -2.54 -5.08)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 -2.54)
+            (xy 0.508 -2.54)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 0)
+            (xy -2.54 0)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 2.54)
+            (xy 0.508 2.54)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 5.08)
+            (xy -2.54 5.08)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 7.62)
+            (xy 0.508 7.62)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 10.16)
+            (xy -2.54 10.16)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -3.81 13.335)
+            (xy -3.81 -13.335)
+            (xy 3.81 -9.525)
+            (xy 3.81 9.525)
+            (xy -3.81 13.335)
+          )
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type background)
+          )
+        )
+        (circle
+          (center 1.27 -7.62)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center 1.27 -2.54)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center 1.27 2.54)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center 1.27 7.62)
+          (radius 0.762)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol "DE9_Receptacle_MountingHoles_1_1"
+        (pin passive line
+          (at 0 -15.24 90)
+          (length 3.81)
+          (name "PAD"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "0"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 10.16 0)
+          (length 3.81)
+          (name "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 5.08 0)
+          (length 3.81)
+          (name "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 0 0)
+          (length 3.81)
+          (name "3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 -5.08 0)
+          (length 3.81)
+          (name "4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 -10.16 0)
+          (length 3.81)
+          (name "5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 7.62 0)
+          (length 3.81)
+          (name "6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 2.54 0)
+          (length 3.81)
+          (name "7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 -2.54 0)
+          (length 3.81)
+          (name "8"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "8"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 -7.62 0)
+          (length 3.81)
+          (name "9"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "9"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:GND"
+      (power)
+      (pin_names
+        (offset 0)
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "#PWR"
+        (id 0)
+        (at 0 -6.35 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Value" "GND"
+        (id 1)
+        (at 0 -3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" ""
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "global power"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "Power symbol creates a global label with name \"GND\" , ground"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "GND_0_1"
+        (polyline
+          (pts
+            (xy 0 0)
+            (xy 0 -1.27)
+            (xy 1.27 -1.27)
+            (xy 0 -2.54)
+            (xy -1.27 -1.27)
+            (xy 0 -1.27)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol "GND_1_1"
+        (pin power_in line
+          (at 0 0 270)
+          (length 0) hide
+          (name "GND"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:MountingHole"
+      (pin_names
+        (offset 1.016)
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "H"
+        (id 0)
+        (at 0 5.08 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Value" "MountingHole"
+        (id 1)
+        (at 0 3.175 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" "~"
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "mounting hole"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "Mounting Hole without connection"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_fp_filters" "MountingHole*"
+        (id 6)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "MountingHole_0_1"
+        (circle
+          (center 0 0)
+          (radius 1.27)
+          (stroke
+            (width 1.27)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:PWR_FLAG"
+      (power)
+      (pin_numbers hide)
+      (pin_names
+        (offset 0) hide
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "#FLG"
+        (id 0)
+        (at 0 1.905 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Value" "PWR_FLAG"
+        (id 1)
+        (at 0 3.81 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" "~"
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "flag power"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "Special symbol for telling ERC where power comes from"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "PWR_FLAG_0_0"
+        (pin power_out line
+          (at 0 0 90)
+          (length 0)
+          (name "pwr"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+      (symbol "PWR_FLAG_0_1"
+        (polyline
+          (pts
+            (xy 0 0)
+            (xy 0 1.27)
+            (xy -1.016 1.905)
+            (xy 0 2.54)
+            (xy 1.016 1.905)
+            (xy 0 1.27)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:R"
+      (pin_numbers hide)
+      (pin_names
+        (offset 0)
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "R"
+        (id 0)
+        (at 2.032 0 90)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Value" "R"
+        (id 1)
+        (at 0 0 90)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at -1.778 0 90)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" "~"
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "R res resistor"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "Resistor"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_fp_filters" "R_*"
+        (id 6)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "R_0_1"
+        (rectangle
+          (start -1.016 -2.54)
+          (end 1.016 2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol "R_1_1"
+        (pin passive line
+          (at 0 3.81 270)
+          (length 1.27)
+          (name "~"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at 0 -3.81 90)
+          (length 1.27)
+          (name "~"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:R_Network08"
+      (pin_names
+        (offset 0) hide
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "RN"
+        (id 0)
+        (at -12.7 0 90)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Value" "R_Network08"
+        (id 1)
+        (at 10.16 0 90)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" "Resistor_THT:R_Array_SIP9"
+        (id 2)
+        (at 12.065 0 90)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" "http://www.vishay.com/docs/31509/csc.pdf"
+        (id 3)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "R network star-topology"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "8 resistor network, star topology, bussed resistors, small symbol"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_fp_filters" "R?Array?SIP*"
+        (id 6)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "R_Network08_0_1"
+        (rectangle
+          (start -11.43 -3.175)
+          (end 8.89 3.175)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type background)
+          )
+        )
+        (rectangle
+          (start -10.922 1.524)
+          (end -9.398 -2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -10.16 2.286)
+          (radius 0.254)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (rectangle
+          (start -8.382 1.524)
+          (end -6.858 -2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -7.62 2.286)
+          (radius 0.254)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (rectangle
+          (start -5.842 1.524)
+          (end -4.318 -2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -5.08 2.286)
+          (radius 0.254)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (rectangle
+          (start -3.302 1.524)
+          (end -1.778 -2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center -2.54 2.286)
+          (radius 0.254)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (rectangle
+          (start -0.762 1.524)
+          (end 0.762 -2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -10.16 -2.54)
+            (xy -10.16 -3.81)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -7.62 -2.54)
+            (xy -7.62 -3.81)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -5.08 -2.54)
+            (xy -5.08 -3.81)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -2.54 -2.54)
+            (xy -2.54 -3.81)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 -2.54)
+            (xy 0 -3.81)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 2.54 -2.54)
+            (xy 2.54 -3.81)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 5.08 -2.54)
+            (xy 5.08 -3.81)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 7.62 -2.54)
+            (xy 7.62 -3.81)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -10.16 1.524)
+            (xy -10.16 2.286)
+            (xy -7.62 2.286)
+            (xy -7.62 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -7.62 1.524)
+            (xy -7.62 2.286)
+            (xy -5.08 2.286)
+            (xy -5.08 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -5.08 1.524)
+            (xy -5.08 2.286)
+            (xy -2.54 2.286)
+            (xy -2.54 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy -2.54 1.524)
+            (xy -2.54 2.286)
+            (xy 0 2.286)
+            (xy 0 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 1.524)
+            (xy 0 2.286)
+            (xy 2.54 2.286)
+            (xy 2.54 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 2.54 1.524)
+            (xy 2.54 2.286)
+            (xy 5.08 2.286)
+            (xy 5.08 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 5.08 1.524)
+            (xy 5.08 2.286)
+            (xy 7.62 2.286)
+            (xy 7.62 1.524)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center 0 2.286)
+          (radius 0.254)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (rectangle
+          (start 1.778 1.524)
+          (end 3.302 -2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center 2.54 2.286)
+          (radius 0.254)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (rectangle
+          (start 4.318 1.524)
+          (end 5.842 -2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center 5.08 2.286)
+          (radius 0.254)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type outline)
+          )
+        )
+        (rectangle
+          (start 6.858 1.524)
+          (end 8.382 -2.54)
+          (stroke
+            (width 0.254)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+      )
+      (symbol "R_Network08_1_1"
+        (pin passive line
+          (at -10.16 5.08 270)
+          (length 2.54)
+          (name "common"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -10.16 -5.08 90)
+          (length 1.27)
+          (name "R1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -7.62 -5.08 90)
+          (length 1.27)
+          (name "R2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -5.08 -5.08 90)
+          (length 1.27)
+          (name "R3"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at -2.54 -5.08 90)
+          (length 1.27)
+          (name "R4"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at 0 -5.08 90)
+          (length 1.27)
+          (name "R5"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at 2.54 -5.08 90)
+          (length 1.27)
+          (name "R6"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at 5.08 -5.08 90)
+          (length 1.27)
+          (name "R7"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "8"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at 7.62 -5.08 90)
+          (length 1.27)
+          (name "R8"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "9"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+    (symbol "manette_nes:SW_Push"
+      (pin_numbers hide)
+      (pin_names
+        (offset 1.016) hide
+      )
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "SW"
+        (id 0)
+        (at 1.27 2.54 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+          (justify left)
+        )
+      )
+      (property "Value" "SW_Push"
+        (id 1)
+        (at 0 -1.524 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          )
+        )
+      )
+      (property "Footprint" ""
+        (id 2)
+        (at 0 5.08 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "Datasheet" "~"
+        (id 3)
+        (at 0 5.08 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_keywords" "switch normally-open pushbutton push-button"
+        (id 4)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (property "ki_description" "Push button switch, generic, two pins"
+        (id 5)
+        (at 0 0 0)
+        (effects
+          (font
+            (size 1.27 1.27)
+          ) hide
+        )
+      )
+      (symbol "SW_Push_0_1"
+        (circle
+          (center -2.032 0)
+          (radius 0.508)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 0 1.27)
+            (xy 0 3.048)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (polyline
+          (pts
+            (xy 2.54 1.27)
+            (xy -2.54 1.27)
+          )
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (circle
+          (center 2.032 0)
+          (radius 0.508)
+          (stroke
+            (width 0)
+            (type default)
+          )
+          (fill
+            (type none)
+          )
+        )
+        (pin passive line
+          (at -5.08 0 0)
+          (length 2.54)
+          (name "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "1"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+        (pin passive line
+          (at 5.08 0 180)
+          (length 2.54)
+          (name "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+          (number "2"
+            (effects
+              (font
+                (size 1.27 1.27)
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+  (polyline
+    (pts
+      (xy 12.7 15.24)
+      (xy 81.28 15.24)
+      (xy 81.28 135.89)
+      (xy 12.7 135.89)
+      (xy 12.7 15.24)
+    )
+    (stroke
+      (width 0)
+      (type dash)
+      (color 0 0 0 0)
+    )
+    (uuid "7315f2f6-772a-549b-8417-33d4fae8aa50")
+  )
+  (text "1. PRISE DB9 FEMELLE (vers la console)"
+    (at 13.97 19.05 0)
+    (effects
+      (font
+        (size 2 2) bold
+      )
+      (justify left bottom)
+    )
+    (uuid "2ced1324-d4f6-5b72-89d5-cc6bafcada4d")
+  )
+  (label "DATA"
+    (at 38.1 66.04 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "e919d785-8d8d-55b6-8f72-a0508daf2eed")
+  )
+  (label "LATCH"
+    (at 38.1 71.12 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "f20bcc1f-e2e6-5020-981d-0ab1aa822976")
+  )
+  (label "CLOCK"
+    (at 38.1 76.2 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "a57b449e-84a0-5da4-a017-47d5f0f7501b")
+  )
+  (no_connect
+    (at 53.34 60.96)
+    (uuid "53f8880c-7cc4-5618-a0a5-d618e6317453")
+  )
+  (no_connect
+    (at 53.34 81.28)
+    (uuid "1dfaa506-b455-5197-8f91-294be74e7449")
+  )
+  (no_connect
+    (at 53.34 68.58)
+    (uuid "34042be5-d5ee-556f-b4fc-20d591ba9fd2")
+  )
+  (no_connect
+    (at 53.34 78.74)
+    (uuid "66cf9758-aa6f-529b-b3ab-516abd29b452")
+  )
+  (text "2 DATA   (sortie Q7 du 4021)"
+    (at 15.24 101.6 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "860c66b2-08a1-54d0-9cff-f8b8c3769f33")
+  )
+  (text "3 LATCH  (PL du 4021)"
+    (at 15.24 104.775 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "80fda862-62dd-5bcf-916c-fa04353eeb24")
+  )
+  (text "4 CLOCK  (CP du 4021)"
+    (at 15.24 107.95 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "46886f92-ff00-527b-a740-3a3465a1429d")
+  )
+  (text "6 +3,3 V (fourni par la console)"
+    (at 15.24 111.125 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "70032901-7623-5c63-92d4-d78f1a39fd13")
+  )
+  (text "8 GND, boitier a la masse"
+    (at 15.24 114.3 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "fc0cff56-326d-50a8-8293-dd7c11d90c28")
+  )
+  (text "1, 5, 7, 9 : non connectees"
+    (at 15.24 117.475 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "5033e405-bd24-5905-ad9e-8167c95ec46b")
+  )
+  (text ""
+    (at 15.24 120.65 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "91811d44-73a8-539a-aa55-db2263adf679")
+  )
+  (text "Meme brochage que J8 (console)."
+    (at 15.24 123.825 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "d0ec1531-6040-5bc8-95ef-1af3c27acb94")
+  )
+  (text "Cable DB9 male-femelle droit,"
+    (at 15.24 127 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "d5a13c27-8ca7-5b24-b342-05e5bfae9f11")
+  )
+  (text "fils 1 a 1 (rallonge serie)."
+    (at 15.24 130.175 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "686c1a08-843e-5f0c-9a18-5ef8ae0acff5")
+  )
+  (polyline
+    (pts
+      (xy 83.82 15.24)
+      (xy 180.34 15.24)
+      (xy 180.34 135.89)
+      (xy 83.82 135.89)
+      (xy 83.82 15.24)
+    )
+    (stroke
+      (width 0)
+      (type dash)
+      (color 0 0 0 0)
+    )
+    (uuid "ef695387-1f9e-5bcf-84ea-8a30daff249c")
+  )
+  (text "2. REGISTRE A DECALAGE 8 BITS"
+    (at 85.09 19.05 0)
+    (effects
+      (font
+        (size 2 2) bold
+      )
+      (justify left bottom)
+    )
+    (uuid "7285fd84-6a29-5bf9-afb5-0792eed55dad")
+  )
+  (label "LATCH"
+    (at 93.98 43.18 90)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "775739ba-81fd-5322-a9ed-a08294bc031f")
+  )
+  (label "CLOCK"
+    (at 106.68 43.18 90)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "5864bd94-8485-56d8-8b51-c7525910fa99")
+  )
+  (label "CLOCK"
+    (at 114.3 68.58 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "04c705f5-d14c-53c8-a7a2-6a46dc979956")
+  )
+  (label "LATCH"
+    (at 114.3 73.66 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "fb104baf-d8ae-594b-a82c-472798dcc2ef")
+  )
+  (label "BTN_A"
+    (at 114.3 99.06 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "9c685d97-b36e-5cdb-9e10-9d24bc69d4f6")
+  )
+  (label "BTN_B"
+    (at 114.3 96.52 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "2ff38bdd-b4dd-5060-8b85-7353fcea88f8")
+  )
+  (label "BTN_SELECT"
+    (at 114.3 93.98 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "73cd8c4e-d98e-5525-9995-3a5cfd985f59")
+  )
+  (label "BTN_START"
+    (at 114.3 91.44 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "14e9ed24-c1b9-5dfd-a2a0-42c219eb726c")
+  )
+  (label "BTN_HAUT"
+    (at 114.3 88.9 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "5e1f7314-a126-5eba-ba0a-c81e0b947bd9")
+  )
+  (label "BTN_BAS"
+    (at 114.3 86.36 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "82712dc8-56f8-51b6-80e3-b77f969e43bd")
+  )
+  (label "BTN_GAUCHE"
+    (at 114.3 83.82 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "12a525a4-6f59-56eb-86cb-8d6198a3ed1a")
+  )
+  (label "BTN_DROITE"
+    (at 114.3 81.28 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "20d53f10-22dd-5383-a618-1a57d2312b75")
+  )
+  (label "DATA"
+    (at 149.86 73.66 0)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "9149be1a-4ab0-55dd-9986-0477a5112ad9")
+  )
+  (no_connect
+    (at 142.24 68.58)
+    (uuid "503b529e-f002-5812-a8f2-fdeac7b569ac")
+  )
+  (no_connect
+    (at 142.24 71.12)
+    (uuid "15a14a91-4cc6-5711-b674-a54f89f09f92")
+  )
+  (text "DS (entree serie) a la masse : apres 8 bits,"
+    (at 86.36 115.57 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "c2b58302-493f-5168-bb5b-0ebc439dd78a")
+  )
+  (text "DATA reste a 0."
+    (at 86.36 118.745 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "2fce06cc-c9ac-5c64-bb51-f7619724cb07")
+  )
+  (text "Q5 et Q6 non utilisees."
+    (at 86.36 121.92 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "a904935c-9685-5c2f-bb62-201d60919aec")
+  )
+  (text "C1 au plus pres des broches 8 et 16."
+    (at 86.36 125.095 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "18d90b87-7d3a-537a-9bd1-4b16c9559ac9")
+  )
+  (text "R1, R2 : LATCH et CLOCK a 0 au repos."
+    (at 86.36 128.27 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "750095c7-af62-5b08-9fb8-7089ea395d0a")
+  )
+  (text "CD4021BE (ou HEF4021BP) sur support DIP-16."
+    (at 86.36 131.445 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "b79f933f-3e52-5210-81c3-c2e0bfb0648e")
+  )
+  (polyline
+    (pts
+      (xy 182.88 15.24)
+      (xy 284.48 15.24)
+      (xy 284.48 135.89)
+      (xy 182.88 135.89)
+      (xy 182.88 15.24)
+    )
+    (stroke
+      (width 0)
+      (type dash)
+      (color 0 0 0 0)
+    )
+    (uuid "678d7020-d7db-5b3e-a3ef-1528fc620c55")
+  )
+  (text "3. BOUTONS (appui = niveau bas)"
+    (at 184.15 19.05 0)
+    (effects
+      (font
+        (size 2 2) bold
+      )
+      (justify left bottom)
+    )
+    (uuid "0ed58171-5fc8-571f-a24f-7f1cd0a6b060")
+  )
+  (label "BTN_A"
+    (at 218.44 43.18 270)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "1ec09a81-ba5a-5703-85c3-77341f13e3c2")
+  )
+  (label "BTN_B"
+    (at 220.98 43.18 270)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "21752e6e-72e2-554d-aba9-f2ed51148a9b")
+  )
+  (label "BTN_SELECT"
+    (at 223.52 43.18 270)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "3c8af624-b135-5470-acc7-e83b8ed991ba")
+  )
+  (label "BTN_START"
+    (at 226.06 43.18 270)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "435dc72b-53b1-509f-a814-9aee75303d14")
+  )
+  (label "BTN_HAUT"
+    (at 228.6 43.18 270)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "cdd51ca0-6ca2-59b6-aef6-27998000f715")
+  )
+  (label "BTN_BAS"
+    (at 231.14 43.18 270)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "2b2b61dd-1351-510f-8fba-ee3f40d7e1d7")
+  )
+  (label "BTN_GAUCHE"
+    (at 233.68 43.18 270)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "87b325d3-67f9-567e-8d37-e5bf4521b504")
+  )
+  (label "BTN_DROITE"
+    (at 236.22 43.18 270)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "7bb180da-80d8-5a09-90e0-d80c321cefbb")
+  )
+  (label "BTN_A"
+    (at 198.12 68.58 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "141ef75a-4953-5d18-b24b-aee650bc2916")
+  )
+  (label "BTN_B"
+    (at 198.12 83.82 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "9abacdbd-da17-5a74-9f1b-ff7599203f52")
+  )
+  (label "BTN_SELECT"
+    (at 198.12 99.06 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "605d0c6e-1f29-5416-92a5-c6091aee2885")
+  )
+  (label "BTN_START"
+    (at 198.12 114.3 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "9bb1f40c-8fd9-56b6-b586-9cb33ece6ecf")
+  )
+  (label "BTN_HAUT"
+    (at 248.92 68.58 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "acea5b6b-6125-54b7-a0c5-af166dcf5cd6")
+  )
+  (label "BTN_BAS"
+    (at 248.92 83.82 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "9eee7834-1534-56a0-aeac-dd744484048c")
+  )
+  (label "BTN_GAUCHE"
+    (at 248.92 99.06 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "77f7a031-4f1e-568b-aac1-55cc7d7479b3")
+  )
+  (label "BTN_DROITE"
+    (at 248.92 114.3 180)
+    (fields_autoplaced)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify right bottom)
+    )
+    (uuid "5ede5aff-65b9-5464-8b04-9fc162a722ae")
+  )
+  (text "RN1 : resistances de rappel au +3,3 V (broche 1 = commun)."
+    (at 185.42 127 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "6484e866-995d-5a0a-86f4-322146134ce1")
+  )
+  (text "Boutons 12 x 12 mm, 4 pattes (2 paires reliees)."
+    (at 185.42 130.81 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "d42db549-fff8-50a0-9ecf-b8baa654d82d")
+  )
+  (polyline
+    (pts
+      (xy 12.7 138.43)
+      (xy 175.26 138.43)
+      (xy 175.26 185.42)
+      (xy 12.7 185.42)
+      (xy 12.7 138.43)
+    )
+    (stroke
+      (width 0)
+      (type dash)
+      (color 0 0 0 0)
+    )
+    (uuid "ec826370-f9b2-5343-94de-f3ad5f525586")
+  )
+  (text "NOTES : PROTOCOLE NES ET ORDRE DES BOUTONS"
+    (at 13.97 142.24 0)
+    (effects
+      (font
+        (size 2 2) bold
+      )
+      (justify left bottom)
+    )
+    (uuid "f7404d2d-ad04-5d3a-b4e4-c5fe8b32cf3a")
+  )
+  (text "1. LATCH a 1 : le 4021 charge les 8 boutons ; LATCH a 0 : DATA donne le bouton A."
+    (at 15.24 147.32 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "5526b1ab-2f5c-5366-acbe-b70be3a5d923")
+  )
+  (text "2. Puis 7 impulsions CLOCK (front montant = decalage) : B, Select, Start, Haut, Bas, Gauche, Droite."
+    (at 15.24 151.765 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "a5f15e6e-21b1-59b7-ab45-0da137f891ec")
+  )
+  (text "3. DATA a 0 = bouton appuye. Sans manette, la 47 k de la console garde DATA a 1."
+    (at 15.24 156.21 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "eb8171c5-f56a-5162-9559-f10dc95b146c")
+  )
+  (text "4. Console complete : LATCH GPIO21, CLOCK GPIO14, DATA GPIO44 (ESP32-S3)."
+    (at 15.24 160.655 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "2d1dd0ee-c651-5fed-993f-4fd68ccccd5b")
+  )
+  (text "    Emulateur minimaliste : LATCH GPIO32, CLOCK GPIO33, DATA GPIO27 (ESP32)."
+    (at 15.24 165.1 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "759f6ec8-72ec-5a7d-9e9f-cd3fe1adab7d")
+  )
+  (text "5. Le 4021 accepte 3 a 18 V ; a 3,3 V il est lent : CLOCK sous 100 kHz."
+    (at 15.24 169.545 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "383d31ee-67ed-5002-a171-f6333341f13c")
+  )
+  (text "6. Brochage du 4021 de la manette NES : A = D7 (broche 1) ... Droite = D0 (broche 7)."
+    (at 15.24 173.99 0)
+    (effects
+      (font
+        (size 1.27 1.27)
+      )
+      (justify left bottom)
+    )
+    (uuid "ef6677c5-9033-5507-ac0a-6507397a5d63")
+  )
+  (polyline
+    (pts
+      (xy 182.88 138.43)
+      (xy 284.48 138.43)
+      (xy 284.48 163.83)
+      (xy 182.88 163.83)
+      (xy 182.88 138.43)
+    )
+    (stroke
+      (width 0)
+      (type dash)
+      (color 0 0 0 0)
+    )
+    (uuid "3eee7043-dd3a-53c1-a400-488571c26d1d")
+  )
+  (text "4. FIXATIONS (M3)"
+    (at 184.15 142.24 0)
+    (effects
+      (font
+        (size 2 2) bold
+      )
+      (justify left bottom)
+    )
+    (uuid "c38c4fc6-78b2-59d7-926a-a0310d53b999")
+  )
+  (wire
+    (pts
+      (xy 53.34 66.04)
+      (xy 38.1 66.04)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "4c121ef2-4d26-52bc-99ab-6c48c02229bb")
+  )
+  (wire
+    (pts
+      (xy 53.34 71.12)
+      (xy 38.1 71.12)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "ad73905b-4b20-5f70-a308-0cece6da42c2")
+  )
+  (wire
+    (pts
+      (xy 53.34 76.2)
+      (xy 38.1 76.2)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "e9ab1b8a-2c06-5087-8901-eadfe3c4a6d5")
+  )
+  (wire
+    (pts
+      (xy 53.34 63.5)
+      (xy 48.26 63.5)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "cb19c296-324d-5ee5-aa28-0942f5a05a93")
+  )
+  (wire
+    (pts
+      (xy 53.34 73.66)
+      (xy 48.26 73.66)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "8196984f-2f01-5d10-be8d-5241a0da18d7")
+  )
+  (wire
+    (pts
+      (xy 60.96 86.36)
+      (xy 60.96 88.9)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "bf0f3447-9092-5c34-9424-a8a44d0922b3")
+  )
+  (wire
+    (pts
+      (xy 93.98 46.99)
+      (xy 93.98 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "bf22dee2-44d5-54b7-99cc-837bb0f56aeb")
+  )
+  (wire
+    (pts
+      (xy 93.98 54.61)
+      (xy 93.98 57.15)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "0051ecfb-dd37-5570-93fb-9205cf88a5f4")
+  )
+  (wire
+    (pts
+      (xy 106.68 46.99)
+      (xy 106.68 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "96d1defd-4faa-5a51-aea1-b78e7a5c10f2")
+  )
+  (wire
+    (pts
+      (xy 106.68 54.61)
+      (xy 106.68 57.15)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "ad60bda8-537f-5b1c-80ea-d9dd92f6209b")
+  )
+  (wire
+    (pts
+      (xy 121.92 68.58)
+      (xy 114.3 68.58)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "83604a9c-ce2c-508f-acbb-9e44d5f56812")
+  )
+  (wire
+    (pts
+      (xy 121.92 73.66)
+      (xy 114.3 73.66)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "e6f9950f-fa9d-5d32-b924-68d6d4fb2eaf")
+  )
+  (wire
+    (pts
+      (xy 121.92 76.2)
+      (xy 116.84 76.2)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "31591427-1b4e-567c-9327-3a41dbe21c47")
+  )
+  (wire
+    (pts
+      (xy 121.92 99.06)
+      (xy 114.3 99.06)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "f4a6c679-de06-50cb-bbdb-7b36e183f10b")
+  )
+  (wire
+    (pts
+      (xy 121.92 96.52)
+      (xy 114.3 96.52)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "3beac985-a1a8-57cf-852f-98d071de2ca8")
+  )
+  (wire
+    (pts
+      (xy 121.92 93.98)
+      (xy 114.3 93.98)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "8fc8952f-11d4-5a67-a1d1-61538074fda7")
+  )
+  (wire
+    (pts
+      (xy 121.92 91.44)
+      (xy 114.3 91.44)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "7d6493fa-c91a-5f37-98ca-90415aeb7f2f")
+  )
+  (wire
+    (pts
+      (xy 121.92 88.9)
+      (xy 114.3 88.9)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "481f6e43-0ede-5760-808a-53f31b117e0e")
+  )
+  (wire
+    (pts
+      (xy 121.92 86.36)
+      (xy 114.3 86.36)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "a66cc804-9cf3-5cd5-abde-53d98e4d531f")
+  )
+  (wire
+    (pts
+      (xy 121.92 83.82)
+      (xy 114.3 83.82)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "86bb5256-c559-52a9-957d-f4a0cd9af72d")
+  )
+  (wire
+    (pts
+      (xy 121.92 81.28)
+      (xy 114.3 81.28)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "36447784-74a3-53b7-8981-0196196c29be")
+  )
+  (wire
+    (pts
+      (xy 142.24 73.66)
+      (xy 149.86 73.66)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "0f29913e-3ce1-57c8-b842-c0b0e1b343ae")
+  )
+  (wire
+    (pts
+      (xy 132.08 63.5)
+      (xy 132.08 60.96)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "b046a0bb-8880-59ae-9bbc-c968f1bce85d")
+  )
+  (wire
+    (pts
+      (xy 132.08 104.14)
+      (xy 132.08 106.68)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "e6415461-1c8b-5f58-9ed2-fd38905a01d3")
+  )
+  (wire
+    (pts
+      (xy 152.4 92.71)
+      (xy 152.4 90.17)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "422edf6e-b2ac-5fdd-9649-7a5cfaae4ff6")
+  )
+  (wire
+    (pts
+      (xy 152.4 90.17)
+      (xy 152.4 87.63)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "948848ff-d251-5425-a79b-dc6be7e00fc7")
+  )
+  (wire
+    (pts
+      (xy 152.4 100.33)
+      (xy 152.4 102.87)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "1894bead-104f-5f1e-bc7b-1d21a560d006")
+  )
+  (wire
+    (pts
+      (xy 152.4 102.87)
+      (xy 152.4 105.41)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "c9ddb434-3884-5863-ae51-8f5be21bed7f")
+  )
+  (wire
+    (pts
+      (xy 165.1 92.71)
+      (xy 165.1 87.63)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "08aa18a0-7ad3-527f-8556-5705a050ca07")
+  )
+  (wire
+    (pts
+      (xy 165.1 100.33)
+      (xy 165.1 105.41)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "fe750b9a-1fa2-58f1-b222-8cabbb7b790c")
+  )
+  (wire
+    (pts
+      (xy 152.4 90.17)
+      (xy 147.32 90.17)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "0243b8c2-e247-5441-b9c2-171de23e9603")
+  )
+  (wire
+    (pts
+      (xy 152.4 102.87)
+      (xy 147.32 102.87)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "6b078523-5492-5ca2-8d1a-99ae9ebbb5df")
+  )
+  (wire
+    (pts
+      (xy 218.44 27.94)
+      (xy 218.44 25.4)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "4f58f36e-0050-5bce-9fce-4c0577006b6b")
+  )
+  (wire
+    (pts
+      (xy 218.44 38.1)
+      (xy 218.44 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "93517bd5-2d8c-5fd8-a40c-f2477212958e")
+  )
+  (wire
+    (pts
+      (xy 220.98 38.1)
+      (xy 220.98 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "4d585177-845a-5cf9-9923-1726e0476b7b")
+  )
+  (wire
+    (pts
+      (xy 223.52 38.1)
+      (xy 223.52 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "222cefd1-6e8a-5056-9512-795c553db3f8")
+  )
+  (wire
+    (pts
+      (xy 226.06 38.1)
+      (xy 226.06 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "fdcd9191-f9fb-58c4-a4d9-4894d97979c5")
+  )
+  (wire
+    (pts
+      (xy 228.6 38.1)
+      (xy 228.6 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "911512d6-9546-5274-aa88-0fdfcb20ef49")
+  )
+  (wire
+    (pts
+      (xy 231.14 38.1)
+      (xy 231.14 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "883b7154-2724-5a45-8033-215f7bf3ac7a")
+  )
+  (wire
+    (pts
+      (xy 233.68 38.1)
+      (xy 233.68 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "b9947b56-17f7-51c8-85d0-ee774968bc91")
+  )
+  (wire
+    (pts
+      (xy 236.22 38.1)
+      (xy 236.22 43.18)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "d808a4c0-880d-5d99-9066-97d5d97304d8")
+  )
+  (wire
+    (pts
+      (xy 205.74 68.58)
+      (xy 198.12 68.58)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "59d9f0a4-17bf-578f-9e41-d09a6f63c753")
+  )
+  (wire
+    (pts
+      (xy 215.9 68.58)
+      (xy 220.98 68.58)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "f02f9c4b-c02a-5df6-99db-67b5a3e915bd")
+  )
+  (wire
+    (pts
+      (xy 220.98 68.58)
+      (xy 220.98 71.12)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "3d0b1bab-c837-58a9-99c8-f3e8e870fd46")
+  )
+  (wire
+    (pts
+      (xy 205.74 83.82)
+      (xy 198.12 83.82)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "224c96b3-83b2-50bc-bfec-e604ebe1eb1e")
+  )
+  (wire
+    (pts
+      (xy 215.9 83.82)
+      (xy 220.98 83.82)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "9b4896b9-b947-537e-8a83-6e77d04ceb24")
+  )
+  (wire
+    (pts
+      (xy 220.98 83.82)
+      (xy 220.98 86.36)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "09847d4d-5887-5d39-b539-e014eb66f6ed")
+  )
+  (wire
+    (pts
+      (xy 205.74 99.06)
+      (xy 198.12 99.06)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "b4260b25-518a-5497-8939-da40fb38f603")
+  )
+  (wire
+    (pts
+      (xy 215.9 99.06)
+      (xy 220.98 99.06)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "9b13f265-67ca-5adb-b492-c72c70485274")
+  )
+  (wire
+    (pts
+      (xy 220.98 99.06)
+      (xy 220.98 101.6)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "c75d8f73-bd32-525d-89a2-ed551dd6c5a6")
+  )
+  (wire
+    (pts
+      (xy 205.74 114.3)
+      (xy 198.12 114.3)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "a8a2fda2-ac2d-54cc-a003-92908c42260c")
+  )
+  (wire
+    (pts
+      (xy 215.9 114.3)
+      (xy 220.98 114.3)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "09c0483d-10a9-51c5-a41d-2f59c8b567bf")
+  )
+  (wire
+    (pts
+      (xy 220.98 114.3)
+      (xy 220.98 116.84)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "2c53fe98-428e-5c83-8e51-81f016242eff")
+  )
+  (wire
+    (pts
+      (xy 256.54 68.58)
+      (xy 248.92 68.58)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "32677451-f936-55bc-a3ec-6d383ff7bb6a")
+  )
+  (wire
+    (pts
+      (xy 266.7 68.58)
+      (xy 271.78 68.58)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "07800c2c-9ee8-5607-8c5e-fccb84ada66f")
+  )
+  (wire
+    (pts
+      (xy 271.78 68.58)
+      (xy 271.78 71.12)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "1243d301-d0f4-5914-af9f-598fe33d9403")
+  )
+  (wire
+    (pts
+      (xy 256.54 83.82)
+      (xy 248.92 83.82)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "2eac9ccd-921e-5474-85c4-78d2f31f4df1")
+  )
+  (wire
+    (pts
+      (xy 266.7 83.82)
+      (xy 271.78 83.82)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "e66c05fd-ae59-5020-942e-b7b092929369")
+  )
+  (wire
+    (pts
+      (xy 271.78 83.82)
+      (xy 271.78 86.36)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "55124e0d-1421-5925-83da-e2afcdaf68e3")
+  )
+  (wire
+    (pts
+      (xy 256.54 99.06)
+      (xy 248.92 99.06)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "8e6f5b32-0546-56d9-8f0f-be4c46ce6f1e")
+  )
+  (wire
+    (pts
+      (xy 266.7 99.06)
+      (xy 271.78 99.06)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "0bf6f566-c2d7-5b54-8b08-bbf34b1a2230")
+  )
+  (wire
+    (pts
+      (xy 271.78 99.06)
+      (xy 271.78 101.6)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "55d5ae11-7589-5e19-af81-f70f354991ea")
+  )
+  (wire
+    (pts
+      (xy 256.54 114.3)
+      (xy 248.92 114.3)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "75d5a9b4-6eab-5ba2-b9f3-a1853aa07dfb")
+  )
+  (wire
+    (pts
+      (xy 266.7 114.3)
+      (xy 271.78 114.3)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "67ad04e0-43a5-5203-8efc-129525d53547")
+  )
+  (wire
+    (pts
+      (xy 271.78 114.3)
+      (xy 271.78 116.84)
+    )
+    (stroke
+      (width 0)
+      (type default)
+      (color 0 0 0 0)
+    )
+    (uuid "03605a12-b4ca-5524-98dd-a3dc26b6f097")
+  )
+  (junction
+    (at 152.4 90.17)
+    (diameter 0)
+    (color 0 0 0 0)
+    (uuid "fda65c51-94e7-517c-a040-51ea4b3ace51")
+  )
+  (junction
+    (at 152.4 102.87)
+    (diameter 0)
+    (color 0 0 0 0)
+    (uuid "93258954-661b-527c-bda2-3e52d9c28346")
+  )
+  (symbol
+    (lib_id "manette_nes:DE9_Receptacle_MountingHoles")
+    (at 60.96 71.12 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "2a4fc8f3-76c6-5d7a-9e9d-915621ba6344")
+    (property "Reference" "J1"
+      (id 0)
+      (at 60.96 53.34 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "DB9 femelle coudee"
+      (id 1)
+      (at 60.96 55.88 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:DSUB-9_Female_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm"
+      (id 2)
+      (at 60.96 71.12 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 60.96 71.12 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "0"
+      (uuid "aa0527c2-24eb-5728-92fe-139f00bd0d26")
+    )
+    (pin "1"
+      (uuid "5803a7ea-0de6-5954-94f2-98b6919d0143")
+    )
+    (pin "2"
+      (uuid "179ee51f-4395-5231-a415-570f2096f8f4")
+    )
+    (pin "3"
+      (uuid "475cf4bf-af92-5c16-8ad3-9d25d7e00f78")
+    )
+    (pin "4"
+      (uuid "1a0dfeda-4f95-52c9-9a54-f8d3d0d9a026")
+    )
+    (pin "5"
+      (uuid "5ed151c2-7304-5c84-a6c5-b9b93eacda2e")
+    )
+    (pin "6"
+      (uuid "0393ef4f-1b83-591f-8b5d-63412cc002ac")
+    )
+    (pin "7"
+      (uuid "e09bd9f2-da3e-5dd5-9013-affd4d8d27e6")
+    )
+    (pin "8"
+      (uuid "bb5b87b0-d52a-5eb3-9fd4-7a64999e13e5")
+    )
+    (pin "9"
+      (uuid "0aa9bb63-2b16-5a84-afb0-dee9998635b6")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:+3V3")
+    (at 48.26 63.5 90)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "1fe7b7b9-bb46-53ee-890d-f81b4c21d512")
+    (property "Reference" "#PWR01"
+      (id 0)
+      (at 48.26 69.85 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "+3V3"
+      (id 1)
+      (at 44.45 63.5 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 48.26 63.5 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 48.26 63.5 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "6d81e268-fed5-52da-8d4a-e434dd917967")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 48.26 73.66 270)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "76d665d6-7cf1-5778-a684-33f96ca6778e")
+    (property "Reference" "#PWR02"
+      (id 0)
+      (at 48.26 80.01 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 44.45 73.66 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify right)
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 48.26 73.66 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 48.26 73.66 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "9b5edd3c-5318-5c96-baaa-128696e86cc3")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 60.96 88.9 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "ed135a09-1455-5e5e-abdd-bd0e414516f8")
+    (property "Reference" "#PWR03"
+      (id 0)
+      (at 60.96 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 60.96 92.71 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 60.96 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 60.96 88.9 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "5e5e4a8a-1af9-5108-b772-4cf72c47f753")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:4021")
+    (at 132.08 83.82 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "6746066a-e4de-5475-9b3e-1741bc9c8fe7")
+    (property "Reference" "U1"
+      (id 0)
+      (at 135.89 58.42 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Value" "CD4021BE"
+      (id 1)
+      (at 135.89 60.96 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Footprint" "manette_nes:DIP-16_W7.62mm_Socket"
+      (id 2)
+      (at 132.08 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "https://www.ti.com/lit/ds/symlink/cd4021b.pdf"
+      (id 3)
+      (at 132.08 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "f661e85e-d286-5f1d-958c-2d4e2d07f24d")
+    )
+    (pin "2"
+      (uuid "1e024d41-a47e-5ac4-a30f-d4a5505bf0f4")
+    )
+    (pin "3"
+      (uuid "c132325a-cfe6-548c-82f5-12cdea2bb161")
+    )
+    (pin "4"
+      (uuid "99e46d44-778a-5c81-bd63-fce23245eb53")
+    )
+    (pin "5"
+      (uuid "2e6ddc05-d0f7-52ef-bd85-0af42e22f604")
+    )
+    (pin "6"
+      (uuid "4f4a9f0b-dd4a-5441-bb67-e38f548ff365")
+    )
+    (pin "7"
+      (uuid "a033ab2c-a9f2-519f-90e8-07b971c59eb0")
+    )
+    (pin "8"
+      (uuid "4a11ef87-487b-5d54-84de-25e76ef7d5fa")
+    )
+    (pin "9"
+      (uuid "1ffd752a-2bd7-5d95-8444-96fa30ad1aff")
+    )
+    (pin "10"
+      (uuid "78ef3949-bb35-5bd2-b0b1-ebb2c4ab27cf")
+    )
+    (pin "11"
+      (uuid "d262c036-d3b9-56b9-a3aa-e94d32eeb1d7")
+    )
+    (pin "12"
+      (uuid "ef18bb79-ebf2-59dc-99b6-903544d2d7bc")
+    )
+    (pin "13"
+      (uuid "90e73a82-f13d-5fff-b9de-42a478b05e20")
+    )
+    (pin "14"
+      (uuid "f9991d40-69e5-5ff0-b548-dc92a6217a27")
+    )
+    (pin "15"
+      (uuid "148e1bdf-962b-5e01-9cc9-20813ae5df2a")
+    )
+    (pin "16"
+      (uuid "888a9123-aa43-503b-aee7-0c6a459f4284")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:R")
+    (at 93.98 50.8 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "f7ebbc27-f448-51cd-a46a-d2bbf4127a56")
+    (property "Reference" "R1"
+      (id 0)
+      (at 96.52 49.53 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Value" "100k"
+      (id 1)
+      (at 96.52 52.07 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Footprint" "manette_nes:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+      (id 2)
+      (at 93.98 50.8 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 93.98 50.8 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "60c03cf6-db52-59f9-bef3-521e493acce9")
+    )
+    (pin "2"
+      (uuid "1c9c6e9e-4a04-5729-950b-f10847c09553")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 93.98 57.15 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "de1d99e6-ada9-5746-aace-cca58e904d0d")
+    (property "Reference" "#PWR04"
+      (id 0)
+      (at 93.98 63.5 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 93.98 60.96 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 93.98 57.15 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 93.98 57.15 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "0807aec5-256c-5346-a17c-22509fe9da96")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:R")
+    (at 106.68 50.8 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "e1b86bc9-f593-5d75-9bc1-cdee26947ac8")
+    (property "Reference" "R2"
+      (id 0)
+      (at 109.22 49.53 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Value" "100k"
+      (id 1)
+      (at 109.22 52.07 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Footprint" "manette_nes:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+      (id 2)
+      (at 106.68 50.8 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 106.68 50.8 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "c9ea705d-da89-5070-9f55-5f99831f9bfc")
+    )
+    (pin "2"
+      (uuid "7eae25e6-1d4e-54ec-bd24-a03ab9c73422")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 106.68 57.15 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "7aa446bc-a8a7-5880-aaf1-2a4f9a07b4b8")
+    (property "Reference" "#PWR05"
+      (id 0)
+      (at 106.68 63.5 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 106.68 60.96 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 106.68 57.15 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 106.68 57.15 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "d71086bf-c354-5b13-be24-1964af3014ac")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 116.84 76.2 270)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "08b07fc4-5e12-5e73-a32f-cee0321393ec")
+    (property "Reference" "#PWR06"
+      (id 0)
+      (at 116.84 82.55 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 113.03 76.2 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify right)
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 116.84 76.2 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 116.84 76.2 90)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "a804f0e9-9eb6-5118-b2e3-ae3d40324195")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:+3V3")
+    (at 132.08 60.96 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "903a8f76-1637-56cc-8836-92c5a9c196e8")
+    (property "Reference" "#PWR07"
+      (id 0)
+      (at 132.08 67.31 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "+3V3"
+      (id 1)
+      (at 132.08 57.15 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 132.08 60.96 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 132.08 60.96 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "5da22dba-5021-5f3a-8d89-c3807111e27c")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 132.08 106.68 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "72512bce-95c3-5db7-93e2-1b8bfa5fcd1e")
+    (property "Reference" "#PWR08"
+      (id 0)
+      (at 132.08 113.03 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 132.08 110.49 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 132.08 106.68 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 132.08 106.68 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "45052e84-7ed6-52df-8a3f-7057e06ce984")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:C")
+    (at 152.4 96.52 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "b0232065-133c-59c4-ab5a-0921140bf5f7")
+    (property "Reference" "C1"
+      (id 0)
+      (at 154.94 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Value" "100nF"
+      (id 1)
+      (at 154.94 97.79 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Footprint" "manette_nes:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+      (id 2)
+      (at 152.4 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 152.4 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "ea982f4e-13bc-594a-b299-97eb42e75581")
+    )
+    (pin "2"
+      (uuid "2a2bc1c4-62f8-5376-a9e9-6420736e51b9")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:C_Polarized")
+    (at 165.1 96.52 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "072f5475-a5cd-5392-b595-1ce855e713b2")
+    (property "Reference" "C2"
+      (id 0)
+      (at 167.64 95.25 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Value" "10uF 16V"
+      (id 1)
+      (at 167.64 97.79 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Footprint" "manette_nes:CP_Radial_D5.0mm_P2.00mm"
+      (id 2)
+      (at 165.1 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 165.1 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "9db33452-5830-57cd-b371-d2a5c714320e")
+    )
+    (pin "2"
+      (uuid "60f94594-7573-5fb6-a8a2-1aa115a660c0")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:+3V3")
+    (at 152.4 87.63 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "cfa1b18a-8135-5e1a-ad8c-3b8901538318")
+    (property "Reference" "#PWR09"
+      (id 0)
+      (at 152.4 93.98 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "+3V3"
+      (id 1)
+      (at 152.4 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 152.4 87.63 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 152.4 87.63 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "9476a5d0-a6d0-5798-8d22-24315c9cb9bb")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 152.4 105.41 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "f1c12316-6d0f-5401-9537-1d2a37fac2c8")
+    (property "Reference" "#PWR10"
+      (id 0)
+      (at 152.4 111.76 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 152.4 109.22 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 152.4 105.41 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 152.4 105.41 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "417be75e-4ae6-51bd-9807-7b42253a5b21")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:+3V3")
+    (at 165.1 87.63 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "503fb5b6-6207-550e-be4a-79b988ecf57a")
+    (property "Reference" "#PWR11"
+      (id 0)
+      (at 165.1 93.98 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "+3V3"
+      (id 1)
+      (at 165.1 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 165.1 87.63 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 165.1 87.63 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "0c8ddbb1-cd8e-54f2-8223-8ff661c6913c")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 165.1 105.41 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "099070e7-28d9-5049-8a45-8fe8d6bd913d")
+    (property "Reference" "#PWR12"
+      (id 0)
+      (at 165.1 111.76 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 165.1 109.22 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 165.1 105.41 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 165.1 105.41 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "c2241507-cff9-557c-b6ee-24f0e3f11e78")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:PWR_FLAG")
+    (at 147.32 90.17 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "fb1c1e39-74e3-54a9-81ea-845fed964de8")
+    (property "Reference" "#FLG01"
+      (id 0)
+      (at 147.32 96.52 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "PWR_FLAG"
+      (id 1)
+      (at 147.32 85.217 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 147.32 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 147.32 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "40b758f3-7537-505b-b1ac-ee35fd76d483")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:PWR_FLAG")
+    (at 147.32 102.87 180)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "e386e995-b488-521b-ad70-334dfc75cc86")
+    (property "Reference" "#FLG02"
+      (id 0)
+      (at 147.32 109.22 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "PWR_FLAG"
+      (id 1)
+      (at 147.32 107.823 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 147.32 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 147.32 102.87 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "de8a55ce-9fc3-5d2e-aada-f0e6fc2c49a5")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:R_Network08")
+    (at 228.6 33.02 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "7c0281f7-c50c-54cf-8583-7a928fa94b9d")
+    (property "Reference" "RN1"
+      (id 0)
+      (at 241.3 29.21 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Value" "8 x 10k (SIP-9 commun)"
+      (id 1)
+      (at 241.3 31.75 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+        (justify left)
+      )
+    )
+    (property "Footprint" "manette_nes:R_Array_SIP9"
+      (id 2)
+      (at 228.6 33.02 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 228.6 33.02 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "7f4e0cef-1632-590a-b3ce-629063e4f22f")
+    )
+    (pin "2"
+      (uuid "ec119646-189d-5d41-bf9c-04a853be3ebb")
+    )
+    (pin "3"
+      (uuid "4791b67a-a7ca-56c8-9c9e-74b459f75444")
+    )
+    (pin "4"
+      (uuid "3b793906-38cc-50af-96f8-bf47385913ab")
+    )
+    (pin "5"
+      (uuid "53a4e203-adaa-59bd-9b93-3547d70aa5a8")
+    )
+    (pin "6"
+      (uuid "6e3f5dfa-a9ae-56c3-8acb-96fb612779a2")
+    )
+    (pin "7"
+      (uuid "f1248ee7-0fb6-5b48-89af-7ee2044c3e5d")
+    )
+    (pin "8"
+      (uuid "94a8553c-d345-56f2-b131-a53de4b66864")
+    )
+    (pin "9"
+      (uuid "e0fe1b1c-ca60-5bfb-90e3-cb3322d07218")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:+3V3")
+    (at 218.44 25.4 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "8ce4408b-4a90-55a8-ac3f-91e2356df2a4")
+    (property "Reference" "#PWR13"
+      (id 0)
+      (at 218.44 31.75 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "+3V3"
+      (id 1)
+      (at 218.44 21.59 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 218.44 25.4 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 218.44 25.4 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "bf8b6896-abfe-5fb8-a943-2c46869c6c10")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:SW_Push")
+    (at 210.82 68.58 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "c6c3a4c3-d246-59c2-8fdc-2ba761954b18")
+    (property "Reference" "SW1"
+      (id 0)
+      (at 210.82 62.23 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "A"
+      (id 1)
+      (at 210.82 71.12 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:SW_PUSH-12mm_Wuerth-430476085716"
+      (id 2)
+      (at 210.82 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 210.82 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "aaea0a77-2959-535e-b149-ffa05eab285a")
+    )
+    (pin "2"
+      (uuid "d9a2fa9a-40c3-5665-89da-aa1b464f082f")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 220.98 71.12 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "9feeb994-0629-58f7-8bc3-b9e265f10db8")
+    (property "Reference" "#PWR14"
+      (id 0)
+      (at 220.98 77.47 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 220.98 74.93 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 220.98 71.12 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 220.98 71.12 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "b6425a16-4a73-54f3-9fc5-fcee5396394a")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:SW_Push")
+    (at 210.82 83.82 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "41b00d0b-2e4b-554f-82e2-d4097a163eae")
+    (property "Reference" "SW2"
+      (id 0)
+      (at 210.82 77.47 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "B"
+      (id 1)
+      (at 210.82 86.36 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:SW_PUSH-12mm_Wuerth-430476085716"
+      (id 2)
+      (at 210.82 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 210.82 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "99541b2a-6732-5cf7-970b-bdc2bff76393")
+    )
+    (pin "2"
+      (uuid "2a62cce5-e493-5b46-a115-59cd54cd97b7")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 220.98 86.36 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "61d94459-d722-5d20-9ca3-0daa5097c7cd")
+    (property "Reference" "#PWR15"
+      (id 0)
+      (at 220.98 92.71 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 220.98 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 220.98 86.36 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 220.98 86.36 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "9f6ecf9b-fe7f-54c4-8321-b59ba5d1e8a6")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:SW_Push")
+    (at 210.82 99.06 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "0d932706-fb39-57c0-9c78-66a35690e529")
+    (property "Reference" "SW3"
+      (id 0)
+      (at 210.82 92.71 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "SELECT"
+      (id 1)
+      (at 210.82 101.6 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:SW_PUSH-12mm_Wuerth-430476085716"
+      (id 2)
+      (at 210.82 99.06 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 210.82 99.06 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "735bfc13-973e-55d8-9849-a7beb4f214bc")
+    )
+    (pin "2"
+      (uuid "852c0783-01b9-5d66-9855-ecfa794a5e68")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 220.98 101.6 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "111530e8-773d-59de-82ca-5f2be694b369")
+    (property "Reference" "#PWR16"
+      (id 0)
+      (at 220.98 107.95 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 220.98 105.41 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 220.98 101.6 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 220.98 101.6 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "8b56d29d-e5c1-5079-92e5-3ff98f0387a0")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:SW_Push")
+    (at 210.82 114.3 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "6b37db6f-2e68-5cb3-b8a0-c234a1850483")
+    (property "Reference" "SW4"
+      (id 0)
+      (at 210.82 107.95 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "START"
+      (id 1)
+      (at 210.82 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:SW_PUSH-12mm_Wuerth-430476085716"
+      (id 2)
+      (at 210.82 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 210.82 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "78322758-4575-55e7-a421-1a025b520b2b")
+    )
+    (pin "2"
+      (uuid "305801c0-7e94-5031-b83d-e8eb615dc3ba")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 220.98 116.84 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "74c7c5e7-d187-5d44-a811-32a1da79f09e")
+    (property "Reference" "#PWR17"
+      (id 0)
+      (at 220.98 123.19 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 220.98 120.65 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 220.98 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 220.98 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "8e82f91e-f6d8-544e-a7bc-f50b919e6cce")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:SW_Push")
+    (at 261.62 68.58 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "ae0185bc-de44-5141-a734-e9569880208c")
+    (property "Reference" "SW5"
+      (id 0)
+      (at 261.62 62.23 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "HAUT"
+      (id 1)
+      (at 261.62 71.12 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:SW_PUSH-12mm_Wuerth-430476085716"
+      (id 2)
+      (at 261.62 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 261.62 68.58 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "7711868c-9ee5-5258-93cb-158445163647")
+    )
+    (pin "2"
+      (uuid "62c385db-22f7-5dc3-a331-0ddb14c88e54")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 271.78 71.12 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "adb3fd41-af1d-5b0c-ba76-922fe056f6cf")
+    (property "Reference" "#PWR18"
+      (id 0)
+      (at 271.78 77.47 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 271.78 74.93 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 271.78 71.12 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 271.78 71.12 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "f64c2a11-9240-5543-b56d-78c7d7789fa8")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:SW_Push")
+    (at 261.62 83.82 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "d209b0d1-94c1-5892-be67-f7493a95cb00")
+    (property "Reference" "SW6"
+      (id 0)
+      (at 261.62 77.47 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "BAS"
+      (id 1)
+      (at 261.62 86.36 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:SW_PUSH-12mm_Wuerth-430476085716"
+      (id 2)
+      (at 261.62 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 261.62 83.82 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "00bd643f-4b35-5f10-8501-3d226a3a0035")
+    )
+    (pin "2"
+      (uuid "943cdd15-186e-59fe-9b7d-ea742d5651d3")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 271.78 86.36 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "19233644-ed78-5b84-b3cd-4ff1b2762812")
+    (property "Reference" "#PWR19"
+      (id 0)
+      (at 271.78 92.71 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 271.78 90.17 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 271.78 86.36 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 271.78 86.36 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "7315d0f1-d708-5ee1-a07c-c3199cba1abd")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:SW_Push")
+    (at 261.62 99.06 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "ff4032e0-9d89-5ba1-903a-eab8914e8142")
+    (property "Reference" "SW7"
+      (id 0)
+      (at 261.62 92.71 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "GAUCHE"
+      (id 1)
+      (at 261.62 101.6 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:SW_PUSH-12mm_Wuerth-430476085716"
+      (id 2)
+      (at 261.62 99.06 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 261.62 99.06 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "976bd01a-2d8e-5c19-80a5-42f08a2cf47f")
+    )
+    (pin "2"
+      (uuid "2be16dec-982c-58e7-9dba-5bef3744b1d6")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 271.78 101.6 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "5031adb2-68ee-50b1-b04c-df74be3cfd7c")
+    (property "Reference" "#PWR20"
+      (id 0)
+      (at 271.78 107.95 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 271.78 105.41 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 271.78 101.6 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 271.78 101.6 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "00968929-d834-5aa9-a4f3-62dd58f93d28")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:SW_Push")
+    (at 261.62 114.3 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "673b0d97-4830-5fc8-ad44-19e402f4fa02")
+    (property "Reference" "SW8"
+      (id 0)
+      (at 261.62 107.95 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "DROITE"
+      (id 1)
+      (at 261.62 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:SW_PUSH-12mm_Wuerth-430476085716"
+      (id 2)
+      (at 261.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 261.62 114.3 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "dfa1a6cd-7c7f-5a2f-8a42-0ebf4ca1bb89")
+    )
+    (pin "2"
+      (uuid "76035c4b-c9dc-5c6d-b6ea-c0a929cc132e")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:GND")
+    (at 271.78 116.84 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "b60fdee9-ea0d-51ae-a145-50a04c345d9b")
+    (property "Reference" "#PWR21"
+      (id 0)
+      (at 271.78 123.19 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Value" "GND"
+      (id 1)
+      (at 271.78 120.65 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" ""
+      (id 2)
+      (at 271.78 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 271.78 116.84 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (pin "1"
+      (uuid "2bf0298a-e2b8-521e-b746-ebf9c2db0c0b")
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:MountingHole")
+    (at 198.12 151.13 0)
+    (unit 1)
+    (in_bom no)
+    (on_board yes)
+    (uuid "368cebc2-5c55-56b8-a8b7-50dd2dab75fd")
+    (property "Reference" "H1"
+      (id 0)
+      (at 198.12 146.05 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "M3"
+      (id 1)
+      (at 198.12 157.48 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:MountingHole_3.2mm_M3"
+      (id 2)
+      (at 198.12 151.13 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 198.12 151.13 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:MountingHole")
+    (at 218.44 151.13 0)
+    (unit 1)
+    (in_bom no)
+    (on_board yes)
+    (uuid "5adf2cad-b779-560d-98e1-7053e8b73680")
+    (property "Reference" "H2"
+      (id 0)
+      (at 218.44 146.05 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "M3"
+      (id 1)
+      (at 218.44 157.48 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:MountingHole_3.2mm_M3"
+      (id 2)
+      (at 218.44 151.13 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 218.44 151.13 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:MountingHole")
+    (at 238.76 151.13 0)
+    (unit 1)
+    (in_bom no)
+    (on_board yes)
+    (uuid "5aa1e5d7-b867-55b3-b280-8a870b1a7e3c")
+    (property "Reference" "H3"
+      (id 0)
+      (at 238.76 146.05 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "M3"
+      (id 1)
+      (at 238.76 157.48 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:MountingHole_3.2mm_M3"
+      (id 2)
+      (at 238.76 151.13 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 238.76 151.13 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+  )
+  (symbol
+    (lib_id "manette_nes:MountingHole")
+    (at 259.08 151.13 0)
+    (unit 1)
+    (in_bom no)
+    (on_board yes)
+    (uuid "1d740f3b-54a5-556e-93f6-ae7509f55bca")
+    (property "Reference" "H4"
+      (id 0)
+      (at 259.08 146.05 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Value" "M3"
+      (id 1)
+      (at 259.08 157.48 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        )
+      )
+    )
+    (property "Footprint" "manette_nes:MountingHole_3.2mm_M3"
+      (id 2)
+      (at 259.08 151.13 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+    (property "Datasheet" "~"
+      (id 3)
+      (at 259.08 151.13 0)
+      (effects
+        (font
+          (size 1.27 1.27)
+        ) hide
+      )
+    )
+  )
+  (sheet_instances
+    (path "/"
+      (page "1")
+    )
+  )
+  (symbol_instances
+    (path "/fb1c1e39-74e3-54a9-81ea-845fed964de8"
+      (reference "#FLG01")
+      (unit 1)
+      (value "PWR_FLAG")
+      (footprint "")
+    )
+    (path "/e386e995-b488-521b-ad70-334dfc75cc86"
+      (reference "#FLG02")
+      (unit 1)
+      (value "PWR_FLAG")
+      (footprint "")
+    )
+    (path "/1fe7b7b9-bb46-53ee-890d-f81b4c21d512"
+      (reference "#PWR01")
+      (unit 1)
+      (value "+3V3")
+      (footprint "")
+    )
+    (path "/76d665d6-7cf1-5778-a684-33f96ca6778e"
+      (reference "#PWR02")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/ed135a09-1455-5e5e-abdd-bd0e414516f8"
+      (reference "#PWR03")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/de1d99e6-ada9-5746-aace-cca58e904d0d"
+      (reference "#PWR04")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/7aa446bc-a8a7-5880-aaf1-2a4f9a07b4b8"
+      (reference "#PWR05")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/08b07fc4-5e12-5e73-a32f-cee0321393ec"
+      (reference "#PWR06")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/903a8f76-1637-56cc-8836-92c5a9c196e8"
+      (reference "#PWR07")
+      (unit 1)
+      (value "+3V3")
+      (footprint "")
+    )
+    (path "/72512bce-95c3-5db7-93e2-1b8bfa5fcd1e"
+      (reference "#PWR08")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/cfa1b18a-8135-5e1a-ad8c-3b8901538318"
+      (reference "#PWR09")
+      (unit 1)
+      (value "+3V3")
+      (footprint "")
+    )
+    (path "/f1c12316-6d0f-5401-9537-1d2a37fac2c8"
+      (reference "#PWR10")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/503fb5b6-6207-550e-be4a-79b988ecf57a"
+      (reference "#PWR11")
+      (unit 1)
+      (value "+3V3")
+      (footprint "")
+    )
+    (path "/099070e7-28d9-5049-8a45-8fe8d6bd913d"
+      (reference "#PWR12")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/8ce4408b-4a90-55a8-ac3f-91e2356df2a4"
+      (reference "#PWR13")
+      (unit 1)
+      (value "+3V3")
+      (footprint "")
+    )
+    (path "/9feeb994-0629-58f7-8bc3-b9e265f10db8"
+      (reference "#PWR14")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/61d94459-d722-5d20-9ca3-0daa5097c7cd"
+      (reference "#PWR15")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/111530e8-773d-59de-82ca-5f2be694b369"
+      (reference "#PWR16")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/74c7c5e7-d187-5d44-a811-32a1da79f09e"
+      (reference "#PWR17")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/adb3fd41-af1d-5b0c-ba76-922fe056f6cf"
+      (reference "#PWR18")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/19233644-ed78-5b84-b3cd-4ff1b2762812"
+      (reference "#PWR19")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/5031adb2-68ee-50b1-b04c-df74be3cfd7c"
+      (reference "#PWR20")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/b60fdee9-ea0d-51ae-a145-50a04c345d9b"
+      (reference "#PWR21")
+      (unit 1)
+      (value "GND")
+      (footprint "")
+    )
+    (path "/b0232065-133c-59c4-ab5a-0921140bf5f7"
+      (reference "C1")
+      (unit 1)
+      (value "100nF")
+      (footprint "manette_nes:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+    )
+    (path "/072f5475-a5cd-5392-b595-1ce855e713b2"
+      (reference "C2")
+      (unit 1)
+      (value "10uF 16V")
+      (footprint "manette_nes:CP_Radial_D5.0mm_P2.00mm")
+    )
+    (path "/368cebc2-5c55-56b8-a8b7-50dd2dab75fd"
+      (reference "H1")
+      (unit 1)
+      (value "M3")
+      (footprint "manette_nes:MountingHole_3.2mm_M3")
+    )
+    (path "/5adf2cad-b779-560d-98e1-7053e8b73680"
+      (reference "H2")
+      (unit 1)
+      (value "M3")
+      (footprint "manette_nes:MountingHole_3.2mm_M3")
+    )
+    (path "/5aa1e5d7-b867-55b3-b280-8a870b1a7e3c"
+      (reference "H3")
+      (unit 1)
+      (value "M3")
+      (footprint "manette_nes:MountingHole_3.2mm_M3")
+    )
+    (path "/1d740f3b-54a5-556e-93f6-ae7509f55bca"
+      (reference "H4")
+      (unit 1)
+      (value "M3")
+      (footprint "manette_nes:MountingHole_3.2mm_M3")
+    )
+    (path "/2a4fc8f3-76c6-5d7a-9e9d-915621ba6344"
+      (reference "J1")
+      (unit 1)
+      (value "DB9 femelle coudee")
+      (footprint "manette_nes:DSUB-9_Female_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm")
+    )
+    (path "/f7ebbc27-f448-51cd-a46a-d2bbf4127a56"
+      (reference "R1")
+      (unit 1)
+      (value "100k")
+      (footprint "manette_nes:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+    )
+    (path "/e1b86bc9-f593-5d75-9bc1-cdee26947ac8"
+      (reference "R2")
+      (unit 1)
+      (value "100k")
+      (footprint "manette_nes:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+    )
+    (path "/7c0281f7-c50c-54cf-8583-7a928fa94b9d"
+      (reference "RN1")
+      (unit 1)
+      (value "8 x 10k (SIP-9 commun)")
+      (footprint "manette_nes:R_Array_SIP9")
+    )
+    (path "/c6c3a4c3-d246-59c2-8fdc-2ba761954b18"
+      (reference "SW1")
+      (unit 1)
+      (value "A")
+      (footprint "manette_nes:SW_PUSH-12mm_Wuerth-430476085716")
+    )
+    (path "/41b00d0b-2e4b-554f-82e2-d4097a163eae"
+      (reference "SW2")
+      (unit 1)
+      (value "B")
+      (footprint "manette_nes:SW_PUSH-12mm_Wuerth-430476085716")
+    )
+    (path "/0d932706-fb39-57c0-9c78-66a35690e529"
+      (reference "SW3")
+      (unit 1)
+      (value "SELECT")
+      (footprint "manette_nes:SW_PUSH-12mm_Wuerth-430476085716")
+    )
+    (path "/6b37db6f-2e68-5cb3-b8a0-c234a1850483"
+      (reference "SW4")
+      (unit 1)
+      (value "START")
+      (footprint "manette_nes:SW_PUSH-12mm_Wuerth-430476085716")
+    )
+    (path "/ae0185bc-de44-5141-a734-e9569880208c"
+      (reference "SW5")
+      (unit 1)
+      (value "HAUT")
+      (footprint "manette_nes:SW_PUSH-12mm_Wuerth-430476085716")
+    )
+    (path "/d209b0d1-94c1-5892-be67-f7493a95cb00"
+      (reference "SW6")
+      (unit 1)
+      (value "BAS")
+      (footprint "manette_nes:SW_PUSH-12mm_Wuerth-430476085716")
+    )
+    (path "/ff4032e0-9d89-5ba1-903a-eab8914e8142"
+      (reference "SW7")
+      (unit 1)
+      (value "GAUCHE")
+      (footprint "manette_nes:SW_PUSH-12mm_Wuerth-430476085716")
+    )
+    (path "/673b0d97-4830-5fc8-ad44-19e402f4fa02"
+      (reference "SW8")
+      (unit 1)
+      (value "DROITE")
+      (footprint "manette_nes:SW_PUSH-12mm_Wuerth-430476085716")
+    )
+    (path "/6746066a-e4de-5475-9b3e-1741bc9c8fe7"
+      (reference "U1")
+      (unit 1)
+      (value "CD4021BE")
+      (footprint "manette_nes:DIP-16_W7.62mm_Socket")
+    )
+  )
+)
