@@ -1,0 +1,21 @@
+# Identifiants Wi-Fi personnels (copier wifi_config.example.h en wifi_config.h)
+wifi_config.h
+
+# Binaires compiles (ils contiennent les identifiants Wi-Fi)
+*.bin
+*.elf
+*.map
+build/
+
+# KiCad : sauvegardes et fichiers de travail
+*-backups/
+*.kicad_prl
+fp-info-cache
+_autosave-*
+*.lck
+
+# Systeme / editeurs
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp

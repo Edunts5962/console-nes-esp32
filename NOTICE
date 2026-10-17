@@ -1,0 +1,138 @@
+Console NES ESP32 - origine du code et licences
+===============================================
+
+L'ensemble de ce dépôt est distribué sous licence GNU GPL version 3 (fichier
+LICENSE). Il réunit du code écrit pour ce projet et du code repris d'autres
+projets ; ce dernier garde ses mentions de copyright et sa licence d'origine,
+indiquées ci-dessous et en tête des fichiers. Les textes des licences sont
+dans le dossier LICENSES/, ou à côté des fichiers concernés.
+
+
+1. Dépôt d'origine
+------------------
+Esp32-S3-nes-emulator-by-DSN, par derdacavga
+https://github.com/derdacavga/Esp32-S3-nes-emulator-by-DSN
+Licence : GNU GPL version 3 (LICENSE).
+
+Le croquis firmware/nes_emulator est dérivé de ce dépôt : portage sur la
+carte LCDWIKI ES3C28P, puis nombreuses modifications et ajouts à partir de
+septembre 2026 (détail dans CHANGELOG.md). Sont repris de ce dépôt sans autre
+origine connue : mem_shim.c et turning.h (logo de démarrage).
+
+
+2. Cœur d'émulation nofrendo
+----------------------------
+Nofrendo (c) 1998-2000 Matthew Conte (matt@conte.com)
+avec les contributions de Neil Stevens (nofrendo.h) et de Firebug (mappers
+41, 42, 46, 50, 73, 87 et 229), et des informations sur les mappers de Kevin
+Horton et Mark Knibbs (voir les en-têtes).
+Licence : GNU Library General Public License version 2
+(LICENSES/LGPL-2.0.txt).
+
+Repris par l'intermédiaire du portage ESP32 d'Espressif (esp32-nesemu,
+https://github.com/espressif/esp32-nesemu), puis du dépôt d'origine.
+Fichiers concernés, dans firmware/nes_emulator :
+  - coeur : nofrendo.c/.h, nofconfig.h, noftypes.h, config.c, version.h,
+    log.h, memguard.h, osd.h, vid_drv.h, event.c/.h, gui.c/.h,
+    gui_elem.c/.h, intro.c/.h, bitmap.c/.h, pcx.c/.h ;
+  - processeur : nes6502.c/.h, dis6502.c/.h ;
+  - console : nes.c/.h, nes_mmc.c/.h, nes_pal.c/.h, nes_ppu.c/.h,
+    nes_rom.c/.h, nesinput.c/.h, nesstate.c/.h, mmclist.c/.h ;
+  - son : nes_apu.c/.h, fds_snd.c/.h, mmc5_snd.c/.h, vrcvisnd.c/.h ;
+  - mappers : map000.c à map231.c (sauf map069.c, map071.c, map113.c et
+    map232.c, écrits pour ce projet) et mapvrc.c ; map010.c (MMC4) a été
+    écrit d'après map009.c (MMC2) de nofrendo.
+
+Chacun de ces fichiers porte l'en-tête d'origine de nofrendo, rétabli tel
+quel (il manquait dans les versions intermédiaires), suivi d'une mention de
+modification. nofconfig.h est dans le domaine public (voir son en-tête).
+
+Ces fichiers restent sous LGPL version 2. Cette licence est compatible avec
+la GPL version 3 (son article 3 permet d'ailleurs de leur appliquer la GPL
+version 2 ou une version ultérieure) : l'ensemble peut donc être distribué
+sous GPL version 3, comme le dépôt d'origine.
+
+Bibliothèque de sauvegarde libsnss (libsnss.c, libsnss.h) :
+(C) 2000 The SNSS Group, distribuée avec nofrendo. Le fichier README.TXT de
+la distribution d'origine, auquel renvoient ses en-têtes pour les conditions
+d'utilisation, ne figure pas dans les portages ESP32 dont ce projet est issu.
+
+
+3. Couche osd (firmware/nes_emulator/osd.cpp)
+---------------------------------------------
+Descend de la couche osd du portage esp32-nesemu d'Espressif :
+  - osd.c : domaine public ;
+  - video_audio.c : Copyright 2015-2016 Espressif Systems (Shanghai) PTE LTD,
+    licence Apache 2.0 (LICENSES/Apache-2.0.txt).
+Largement réécrite depuis pour ce projet.
+
+
+4. Pilote du codec audio ES8311
+-------------------------------
+firmware/nes_emulator/es8311.cpp, es8311.h, es8311_reg.h
+Copyright 2015-2022 Espressif Systems (Shanghai) CO LTD
+Licence : Apache 2.0 (en-têtes SPDX conservés, LICENSES/Apache-2.0.txt).
+Code d'Espressif inchangé ; seuls des commentaires en français ont été
+ajoutés.
+
+
+5. Générateur de QR code
+------------------------
+firmware/nes_emulator/nes_qrcodegen.c, nes_qrcodegen.h
+Copyright (c) Project Nayuki (https://www.nayuki.io/page/qr-code-generator-library)
+Licence : MIT (texte complet en tête des deux fichiers).
+
+
+6. Sortie vidéo composite (carte vidéo TV)
+------------------------------------------
+firmware/video_coprocessor/nes_cvbs.cpp, nes_cvbs.hpp
+Adaptation de Panel_CVBS de LovyanGFX (lovyan03 et contributeurs,
+https://github.com/lovyan03/LovyanGFX), elle-même inspirée de
+ESP_8_BIT_composite (Roger Cheng) et esp_8_bit (rossum).
+Licence : FreeBSD (firmware/video_coprocessor/LICENCE_LovyanGFX.txt).
+Liste des changements en tête de nes_cvbs.hpp.
+
+
+7. Polices
+----------
+firmware/nes_emulator/ui_font_12.c, ui_font_14.c, ui_font_20.c
+Converties avec lv_font_conv à partir des polices fournies avec LVGL :
+  - Montserrat : Copyright 2011 The Montserrat Project Authors
+    (https://github.com/JulietaUla/Montserrat), licence SIL Open Font
+    License 1.1 (LICENSES/OFL-1.1.txt) ;
+  - Font Awesome Free 5 (Fonticons, Inc., https://fontawesome.com) :
+    polices sous SIL OFL 1.1, icônes sous CC BY 4.0
+    (https://fontawesome.com/license/free).
+
+firmware/video_coprocessor/tv_fonts.h
+Polices X11 « Adobe Helvetica » extraites de U8g2 (olikraus,
+https://github.com/olikraus/u8g2). Mentions de copyright et conditions de
+redistribution dans le fichier.
+
+
+8. Fichiers de configuration des bibliothèques
+----------------------------------------------
+config/lv_conf.h : d'après le modèle lv_conf_template.h de LVGL 8.3
+(https://lvgl.io, licence MIT).
+config/User_Setup.h : d'après le modèle de TFT_eSPI (Bodmer,
+https://github.com/Bodmer/TFT_eSPI, voir le fichier license.txt de la
+bibliothèque).
+
+Les bibliothèques elles-mêmes (core esp32 pour Arduino, LVGL, TFT_eSPI,
+LovyanGFX) ne sont pas incluses dans ce dépôt ; chacune garde sa licence.
+
+
+9. Reste du dépôt
+-----------------
+Tout le reste a été écrit pour ce projet et est distribué sous GNU GPL
+version 3 : croquis de la console (hors fichiers cités ci-dessus), carte
+vidéo TV, prototype autonome, page du téléphone (docs/manette), documents,
+projets KiCad (hardware/). Dans ces projets KiCad, les symboles et empreintes
+copiés des bibliothèques standard de KiCad restent sous leur licence
+(CC BY-SA 4.0, avec l'exception qui laisse libre l'usage dans un circuit).
+
+
+Marques
+-------
+NES et Nintendo sont des marques de Nintendo. Ce projet n'est ni affilié à
+Nintendo ni approuvé par Nintendo. Aucun jeu n'est fourni.
